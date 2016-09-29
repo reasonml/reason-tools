@@ -1,4 +1,6 @@
-# ExampleProject
+# RebelExampleProject
+
+[![Build Status](https://travis-ci.org/reasonml/ExampleProject.svg?branch=master)](https://travis-ci.org/reasonml/RebelExampleProject)
 
 ## Reason via `npm`
 
@@ -11,8 +13,8 @@ Example project using Reason as an `npm` dependency.
 ## Get Started:
 
 ```sh
-git clone https://github.com/reasonml/ExampleProject.git
-cd ExampleProject
+git clone https://github.com/reasonml/RebelExampleProject.git
+cd RebelExampleProject
 npm install
 npm start
 ```
