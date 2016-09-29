@@ -1,6 +1,6 @@
 # RebelExampleProject
 
-[![Build Status](https://travis-ci.org/reasonml/ExampleProject.svg?branch=master)](https://travis-ci.org/reasonml/RebelExampleProject)
+[![Build Status](https://travis-ci.org/reasonml/RebelExampleProject.svg?branch=master)](https://travis-ci.org/reasonml/RebelExampleProject)
 
 ## Reason via `npm`
 
