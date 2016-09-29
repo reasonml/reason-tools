@@ -25,14 +25,9 @@
     "Note: `rebuild` has nothing to do with the officially supported `npm rebuild` command."
   ],
   "scripts": {
-
-    "postinstall": "npm run reasonBuild",
-    "reasonBuild": "eval $(dependencyEnv) && nopam && rebel -I src ./src/Test.native 2>&1 | refmterr",
-    "reasonbuild": "npm run reasonBuild",
-
-    "start": "eval $(dependencyEnv) && ./_build/src/Test.native",
-
-    "clean": "eval $(dependencyEnv) && nopam && rebuild -clean",
+    "postinstall": "eval $(dependencyEnv) && nopam && rebel",
+    "test": "_build/src/app.out",
+    "start": "_build/src/app.out",
     "top": "eval $(dependencyEnv) && rtop",
     "env": "eval $(dependencyEnv) && env",
     "editor": "eval $(dependencyEnv) && eval $EDITOR",
