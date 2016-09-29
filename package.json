@@ -1,0 +1,50 @@
+{
+  "name": "RebelExampleProject",
+  "version": "0.0.1",
+  "description": "Example project with Reason as a dependency, building with Rebel",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reasonml/RebelExampleProject.git"
+  },
+  "author": "jordwalke",
+  "license": "MIT",
+  "homepage": "https://github.com/reasonml/RebelExampleProject",
+  "keywords": [
+    "reason",
+    "example"
+  ],
+  "notes": [
+    "The scripts can be invoked with `npm run scriptNamed`.",
+    "`dependencyEnv` ensure the environment is set up correctly to include",
+    "build artifacts from your dependencies.",
+
+    "npm run reasonBuild uses a program called `rebuild` which is included with Reason ",
+    "to build very simple test projects. `refmterr` processes stderr to print type errors ",
+    "more beautifully.",
+
+    "Note: `rebuild` has nothing to do with the officially supported `npm rebuild` command."
+  ],
+  "scripts": {
+
+    "postinstall": "npm run reasonBuild",
+    "reasonBuild": "eval $(dependencyEnv) && nopam && rebel -I src ./src/Test.native 2>&1 | refmterr",
+    "reasonbuild": "npm run reasonBuild",
+
+    "start": "eval $(dependencyEnv) && ./_build/src/Test.native",
+
+    "clean": "eval $(dependencyEnv) && nopam && rebuild -clean",
+    "top": "eval $(dependencyEnv) && rtop",
+    "env": "eval $(dependencyEnv) && env",
+    "editor": "eval $(dependencyEnv) && eval $EDITOR",
+    "whereisocamlmerlin": "eval $(dependencyEnv) && which ocamlmerlin-reason"
+
+  },
+  "dependencies": {
+    "@opam-alpha/merlin": "^ 2.5.0",
+    "nopam": "https://github.com/reasonml/nopam.git",
+    "dependency-env": "https://github.com/reasonml/dependency-env.git",
+    "reason": "https://github.com/facebook/reason.git",
+    "rebel": "https://github.com/reasonml/rebel.git"
+  }
+}
+
