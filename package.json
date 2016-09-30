@@ -25,9 +25,10 @@
     "Note: `rebuild` has nothing to do with the officially supported `npm rebuild` command."
   ],
   "scripts": {
-    "postinstall": "eval $(dependencyEnv) && nopam && rebel",
+    "postinstall": "npm run build",
     "test": "_build/src/app.out",
     "start": "_build/src/app.out",
+    "build": "eval $(dependencyEnv) && nopam && rebel",
     "top": "eval $(dependencyEnv) && rtop",
     "env": "eval $(dependencyEnv) && env",
     "editor": "eval $(dependencyEnv) && eval $EDITOR",
@@ -43,4 +44,3 @@
     "realpath": "*"
   }
 }
-
