@@ -26,8 +26,8 @@
   ],
   "scripts": {
     "postinstall": "npm run build",
-    "test": "_build/src/app.out",
-    "start": "_build/src/app.out",
+    "test": "_build/default/src/app.out",
+    "start": "_build/default/src/app.out",
     "build": "eval $(dependencyEnv) && nopam && rebel",
     "top": "eval $(dependencyEnv) && rtop",
     "env": "eval $(dependencyEnv) && env",
