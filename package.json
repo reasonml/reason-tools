@@ -41,6 +41,7 @@
     "dependency-env": "https://github.com/reasonml/dependency-env.git",
     "reason": "https://github.com/facebook/reason.git",
     "rebel": "https://github.com/reasonml/rebel.git",
+    "ocamlBetterErrors": "0.0.10",
     "realpath": "*"
   }
 }
