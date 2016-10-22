@@ -28,12 +28,12 @@
     "postinstall": "npm run build",
     "test": "_build/default/src/app.out",
     "start": "_build/default/src/app.out",
-    "build": "eval $(dependencyEnv) && nopam && rebel",
+    "build": "eval $(dependencyEnv) && nopam && ./node_modules/rebel/_build/src/rebel",
     "top": "eval $(dependencyEnv) && rtop",
     "env": "eval $(dependencyEnv) && env",
     "editor": "eval $(dependencyEnv) && eval $EDITOR",
-    "whereisocamlmerlin": "eval $(dependencyEnv) && which ocamlmerlin-reason"
-
+    "whereisocamlmerlin": "eval $(dependencyEnv) && which ocamlmerlin-reason",
+    "watch": "eval $(dependencyEnv) && nopam && ./node_modules/rebel/_build/src/rebel -P"
   },
   "dependencies": {
     "@opam-alpha/merlin": "^ 2.5.0",
@@ -44,5 +44,25 @@
     "rebel": "https://github.com/reasonml/rebel.git",
     "ocamlBetterErrors": "0.0.10",
     "realpath": "*"
+  },
+  "rebel": {
+    "targets": [
+      {
+        "target": "test",
+        "engine": "jsoo",
+        "entry": "src/Test.re",
+        "unstable_flags": {
+          "jsoo": "+weak.js +toplevel.js"
+        }
+      }
+    ],
+    "ocamlfindDependencies": [
+      "compiler-libs.common",
+      "reason",
+      "js_of_ocaml",
+      "menhirLib",
+      "re.str",
+      "easy-format"
+    ]
   }
 }

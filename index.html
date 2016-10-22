@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="_build/test/src/app.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <h1>hello!</h1>
+    <textarea id="wow" rows="8" cols="40"></textarea>
+    <button onclick="var newDiv = document.createElement('pre');
+  var newContent = document.createTextNode(document.getElementById('wow').value);
+  newDiv.appendChild(newContent); //add the text node to the newly created div.
+
+  document.body.appendChild(newDiv);">add</button>
+  </body>
+</html>
