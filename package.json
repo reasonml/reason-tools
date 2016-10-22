@@ -1,17 +1,18 @@
 {
-  "name": "RebelExampleProject",
+  "name": "ReasonTools",
   "version": "0.0.1",
-  "description": "Example project with Reason as a dependency, building with Rebel",
+  "description": "Browser Extension to make Reason more friendly",
   "repository": {
     "type": "git",
     "url": "https://github.com/reasonml/RebelExampleProject.git"
   },
-  "author": "jordwalke",
+  "author": "rickyvetter",
   "license": "MIT",
   "homepage": "https://github.com/reasonml/RebelExampleProject",
   "keywords": [
     "reason",
-    "example"
+    "extension",
+    "browser"
   ],
   "notes": [
     "The scripts can be invoked with `npm run scriptNamed`.",
