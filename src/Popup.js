@@ -1,11 +1,20 @@
 require('./Popup.html');
 require('./logo.png');
 
+import CopyToClipboard from 'react-copy-to-clipboard';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import {ocean} from 'react-syntax-highlighter/dist/styles';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {popup, popupColumn, popupInNOut, popupContext} from './styles';
+
+import {
+  popup,
+  popupColumn,
+  popupInNOut,
+  popupContext,
+  savedBadge,
+  saveLink,
+} from './styles';
 
 const getLangList = (conversionType) => {
   if (!conversionType) {
@@ -15,7 +24,7 @@ const getLangList = (conversionType) => {
 }
 
 class Popup extends React.Component {
-  state = {out: '', inLang: '', outLang: ''};
+  state = {copy: false, out: '', inLang: '', outLang: ''};
 
   constructor(props) {
     super(props);
@@ -51,6 +60,9 @@ class Popup extends React.Component {
         <div style={popupColumn}>
           <h1 style={popupContext}>
             Out{this.state.outLang ? ` (${this.state.outLang})` : ''}
+            <CopyToClipboard text={this.state.out} onCopy={this._handleCopy}>
+              <a style={saveLink} href="#">copy</a>
+            </CopyToClipboard>
           </h1>
           <SyntaxHighlighter
             customStyle={popupInNOut}
@@ -59,9 +71,15 @@ class Popup extends React.Component {
             style={ocean}>
             {this.state.out}
           </SyntaxHighlighter>
+          {this.state.copy && <div style={savedBadge}>{'\u2713 '}</div>}
         </div>
       </div>
     );
+  }
+
+  _handleCopy = () => {
+    this.setState({copy: true});
+    setTimeout(() => this.setState({copy: false}), 2500);
   }
 
   _handleChange = (event) => {

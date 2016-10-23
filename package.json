@@ -42,6 +42,7 @@
     "nopam": "https://github.com/reasonml/nopam.git",
     "ocamlBetterErrors": "0.0.10",
     "react": "^15.3.2",
+    "react-copy-to-clipboard": "^4.2.3",
     "react-dom": "^15.3.2",
     "react-syntax-highlighter": "^2.10.0",
     "realpath": "*",

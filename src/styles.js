@@ -7,23 +7,48 @@ export const popup = {
 export const popupColumn = {
   display: "flex",
   flexDirection: "column",
+  position: "relative",
 };
 
 export const popupInNOut = {
   border: "0",
   fontFamily: "monospace",
+  fontSize: "13px",
   height: "400px",
   margin: "0",
   padding: "5px",
   width: "380px",
+  whiteSpace: "pre",
 };
 
 export const popupContext = {
+  alignItems: "flex-end",
   display: "flex",
-  flexDirection: "column-reverse",
   fontFamily: "sans-serif",
   fontSize: "16px",
   height: "30px",
+  justifyContent: "space-between",
   paddingBottom: "5px",
   width: "100%",
 };
+
+export const savedBadge = {
+  alignItems: "center",
+  backgroundColor: "rgba(0,0,0,0.4)",
+  borderRadius: "50%",
+  color: "white",
+  display: "flex",
+  height: "50px",
+  justifyContent: "center",
+  left: "50%",
+  position: "absolute",
+  top: "50%",
+  transform: "translate(-50%,-50%)",
+  width: "50px",
+  pointerEvents: "none",
+};
+
+export const saveLink = {
+  textDecoration: "none",
+  color: "rgb(219, 76, 63)",
+}
