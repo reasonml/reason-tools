@@ -12,15 +12,39 @@ const getLangList = (conversionType) => {
 
 class Popup extends React.Component {
   state = {out: "", inLang: "", outLang: ""};
+
+  componentDidMount() {
+    if (this.props.initialSelectedText) {
+      chrome.runtime.sendMessage(
+        {in: this.props.initialSelectedText},
+        ({out: [conversionType, out]}) => {
+          const [inLang, outLang] = getLangList(conversionType);
+          this.setState({
+            out,
+            inLang,
+            outLang,
+          });
+      });
+    }
+  }
+
   render() {
     return (
       <div id="popup">
         <div>
-          <h1 id="in-context">In{this.state.inLang ? ` (${this.state.inLang})` : ''}</h1>
-          <textarea id="in" onChange={this._handleChange}/>
+          <h1 id="in-context">
+            In{this.state.inLang ? ` (${this.state.inLang})` : ''}
+          </h1>
+          <textarea
+            id="in"
+            defaultValue={this.props.initialSelectedText}
+            onChange={this._handleChange}
+          />
         </div>
         <div>
-          <h1 id="out-context">Out{this.state.outLang ? ` (${this.state.outLang})` : ''}</h1>
+          <h1 id="out-context">
+            Out{this.state.outLang ? ` (${this.state.outLang})` : ''}
+          </h1>
           <SyntaxHighlighter
             id="out"
             language={this.state.outLang === 'ML' ? 'ocaml' : 'javascript'}
@@ -46,6 +70,13 @@ class Popup extends React.Component {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  ReactDOM.render(<Popup />, document.getElementById('app'));
+document.addEventListener('DOMContentLoaded', () => {
+  chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+    chrome.tabs.sendMessage(tabs[0].id, {getSelectedText: true}, (response) => {
+      ReactDOM.render(
+        <Popup initialSelectedText={response.selectedText}/>,
+        document.getElementById('app'),
+      );
+    });
+  });
 });
