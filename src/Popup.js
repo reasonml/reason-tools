@@ -5,27 +5,28 @@ import ReactDOM from 'react-dom';
 
 const getLangList = (conversionType) => {
   if (!conversionType) {
-    return ["",""];
+    return ['',''];
   }
   return conversionType.split('to');
 }
 
 class Popup extends React.Component {
-  state = {out: "", inLang: "", outLang: ""};
+  state = {out: '', inLang: '', outLang: ''};
 
-  componentDidMount() {
+  constructor(props) {
+    super(props);
     if (this.props.initialSelectedText) {
       chrome.runtime.sendMessage(
         {in: this.props.initialSelectedText},
         ({out: [conversionType, out]}) => {
           const [inLang, outLang] = getLangList(conversionType);
-          this.setState({
-            out,
-            inLang,
-            outLang,
-          });
+          this.setState({out, inLang, outLang});
       });
     }
+  }
+
+  componentDidMount() {
+    this._in && this._in.focus();
   }
 
   render() {
@@ -37,6 +38,7 @@ class Popup extends React.Component {
           </h1>
           <textarea
             id="in"
+            ref={(ref) => this._in = ref}
             defaultValue={this.props.initialSelectedText}
             onChange={this._handleChange}
           />
