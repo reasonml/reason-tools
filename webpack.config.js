@@ -2,7 +2,7 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    App: './src/App.js',
+    ContentSelectionText: './src/ContentSelectionText.js',
     Popup: './src/Popup.js',
     Background: './src/Background.js',
   },
@@ -19,6 +19,10 @@ module.exports = {
         query: {
           presets: ['latest', 'react', 'stage-0']
         }
+      },
+      {
+        test: /\.(png|jpg|gif|json|html)$/,
+        loader: "file-loader?name=[name].[ext]"
       }
     ],
   },

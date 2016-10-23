@@ -1,3 +1,6 @@
+require('./Popup.html');
+require('./logo.png');
+
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import {ocean} from 'react-syntax-highlighter/dist/styles';
 import React from 'react';
