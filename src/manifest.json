@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "Reason Tools",
-  "description": "Make working with Reason fun",
+  "description": "Adds Reason to the browser",
   "version": "1.0",
   "background": {
     "scripts": ["Background.bundle.js"]

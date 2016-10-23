@@ -1,6 +1,6 @@
 # Reason Tools
 
-A browser extension to make working with [Reason](http://facebook.github.io/reason/) fun.
+Adds [Reason](http://facebook.github.io/reason/) to the browser.
 
 ## Getting started
 

@@ -1,14 +1,14 @@
 {
   "name": "ReasonTools",
   "version": "0.0.1",
-  "description": "Browser extension to make working with Reason fun",
+  "description": "Adds Reason to the browser",
   "repository": {
     "type": "git",
-    "url": "https://github.com/reasonml/RebelExampleProject.git"
+    "url": "https://github.com/rickyvetter/reason-tools.git"
   },
   "author": "rickyvetter",
   "license": "MIT",
-  "homepage": "https://github.com/reasonml/RebelExampleProject",
+  "homepage": "https://github.com/rickyvetter/reason-tools",
   "keywords": [
     "reason",
     "ocaml",
