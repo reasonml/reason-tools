@@ -1,23 +1,29 @@
-import Refmt from '../_build/refmt/src/app.js';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { ocean } from 'react-syntax-highlighter/dist/styles';
+import {ocean} from 'react-syntax-highlighter/dist/styles';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+const getLangList = (conversionType) => {
+  if (!conversionType) {
+    return ["",""];
+  }
+  return conversionType.split('to');
+}
+
 class Popup extends React.Component {
-  state = {in: "", out: ""};
+  state = {out: "", inLang: "", outLang: ""};
   render() {
     return (
       <div id="popup">
         <div>
-          <h1 id="in-context">In</h1>
-          <textarea id="in" value={this.state.in} onChange={this._handleChange}/>
+          <h1 id="in-context">In{this.state.inLang ? ` (${this.state.inLang})` : ''}</h1>
+          <textarea id="in" onChange={this._handleChange}/>
         </div>
         <div>
-          <h1 id="out-context">Out</h1>
+          <h1 id="out-context">Out{this.state.outLang ? ` (${this.state.outLang})` : ''}</h1>
           <SyntaxHighlighter
             id="out"
-            language='javascript'
+            language={this.state.outLang === 'ML' ? 'ocaml' : 'javascript'}
             style={ocean}>
             {this.state.out}
           </SyntaxHighlighter>
@@ -27,9 +33,15 @@ class Popup extends React.Component {
   }
 
   _handleChange = (event) => {
-    this.setState({
-      in: event.target.value,
-      out: Refmt.refmt(event.target.value),
+    chrome.runtime.sendMessage(
+      {in: event.target.value},
+      ({out: [conversionType, out]}) => {
+        const [inLang, outLang] = getLangList(conversionType);
+        this.setState({
+          out,
+          inLang,
+          outLang,
+        });
     });
   }
 }

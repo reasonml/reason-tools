@@ -4,7 +4,9 @@
   "name": "Reason Tools",
   "description": "This extension makes Reason more friendly",
   "version": "1.0",
-
+  "background": {
+    "scripts": ["Background.bundle.js"]
+  },
   "browser_action": {
     "default_icon": "logo.png",
     "default_popup": "popup.html"

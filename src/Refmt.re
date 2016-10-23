@@ -1,3 +1,10 @@
+type conversion =
+  | MLtoRE string
+  | REtoML string
+  | MLItoREI string
+  | REItoMLI string
+  | Failure;
+
 let string_of_signature x => {
   ignore (Format.flush_str_formatter ());
   let f = Format.str_formatter;
@@ -42,29 +49,37 @@ let printREI = printReasonAST reasonFormatter#signature;
 let refmt code =>
   try {
     let (ast2, comments2) = parserForMLToRE code;
-    printRE ast2 comments2
+    MLtoRE (printRE ast2 comments2)
   } {
   | exn =>
     try {
       let (ast, comments) = parserForREToML code;
-      printML ast
+      REtoML (printML ast)
     } {
     | exn2 =>
       try {
         let (ast, comments) = parserForREIToMLI code;
-        printMLI ast
+        REItoMLI (printMLI ast)
       } {
       | exn3 =>
         try {
           let (ast, comments) = parserForMLIToREI code;
-          printREI ast comments
+          MLItoREI (printREI ast comments)
         } {
-        | exn4 => ""
+        | exn4 => Failure
         }
       }
     }
   };
 
-let refmtJS jsString => Js.string (refmt (Js.to_string jsString));
+let refmtJS jsString => {
+  switch (refmt (Js.to_string jsString)) {
+  | MLtoRE s => Js.array [|Js.string "MLtoRE", Js.string s|]
+  | REtoML s => Js.array [|Js.string "REtoML", Js.string s|]
+  | MLItoREI s => Js.array [|Js.string "MLItoREI", Js.string s|]
+  | REItoMLI s => Js.array [|Js.string "REItoMLI", Js.string s|]
+  | Failure => Js.array [|Js.string "", Js.string ""|]
+  }
+};
 
 Js.export "refmt" refmtJS;

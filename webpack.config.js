@@ -4,6 +4,7 @@ module.exports = {
   entry: {
     App: './src/App.js',
     Popup: './src/Popup.js',
+    Background: './src/Background.js',
   },
   output: {
     path: './_build/extension/',
@@ -22,6 +23,12 @@ module.exports = {
     ],
   },
   plugins: [
-    // new webpack.optimize.UglifyJsPlugin()
+    // new webpack.DefinePlugin({
+    //   'process.env':{
+    //     'NODE_ENV': JSON.stringify('production')
+    //   }
+    // }),
+    // new webpack.optimize.UglifyJsPlugin({
+    // })
   ],
 };
