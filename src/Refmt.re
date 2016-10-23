@@ -39,7 +39,7 @@ let printRE = printReasonAST reasonFormatter#structure;
 
 let printREI = printReasonAST reasonFormatter#signature;
 
-let reason code =>
+let refmt code =>
   try {
     let (ast2, comments2) = parserForMLToRE code;
     printRE ast2 comments2
@@ -65,6 +65,6 @@ let reason code =>
     }
   };
 
-let reasonJS jsString => Js.string (reason (Js.to_string jsString));
+let refmtJS jsString => Js.string (refmt (Js.to_string jsString));
 
-Js.export "refmt" reasonJS;
+Js.export "refmt" refmtJS;
