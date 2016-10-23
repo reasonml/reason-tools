@@ -1,15 +1,15 @@
 {
   "manifest_version": 2,
-
   "name": "Reason Tools",
   "description": "Adds Reason to the browser",
-  "version": "1.0",
+  "version": "0.0.1",
   "background": {
     "scripts": ["Background.bundle.js"]
   },
   "browser_action": {
     "default_icon": "logo.png",
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_title": "Reason Tools"
   },
   "content_scripts": [
     {
@@ -19,7 +19,7 @@
     }
   ],
   "commands": {
-    "_execute_page_action": {
+    "_execute_browser_action": {
       "suggested_key": {
         "default": "Alt+D"
       }

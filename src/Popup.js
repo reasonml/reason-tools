@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
   chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
     chrome.tabs.sendMessage(tabs[0].id, {getSelectedText: true}, (response) => {
       ReactDOM.render(
-        <Popup initialSelectedText={response.selectedText}/>,
+        <Popup initialSelectedText={response ? response.selectedText : null}/>,
         document.getElementById('app'),
       );
     });
