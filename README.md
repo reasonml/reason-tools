@@ -6,9 +6,10 @@ Adds [Reason](http://facebook.github.io/reason/) to the browser.
 
 Download the extension at `TBD`. You will now be able to trigger the popup with
 `Alt+D` (TODO: check if this is configurable in the extensions page). This
-command will take the text you currently have selected, transfer it into a
-textarea, which is then translated into the corresponding text. Reason Tools
-will automatically convert between `.re`, `.ml`, `.rei`, and `.mli` text.
+command will take the text you currently have selected and paste it into a
+conversion area which is then translated into the corresponding Reason/Ocaml
+text. Reason Tools will automatically convert between `.re`, `.ml`, `.rei`,
+and `.mli` text.
 
 ## Contribute
 
