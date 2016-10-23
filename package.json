@@ -1,7 +1,7 @@
 {
   "name": "ReasonTools",
   "version": "0.0.1",
-  "description": "Browser Extension to make Reason more friendly",
+  "description": "Browser extension to make working with Reason fun",
   "repository": {
     "type": "git",
     "url": "https://github.com/reasonml/RebelExampleProject.git"
@@ -11,8 +11,10 @@
   "homepage": "https://github.com/reasonml/RebelExampleProject",
   "keywords": [
     "reason",
+    "ocaml",
     "extension",
-    "browser"
+    "browser",
+    "chrome"
   ],
   "notes": [
     "The scripts can be invoked with `npm run scriptNamed`.",
@@ -25,8 +27,6 @@
   ],
   "scripts": {
     "postinstall": "npm run build",
-    "test": "_build/default/src/app.out",
-    "start": "_build/default/src/app.out",
     "build": "eval $(dependencyEnv) && nopam && time ./node_modules/rebel/_build/src/rebel",
     "build:js": "webpack",
     "top": "eval $(dependencyEnv) && rtop",
