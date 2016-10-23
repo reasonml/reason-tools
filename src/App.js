@@ -9,6 +9,5 @@ function getSelectionText() {
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log(getSelectionText());
   sendResponse({selectedText: getSelectionText()});
 });
