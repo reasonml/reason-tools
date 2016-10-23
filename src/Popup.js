@@ -5,6 +5,7 @@ import SyntaxHighlighter from 'react-syntax-highlighter';
 import {ocean} from 'react-syntax-highlighter/dist/styles';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {popup, popupColumn, popupInNOut, popupContext} from './styles';
 
 const getLangList = (conversionType) => {
   if (!conversionType) {
@@ -34,9 +35,9 @@ class Popup extends React.Component {
 
   render() {
     return (
-      <div id="popup">
-        <div>
-          <h1 id="in-context">
+      <div style={popup}>
+        <div style={popupColumn}>
+          <h1 style={popupContext}>
             In{this.state.inLang ? ` (${this.state.inLang})` : ''}
           </h1>
           <textarea
@@ -44,13 +45,15 @@ class Popup extends React.Component {
             ref={(ref) => this._in = ref}
             defaultValue={this.props.initialSelectedText}
             onChange={this._handleChange}
+            style={popupInNOut}
           />
         </div>
-        <div>
-          <h1 id="out-context">
+        <div style={popupColumn}>
+          <h1 style={popupContext}>
             Out{this.state.outLang ? ` (${this.state.outLang})` : ''}
           </h1>
           <SyntaxHighlighter
+            customStyle={popupInNOut}
             id="out"
             language={this.state.outLang === 'ML' ? 'ocaml' : 'javascript'}
             style={ocean}>
