@@ -1,7 +1,4 @@
-!_build/extension/**
 _build/**
-_build/extension/app.bundle.js
-_build/extension/Popup.bundle.js
 
 *~
 *.cmi
