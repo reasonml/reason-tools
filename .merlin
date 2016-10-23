@@ -17,7 +17,7 @@ S src
 
 
 # B stands for build (artifacts). We generate ours into _build
-B ./_build/test/*
+B ./_build/refmt/*
 
 
 
@@ -31,7 +31,7 @@ PKG compiler-libs.common reason js_of_ocaml menhirLib re.str easy-format
 # understand our sources. You don't have to understand what these flags are for
 # now; but if you're curious, go check the rebel.ml that generated this
 # .merlin at https://github.com/reasonml/rebel
-FLG -w -30 -w -40 -open Test_Tar
+FLG -w -30 -w -40 -open Refmt_Tar
 
 
 

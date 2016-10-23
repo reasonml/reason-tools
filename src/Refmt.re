@@ -11,8 +11,6 @@ let string_of_formatter comments f x => {
   Format.flush_str_formatter ()
 };
 
-let log str => Js.Unsafe.meth_call Firebug.console "log" [|Js.Unsafe.inject str|];
-
 let reasonFormatter = Reason_pprint_ast.createFormatter ();
 
 let parserForREToML code => Reason_toolchain.JS.canonical_implementation_with_comments (
@@ -67,49 +65,6 @@ let reason code =>
     }
   };
 
-print_endline (reason "let a b = b + 1;");
+let reasonJS jsString => Js.string (reason (Js.to_string jsString));
 
-print_endline (reason "let a b => b + 1;");
-
-print_endline (reason "type a = bool;");
-/* let node_constr: Js.constr (Js.t Dom.node);
-let obj : obj Js.t = Js.Unsafe.js_expr "obj";
-let cast_node (x: Js.t) :Js.opt (Js.t Dom.node) =>
-  if (Js.instanceof x obj) {
-    Js.some (Js.Unsafe.coerce x)
-  } else {
-    Js.null
-  };
-
-let maybePre = Dom_html.document#querySelectorAll (Js.string "pre");
-
-let printTextContent node => log @@ Dom.CoerceTo.text node;
-
- let run () => {
-   let maybePre =
-     Js.Unsafe.meth_call Dom_html.document "querySelectorAll" [|Js.Unsafe.inject "pre"|];
-   let maybeLog x => switch x {
-        | Js.undefined x => log x
-        | _ => log "nothing"
-      };
-   let pre = List.map cast_node maybePre;
-   List.iter log maybePre;
-   List.iter printTextContent maybePre;
-   log maybePre;
-   ()
- };
-
- Dom_html.window#onload <- Dom_html.handler (fun _ -> run (); Js._false); */
-
- /* if (MutationObserver.is_supported ()) {
-   print_endline "wow!!!";
-   let target = Dom_html.document;
-   let node = (target :> Js.t Dom.node);
-   let f records observer => {
-     records;
-     ()
-   };
-   MutationObserver.observe
-     node::node f::f attributes::false child_list::true character_data::true ();
-    ()
- }; */
+Js.export "refmt" reasonJS;

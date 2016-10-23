@@ -18,11 +18,9 @@
     "The scripts can be invoked with `npm run scriptNamed`.",
     "`dependencyEnv` ensure the environment is set up correctly to include",
     "build artifacts from your dependencies.",
-
     "npm run reasonBuild uses a program called `rebuild` which is included with Reason ",
     "to build very simple test projects. `refmterr` processes stderr to print type errors ",
     "more beautifully.",
-
     "Note: `rebuild` has nothing to do with the officially supported `npm rebuild` command."
   ],
   "scripts": {
@@ -49,9 +47,9 @@
   "rebel": {
     "targets": [
       {
-        "target": "test",
+        "target": "refmt",
         "engine": "jsoo",
-        "entry": "src/Test.re",
+        "entry": "src/Refmt.re",
         "unstable_flags": {
           "jsoo": "+weak.js +toplevel.js"
         }
@@ -65,5 +63,8 @@
       "re.str",
       "easy-format"
     ]
+  },
+  "devDependencies": {
+    "webpack": "^1.13.2"
   }
 }
