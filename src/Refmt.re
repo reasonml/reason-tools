@@ -59,7 +59,7 @@ let reason code =>
           let (ast, comments) = parserForMLIToREI code;
           printREI ast comments
         } {
-        | exn4 => "COULD NOT PARSE---"
+        | exn4 => ""
         }
       }
     }
