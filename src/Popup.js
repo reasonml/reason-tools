@@ -1,7 +1,7 @@
 require('./Popup.html');
-require('./logo19.png');
-require('./logo38.png');
-require('./logo128.png');
+require('./images/logo19.png');
+require('./images/logo38.png');
+require('./images/logo128.png');
 
 import CopyToClipboard from 'react-copy-to-clipboard';
 import SyntaxHighlighter from 'react-syntax-highlighter';
