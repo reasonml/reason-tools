@@ -27,8 +27,7 @@ with `npm run build:js`. The JS consumed the Reason API, so always
 `npm run build:js` when in doubt. This will be streamlined in the future!
 
 > [Yarn](https://github.com/yarnpkg/yarn) can also be used to make things a little faster, but there are some edge
-> cases still being worked on: https://github.com/yarnpkg/yarn/pull/805 as one
-> example
+> cases still being worked on: https://github.com/yarnpkg/yarn/milestone/2
 
 To load in Chrome, go to `chrome://extensions/` and turn on Developer Mode.
 From there you should be able to select "Load unpacked extension..." and choose
