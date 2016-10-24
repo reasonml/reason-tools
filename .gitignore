@@ -17,3 +17,5 @@ _build/**
 node_modules
 .jenga
 *.log
+
+.DS_Store
