@@ -26,21 +26,12 @@ const getLangList = (conversionType) => {
 }
 
 class Popup extends React.Component {
-  state = {copy: false, out: '', inLang: '', outLang: ''};
-
-  constructor(props) {
-    super(props);
-    if (this.props.initialSelectedText) {
-      chrome.runtime.sendMessage(
-        {in: this.props.initialSelectedText},
-        ({out: [conversionType, out]}) => {
-          const [inLang, outLang] = getLangList(conversionType);
-          this.setState({out, inLang, outLang});
-      });
-    }
-  }
+  state = {copy: false, in: '', out: '', inLang: '', outLang: ''};
 
   componentDidMount() {
+    if (this.props.initialSelectedText) {
+      this._refmt(this.props.initialSelectedText);
+    }
     this._in && this._in.focus();
   }
 
@@ -49,19 +40,24 @@ class Popup extends React.Component {
       <div style={popup}>
         <div style={popupColumn}>
           <h1 style={popupContext}>
-            In{this.state.inLang ? ` (${this.state.inLang})` : ''}
+            In{this.state.inLang && this.state.in
+                ? ` (${this.state.inLang})`
+                : ''}
           </h1>
           <textarea
             id="in"
             ref={(ref) => this._in = ref}
-            defaultValue={this.props.initialSelectedText}
+            value={this.state.in}
             onChange={this._handleChange}
             style={popupInNOut}
           />
         </div>
         <div style={popupColumn}>
           <h1 style={popupContext}>
-            Out{this.state.outLang ? ` (${this.state.outLang})` : ''}
+            Out{
+              this.state.outLang && this.state.out
+                ? ` (${this.state.outLang})`
+                : ''}
             <CopyToClipboard text={this.state.out} onCopy={this._handleCopy}>
               <a style={saveLink} href="#">copy</a>
             </CopyToClipboard>
@@ -85,16 +81,20 @@ class Popup extends React.Component {
   }
 
   _handleChange = (event) => {
-    chrome.runtime.sendMessage(
-      {in: event.target.value},
+    const value = event.target.value;
+    this._refmt(value);
+  }
+
+  _refmt(value) {
+    this.setState({in: value});
+    // this isn't guaranteed to be sync or speedy, so
+    // don't set this.state.in here, since it could cause lag.
+    chrome.runtime.sendMessage({in: value},
       ({out: [conversionType, out]}) => {
         const [inLang, outLang] = getLangList(conversionType);
-        this.setState({
-          out,
-          inLang,
-          outLang,
-        });
-    });
+        this.setState({out, inLang, outLang});
+      }
+    );
   }
 }
 
