@@ -1,7 +1,6 @@
 export const popup = {
   display: "flex",
   flexDirection: "row",
-  margin: "10px",
 };
 
 export const popupColumn = {
@@ -26,7 +25,7 @@ export const popupContext = {
   display: "flex",
   fontFamily: "sans-serif",
   fontSize: "16px",
-  height: "30px",
+  height: "20px",
   justifyContent: "space-between",
   paddingBottom: "5px",
   width: "100%",
