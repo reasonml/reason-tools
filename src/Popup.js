@@ -79,7 +79,6 @@ class Popup extends React.Component {
           <CodeMirror
             style={popupInNOut}
             value={this.state.out}
-            onChange={this._refmt}
             options={{
               mode: this.state.outLang === 'ML' ? 'text/x-ocaml' : 'javascript',
               theme: 'material',

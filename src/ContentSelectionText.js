@@ -5,7 +5,7 @@ function getSelectionText() {
     } else if (document.selection && document.selection.type != "Control") {
         text = document.selection.createRange().text;
     }
-    return text;
+    return text.trim();
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
