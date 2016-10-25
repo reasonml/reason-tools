@@ -19,14 +19,13 @@ import {
 } from './styles';
 
 const getLangList = (conversionType) => {
-  if (!conversionType) {
-    return ['',''];
-  }
-  return conversionType.split('to');
+  return conversionType && conversionType !== 'Failure'
+    ? conversionType.split('to')
+    : [null, null];
 }
 
 class Popup extends React.Component {
-  state = {copy: false, in: '', out: '', inLang: '', outLang: ''};
+  state = {copy: false, in: '', out: '', inLang: null, outLang: null};
 
   componentDidMount() {
     if (this.props.initialSelectedText) {
@@ -36,11 +35,15 @@ class Popup extends React.Component {
   }
 
   render() {
+    // extra cautious here because of the async on _refmt
+    // sometimes typing can flash the wrong lang very quickly
+    const hasConverted = this.state.in.trim() && this.state.out.trim();
     return (
       <div style={popup}>
         <div style={popupColumn}>
           <h1 style={popupContext}>
-            In{this.state.inLang && this.state.in
+            In{
+              hasConverted && this.state.inLang
                 ? ` (${this.state.inLang})`
                 : ''}
           </h1>
@@ -55,7 +58,7 @@ class Popup extends React.Component {
         <div style={popupColumn}>
           <h1 style={popupContext}>
             Out{
-              this.state.outLang && this.state.out
+              hasConverted && this.state.outLang
                 ? ` (${this.state.outLang})`
                 : ''}
             <CopyToClipboard text={this.state.out} onCopy={this._handleCopy}>
@@ -90,7 +93,7 @@ class Popup extends React.Component {
     // this isn't guaranteed to be sync or speedy, so
     // don't set this.state.in here, since it could cause lag.
     chrome.runtime.sendMessage({in: value},
-      ({out: [conversionType, out]}) => {
+      ({out: [conversionType, out, ...rest]}) => {
         const [inLang, outLang] = getLangList(conversionType);
         this.setState({out, inLang, outLang});
       }
