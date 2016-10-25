@@ -1,23 +1,13 @@
 export const popup = {
   display: "flex",
   flexDirection: "row",
+  justifyContent: "space-between",
 };
 
 export const popupColumn = {
   display: "flex",
   flexDirection: "column",
   position: "relative",
-};
-
-export const popupInNOut = {
-  border: "0",
-  fontFamily: "monospace",
-  fontSize: "13px",
-  height: "400px",
-  margin: "0",
-  padding: "5px",
-  width: "380px",
-  whiteSpace: "pre",
 };
 
 export const popupContext = {

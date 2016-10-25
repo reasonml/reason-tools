@@ -21,8 +21,8 @@ module.exports = {
         }
       },
       {
-        test: /\.(png|jpg|gif|json|html)$/,
-        loader: "file-loader?name=[name].[ext]"
+        test: /\.(png|jpg|gif|json|html|css)$/,
+        loader: 'file-loader?name=[name].[ext]'
       }
     ],
   },

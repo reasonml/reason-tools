@@ -2,12 +2,15 @@ require('./Popup.html');
 require('./images/logo19.png');
 require('./images/logo38.png');
 require('./images/logo128.png');
+require('./css/codemirror.css');
+require('./css/material.css');
 
 import CopyToClipboard from 'react-copy-to-clipboard';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import {ocean} from 'react-syntax-highlighter/dist/styles';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import CodeMirror from 'react-codemirror';
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/mllike/mllike';
 
 import {
   popup,
@@ -31,13 +34,17 @@ class Popup extends React.Component {
     if (this.props.initialSelectedText) {
       this._refmt(this.props.initialSelectedText);
     }
-    this._in && this._in.focus();
+    if (this._in) {
+      this._in.focus();
+      this._in.getCodeMirror().execCommand('selectAll')
+    }
   }
 
   render() {
     // extra cautious here because of the async on _refmt
     // sometimes typing can flash the wrong lang very quickly
     const hasConverted = this.state.in.trim() && this.state.out.trim();
+
     return (
       <div style={popup}>
         <div style={popupColumn}>
@@ -45,14 +52,18 @@ class Popup extends React.Component {
             In{
               hasConverted && this.state.inLang
                 ? ` (${this.state.inLang})`
-                : ''}
+                : null}
           </h1>
-          <textarea
-            id="in"
-            ref={(ref) => this._in = ref}
-            value={this.state.in}
-            onChange={this._handleChange}
+          <CodeMirror
             style={popupInNOut}
+            ref={(ref) => this._in = ref}
+            defaultValue={this.props.initialSelectedText}
+            value={this.state.in}
+            onChange={this._refmt}
+            options={{
+              mode: this.state.inLang === 'ML' ? 'text/x-ocaml' : 'javascript',
+              theme: 'material',
+            }}
           />
         </div>
         <div style={popupColumn}>
@@ -60,18 +71,21 @@ class Popup extends React.Component {
             Out{
               hasConverted && this.state.outLang
                 ? ` (${this.state.outLang})`
-                : ''}
+                : null}
             <CopyToClipboard text={this.state.out} onCopy={this._handleCopy}>
               <a style={saveLink} href="#">copy</a>
             </CopyToClipboard>
           </h1>
-          <SyntaxHighlighter
-            customStyle={popupInNOut}
-            id="out"
-            language={this.state.outLang === 'ML' ? 'ocaml' : 'javascript'}
-            style={ocean}>
-            {this.state.out}
-          </SyntaxHighlighter>
+          <CodeMirror
+            style={popupInNOut}
+            value={this.state.out}
+            onChange={this._refmt}
+            options={{
+              mode: this.state.outLang === 'ML' ? 'text/x-ocaml' : 'javascript',
+              theme: 'material',
+              readOnly: true,
+            }}
+          />
           {this.state.copy && <div style={savedBadge}>{'\u2713 '}</div>}
         </div>
       </div>
@@ -83,12 +97,7 @@ class Popup extends React.Component {
     setTimeout(() => this.setState({copy: false}), 2500);
   }
 
-  _handleChange = (event) => {
-    const value = event.target.value;
-    this._refmt(value);
-  }
-
-  _refmt(value) {
+  _refmt = (value) => {
     this.setState({in: value});
     // this isn't guaranteed to be sync or speedy, so
     // don't set this.state.in here, since it could cause lag.
