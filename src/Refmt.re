@@ -46,8 +46,6 @@ let printRE = printReasonAST reasonFormatter#structure;
 
 let printREI = printReasonAST reasonFormatter#signature;
 
-let printErrors errors => Array.map Printexc.to_string errors;
-
 let refmt code =>
   try {
     let (ast2, comments2) = parserForMLToRE code;
@@ -68,7 +66,15 @@ let refmt code =>
           let (ast, comments) = parserForMLIToREI code;
           MLItoREI (printREI ast comments)
         } {
-        | exn4 => Failure (Printexc.to_string exn4)
+        | Syntaxerr.Error exn4 =>
+          switch exn4 {
+          /* this is basically the only error I've ever seen.
+             If we need to pretty print others, we can! */
+          | Syntaxerr.Other {loc_start: {pos_lnum: sl}} =>
+            Failure ("Syntax error on lin " ^ string_of_int sl)
+          | _ => Failure "Syntax Error"
+          }
+        | finalExn => Failure (Printexc.to_string finalExn)
         }
       }
     }
