@@ -27,7 +27,7 @@
   ],
   "scripts": {
     "postinstall": "npm run build",
-    "build": "eval $(dependencyEnv) && nopam && time ./node_modules/rebel/_build/src/rebel",
+    "build": "eval $(dependencyEnv) && nopam && ./node_modules/rebel/_build/src/rebel",
     "build:js": "webpack",
     "top": "eval $(dependencyEnv) && rtop",
     "env": "eval $(dependencyEnv) && env",
