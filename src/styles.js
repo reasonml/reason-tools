@@ -23,7 +23,7 @@ export const popupContext = {
 
 export const savedBadge = {
   alignItems: "center",
-  backgroundColor: "rgba(0,0,0,0.4)",
+  backgroundColor: "rgba(0,0,0,0.8)",
   borderRadius: "50%",
   color: "white",
   display: "flex",

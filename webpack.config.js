@@ -1,5 +1,4 @@
 const webpack = require('webpack');
-const BabiliPlugin = require("babili-webpack-plugin");
 
 module.exports = {
   entry: {
@@ -28,11 +27,13 @@ module.exports = {
     ],
   },
   plugins: [
-    // new webpack.DefinePlugin({
-    //   'process.env':{
-    //     'NODE_ENV': JSON.stringify('production')
-    //   }
-    // }),
-    // new BabiliPlugin(),
-  ],
+  //   new webpack.DefinePlugin({
+  //     'process.env':{
+  //       'NODE_ENV': JSON.stringify('production')
+  //     }
+  //   }),
+  //   new webpack.optimize.UglifyJsPlugin({
+  //     exclude: /(_build)/,
+  //   })
+  // ],
 };

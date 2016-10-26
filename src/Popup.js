@@ -85,7 +85,7 @@ class Popup extends React.Component {
               readOnly: true,
             }}
           />
-          {this.state.copy && <div style={savedBadge}>{'\u2713 '}</div>}
+          {this.state.copy && <div style={savedBadge}>{'\u2713'}</div>}
         </div>
       </div>
     );

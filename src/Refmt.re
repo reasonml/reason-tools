@@ -71,7 +71,7 @@ let refmt code =>
           /* this is basically the only error I've ever seen.
              If we need to pretty print others, we can! */
           | Syntaxerr.Other {loc_start: {pos_lnum: sl}} =>
-            Failure ("Syntax error on lin " ^ string_of_int sl)
+            Failure ("Syntax error on line " ^ string_of_int sl)
           | _ => Failure "Syntax Error"
           }
         | finalExn => Failure (Printexc.to_string finalExn)
