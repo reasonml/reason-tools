@@ -44,3 +44,14 @@ process.
 This project uses [webpack](http://webpack.github.io/) as it's JavaScript build system. Currently it isn't
 very integrated with Rebel, so the ability to have one command to watch
 all changes and incrementally build isn't really available (yet).
+
+## Thanks
+
+The foundation of the project is, without a doubt, [refmt-web](https://github.com/Schmavery/refmt-web).
+This is an awesome project by @Schmavery which does the same refmt in a web page.
+
+[reason-web-toplevel](https://github.com/Engil/reason-web-toplevel), by @Engil was also an awesome project
+where a lot of the work in this project came from.
+
+Also huge thanks to the [js_of_ocaml](https://github.com/ocsigen/js_of_ocaml) team for building a compiler that pretty
+effortlessly builds Reason and refmt utils in JS.
