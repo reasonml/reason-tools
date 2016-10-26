@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Reason Tools",
   "description": "Adds Reason to the browser",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "icons": {
     "19": "logo19.png",
     "38": "logo38.png",
