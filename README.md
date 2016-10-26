@@ -4,7 +4,7 @@ Adds [Reason](http://facebook.github.io/reason/) to the browser.
 
 ## Getting started
 
-Download the extension at `TBD`. You will now be able to trigger the popup with `Alt+D` (TODO: check if this is configurable in the extensions page). This command will take the text you currently have selected and paste it into a conversion area which is then translated into the corresponding Reason/Ocaml text. Reason Tools will automatically convert between `.re`, `.ml`, `.rei`, and `.mli` text.
+Download the extension at `TBD`. When you trigger the extension, it will copy the text you have highlighted and put it into an editor. The text is then translated into the corresponding Reason/OCaml text. Reason Tools will automatically convert between `.re`, `.ml`, `.rei`, and `.mli` text. In browsers that support it (currently just Chrome), a shortcut is added to open the extension with the highlighted text: `Alt+D`.
 
 ## Contribute
 
