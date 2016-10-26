@@ -3,7 +3,7 @@ require('./images/logo19.png');
 require('./images/logo38.png');
 require('./images/logo128.png');
 require('./css/codemirror.css');
-require('./css/material.css');
+require('./css/oceanic-next.css');
 
 import CopyToClipboard from 'react-copy-to-clipboard';
 import React from 'react';
@@ -62,7 +62,7 @@ class Popup extends React.Component {
             onChange={this._refmt}
             options={{
               mode: this.state.inLang === 'ML' ? 'text/x-ocaml' : 'javascript',
-              theme: 'material',
+              theme: 'oceanic-next',
             }}
           />
         </div>
@@ -81,7 +81,7 @@ class Popup extends React.Component {
             value={this.state.out}
             options={{
               mode: this.state.outLang === 'ML' ? 'text/x-ocaml' : 'javascript',
-              theme: 'material',
+              theme: 'oceanic-next',
               readOnly: true,
             }}
           />
