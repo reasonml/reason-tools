@@ -14,7 +14,7 @@ To get started contributing you can clone and build the extension:
 
 ```sh
 git clone https://github.com/rickyvetter/reason-tools.git
-cd reason-cools
+cd reason-tools
 npm install # this will take a while
 npm run build:js
 ```
