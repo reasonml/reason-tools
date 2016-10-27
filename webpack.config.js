@@ -33,7 +33,9 @@ module.exports = {
     //   }
     // }),
     // new webpack.optimize.UglifyJsPlugin({
-    //   exclude: /(_build)/,
+    //   // running uglify over pre-optimized jsoo code adds octal literals
+    //   // which are deprecated in FF.
+    //   exclude: /(_build|Background.js)/,
     // })
   ],
 };
