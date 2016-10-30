@@ -1,4 +1,4 @@
-require('./manifest.json');
+require('file-loader?name=[name].[ext]!./manifest.json');
 
 import Refmt from '../_build/refmt/src/app.js';
 

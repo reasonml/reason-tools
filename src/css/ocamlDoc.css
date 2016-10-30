@@ -1,0 +1,1057 @@
+/**
+ * This CSS file for documentation generation embeds Normalize.css
+ * https://necolas.github.io/normalize.css/4.1.1/normalize.css
+ *
+ * And then specifies a bunch of custom styles for the ocamldoc generation:
+ *
+ */
+
+
+
+
+      /* bodyFontSize */
+      font-size: 14px;
+
+      /* codeFontSize */
+      font-size: 13px
+
+
+      /* infoBackgroundColor */
+      background-color: #30302d;
+
+      /* linkColor */
+      color: #cec47f;
+      /* linkColorActive */
+      color: #faf0ab;
+
+
+
+      /**
+       * Space Gray Dark:
+       * ================
+       */
+      /* backgroundColorDark */
+      background-color: #262b36;
+
+      /* backgroundColor */
+      background-color: #2b303b;
+
+      /* backgroundColorPanel */
+      background-color: #313641;
+
+      /* borderLeftColorPanel */
+      border-left: 4px solid rgba(101,115,126, 0.2);
+
+      /* borderColorInlineCode */
+      border: 1px solid #3b3f4a;
+
+      /* backgroundColorInlineCode */
+      background-color: #393d48;
+
+      /* backgroundColorInlineBorder */
+      border: 1px solid #474b56;
+
+      /* colorText */
+      color: #c0c5ce;
+
+      /* primaryColor */
+      color: #8fa1b3;
+
+      /* <span class="source ocaml"> <span class="comment block ocaml"> <span class="leading-whitespace"> </span> <span class="leading-whitespace"></span>text</span> </span> */
+      /* colorFadedText (comment) */
+      5px solid rgba(101,115,126,1);
+
+      /* <span class="keyword other function-definition ocaml">let</span> */
+      /* colorKeyword (purple) */
+      color: #b48ead;
+
+      /* colorRed */
+      color: #BF616A;
+      /* colorRedActive */
+      color: #CB6D77;
+
+      /* colorGreen */
+      color: #91B376;
+
+      /* colorGreenActive */
+      color: #97B98c;
+
+      /* colorYellow */
+      color: #EBCB8B;
+
+      /* colorYellowActive */
+      color: #FBDB9B;
+
+      /* colorCyan */
+      color: #96B5B4;
+
+
+
+/*
+
+
+  TopInfoBg:
+    #424240
+
+  TopInfoCodeBg:
+    #545454
+
+
+  InfoBgLeftBorder:
+    #666664
+
+  KeyWord (let type etc):
+    #ecac9d
+
+  Type:
+    #ff0001;
+
+  Comment:
+    #aeaea1;
+  
+
+.navbar > a:nth-child(1n) {
+  border-bottom: 4px solid #d7df9d;
+}
+
+.navbar > a:nth-child(2n) {
+  border-bottom: 4px solid #ef95a4;
+}
+
+.navbar > a:nth-child(3n) {
+  border-bottom: 4px solid #aabbd0;
+}
+
+.navbar > a:nth-child(4n) {
+  border-bottom: 4px solid #cec47f;
+}
+
+.navbar > a:nth-child(5n) {
+  border-bottom: 4px solid #b58900;
+}
+
+
+/*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */
+
+/**
+ * 1. Change the default font family in all browsers (opinionated).
+ * 2. Prevent adjustments of font size after orientation changes in IE and iOS.
+ */
+
+html {
+  font-family: sans-serif; /* 1 */
+  -ms-text-size-adjust: 100%; /* 2 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+/**
+ * Remove the margin in all browsers (opinionated).
+ */
+
+body {
+  margin: 0;
+}
+
+/* HTML5 display definitions
+   ========================================================================== */
+
+/**
+ * Add the correct display in IE 9-.
+ * 1. Add the correct display in Edge, IE, and Firefox.
+ * 2. Add the correct display in IE.
+ */
+
+article,
+aside,
+details, /* 1 */
+figcaption,
+figure,
+footer,
+header,
+main, /* 2 */
+menu,
+nav,
+section,
+summary { /* 1 */
+  display: block;
+}
+
+/**
+ * Add the correct display in IE 9-.
+ */
+
+audio,
+canvas,
+progress,
+video {
+  display: inline-block;
+}
+
+/**
+ * Add the correct display in iOS 4-7.
+ */
+
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+/**
+ * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+ */
+
+progress {
+  vertical-align: baseline;
+}
+
+/**
+ * Add the correct display in IE 10-.
+ * 1. Add the correct display in IE.
+ */
+
+template, /* 1 */
+[hidden] {
+  display: none;
+}
+
+/* Links
+   ========================================================================== */
+
+/**
+ * 1. Remove the gray background on active links in IE 10.
+ * 2. Remove gaps in links underline in iOS 8+ and Safari 8+.
+ */
+
+a {
+  background-color: transparent; /* 1 */
+  -webkit-text-decoration-skip: objects; /* 2 */
+}
+
+/**
+ * Remove the outline on focused links when they are also active or hovered
+ * in all browsers (opinionated).
+ */
+
+a:active,
+a:hover {
+  outline-width: 0;
+}
+
+/* Text-level semantics
+   ========================================================================== */
+
+/**
+ * 1. Remove the bottom border in Firefox 39-.
+ * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+ */
+
+abbr[title] {
+  border-bottom: none; /* 1 */
+  text-decoration: underline; /* 2 */
+  text-decoration: underline dotted; /* 2 */
+}
+
+/**
+ * Prevent the duplicate application of `bolder` by the next rule in Safari 6.
+ */
+
+b,
+strong {
+  font-weight: inherit;
+}
+
+/**
+ * Add the correct font weight in Chrome, Edge, and Safari.
+ */
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+/**
+ * Add the correct font style in Android 4.3-.
+ */
+
+dfn {
+  font-style: italic;
+}
+
+/**
+ * Correct the font size and margin on `h1` elements within `section` and
+ * `article` contexts in Chrome, Firefox, and Safari.
+ */
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+/**
+ * Add the correct background and color in IE 9-.
+ */
+
+mark {
+  background-color: #ff0;
+  color: #000;
+}
+
+/**
+ * Add the correct font size in all browsers.
+ */
+
+small {
+  font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` elements from affecting the line height in
+ * all browsers.
+ */
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* Embedded content
+   ========================================================================== */
+
+/**
+ * Remove the border on images inside links in IE 10-.
+ */
+
+img {
+  border-style: none;
+}
+
+/**
+ * Hide the overflow in IE.
+ */
+
+svg:not(:root) {
+  overflow: hidden;
+}
+
+/* Grouping content
+   ========================================================================== */
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+
+/**
+ * Add the correct margin in IE 8.
+ */
+
+figure {
+  margin: 1em 40px;
+}
+
+/**
+ * 1. Add the correct box sizing in Firefox.
+ * 2. Show the overflow in Edge and IE.
+ */
+
+hr {
+  box-sizing: content-box; /* 1 */
+  height: 0; /* 1 */
+  overflow: visible; /* 2 */
+}
+
+/* Forms
+   ========================================================================== */
+
+/**
+ * 1. Change font properties to `inherit` in all browsers (opinionated).
+ * 2. Remove the margin in Firefox and Safari.
+ */
+
+button,
+input,
+select,
+textarea {
+  font: inherit; /* 1 */
+  margin: 0; /* 2 */
+}
+
+/**
+ * Restore the font weight unset by the previous rule.
+ */
+
+optgroup {
+  font-weight: bold;
+}
+
+/**
+ * Show the overflow in IE.
+ * 1. Show the overflow in Edge.
+ */
+
+button,
+input { /* 1 */
+  overflow: visible;
+}
+
+/**
+ * Remove the inheritance of text transform in Edge, Firefox, and IE.
+ * 1. Remove the inheritance of text transform in Firefox.
+ */
+
+button,
+select { /* 1 */
+  text-transform: none;
+}
+
+/**
+ * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`
+ *    controls in Android 4.
+ * 2. Correct the inability to style clickable types in iOS and Safari.
+ */
+
+button,
+html [type="button"], /* 1 */
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button; /* 2 */
+}
+
+/**
+ * Remove the inner border and padding in Firefox.
+ */
+
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+/**
+ * Restore the focus styles unset by the previous rule.
+ */
+
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+/**
+ * Change the border, margin, and padding in all browsers (opinionated).
+ */
+
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+
+/**
+ * 1. Correct the text wrapping in Edge and IE.
+ * 2. Correct the color inheritance from `fieldset` elements in IE.
+ * 3. Remove the padding so developers are not caught out when they zero out
+ *    `fieldset` elements in all browsers.
+ */
+
+legend {
+  box-sizing: border-box; /* 1 */
+  color: inherit; /* 2 */
+  display: table; /* 1 */
+  max-width: 100%; /* 1 */
+  padding: 0; /* 3 */
+  white-space: normal; /* 1 */
+}
+
+/**
+ * Remove the default vertical scrollbar in IE.
+ */
+
+textarea {
+  overflow: auto;
+}
+
+/**
+ * 1. Add the correct box sizing in IE 10-.
+ * 2. Remove the padding in IE 10-.
+ */
+
+[type="checkbox"],
+[type="radio"] {
+  box-sizing: border-box; /* 1 */
+  padding: 0; /* 2 */
+}
+
+/**
+ * Correct the cursor style of increment and decrement buttons in Chrome.
+ */
+
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/**
+ * 1. Correct the odd appearance in Chrome and Safari.
+ * 2. Correct the outline style in Safari.
+ */
+
+[type="search"] {
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
+}
+
+/**
+ * Remove the inner padding and cancel buttons in Chrome and Safari on OS X.
+ */
+
+[type="search"]::-webkit-search-cancel-button,
+[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/**
+ * Correct the text style of placeholders in Chrome, Edge, and Safari.
+ */
+
+::-webkit-input-placeholder {
+  color: inherit;
+  opacity: 0.54;
+}
+
+/**
+ * 1. Correct the inability to style clickable types in iOS and Safari.
+ * 2. Change font properties to `inherit` in Safari.
+ */
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
+}
+
+
+
+
+/**
+ * CUSTOM CSS:
+ */
+
+ul,ol {
+  padding: 0;
+  margin: 10 0 10px 25px
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+li {
+  line-height: 20px
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+body {
+  font-family: "Helvetica", "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  /* bodyFontSize */
+  font-size: 14px;
+  margin: 0px;
+  line-height: 20px;
+  /* backgroundColor */
+  background-color: #2b303b;
+
+  /* colorText */
+  color: #c0c5ce;
+  padding: 40px;
+  padding-top: 50px;
+}
+
+td.module {
+  font-family: Menlo,Menlo,Consolas,"Courier New",monospace;
+  /* codeFontSize */
+  font-size: 13px
+}
+
+
+code, pre {
+    font-family: Menlo,Menlo,Consolas,"Courier New",monospace;
+    /* codeFontSize */
+    font-size: 13px;
+    color: #333;
+}
+
+a {
+    color: inherit;
+    /* colorYellow */
+    text-decoration: none;
+    -webkit-transition: color 0.1s ease-out;
+    -moz-transition: color 0.1s ease-out;
+    -o-transition: color 0.1s ease-out;
+    transition: color 0.1s ease-out;
+}
+
+a:hover,a:focus {
+  color: inherit;
+  /* colorYellowActive */
+  text-decoration: none;
+  outline: none;
+  -webkit-transition: color 0.1s ease-out;
+  -moz-transition: color 0.1s ease-out;
+  -o-transition: color 0.1s ease-out;
+  transition: color 0.1s ease-out;
+}
+
+.typetable {
+  /* So that top level pre's margin-bottom isn't conflicting */
+  margin-top: -10px;
+}
+
+pre, .typetable {
+    border-radius: 0;
+    border: none;
+    /* codeFontSize */
+    font-size: 13px;
+}
+
+.constructor {
+  /* colorRed  */
+  color: #BF616A;
+}
+
+.keyword {
+  /* colorKeyword (purple) */
+  color: #b48ead;
+}
+
+/* .type { */
+/*   color: #ff0001; */
+/* } */
+
+pre {
+    display: block;
+    line-height: 20px;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: pre;
+    white-space: pre-wrap;
+}
+
+pre.prettyprint {
+    margin-bottom: 20px
+}
+
+code {
+  white-space: nowrap;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0
+}
+
+/**
+ * code.code are typically inline code, in an info section - not code snippets.
+ */
+.info code.code, .param_info code.code {
+  /* backgroundColorInlineCode */
+  background-color: #393d48;
+  border-radius:1px;
+  padding: 1px 3px 1px 3px;
+}
+
+/* Creates better underline for anything inside an anchor (better than standard
+ * text decoration) that is inside an info or param_info. */
+body > a > *,
+p > a > *,
+li > a > *,
+.info > a > *,
+.param_info > a > * {
+  /* colorFadedText (comment) */
+  border-bottom: 1px dotted rgba(101,115,126,0.2);
+}
+
+body > a:hover > *,
+body > a:focus > *,
+p > a:hover > *,
+p > a:focus > *,
+li > a:hover > *,
+li > a:focus > *,
+.info > a:hover > *,
+.info > a:focus > *,
+.param_info > a:hover > *,
+.param_info > a:focus > * {
+  /* colorYellow */
+  border-bottom: 1px dotted #EBCB8B;
+}
+
+
+/**
+ * Anchors appearing in pre or code do not contain more pre or code typically,
+ * and usually only contain text: which is why we must target their anchor directly.
+ * Which didn't work when the anchor had a code child (bottom borders do not render)
+ */
+pre > a,
+code > a,
+.typetable a {
+  /* colorFadedText (comment) */
+  border-bottom: 1px dotted rgba(101,115,126,0.2);
+}
+
+pre > a:focus,
+pre > a:hover, 
+code > a:focus,
+code > a:hover,
+.typetable a:focus,
+.typetable a:hover {
+  /* colorYellow */
+  border-bottom: 1px dotted #EBCB8B;
+}
+
+/**
+ * For named arguments documentation: Give the named arguments a little pop.
+ */
+.param_info > code.code:nth-child(1) {
+  /* backgroundColorInlineBorder */
+  border: 1px solid #474b56;
+}
+
+
+
+pre code {
+  color: inherit;
+  white-space: pre;
+  white-space: pre-wrap;
+  background-color: transparent;
+  border: 0
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 10px 0;
+  font-weight: bold;
+  line-height: 20px;
+  color: inherit;
+  text-rendering: optimizelegibility;
+}
+
+h1 {
+  font-size: 33px;
+}
+
+h2 {
+  font-size: 33.75px
+}
+
+h3 {
+  font-size: 26.25px
+}
+
+h4 {
+  font-size: 18.75px
+}
+
+h5 {
+  font-size: 17px
+}
+
+/**
+ * The ocamldoc generator uses these for primary headers:
+ */
+h6 {
+  font-size: 18.75px;
+}
+
+/**
+ * To fix the formatting, we hide all the brs, and add a bunch of space above the h6's.
+ */
+h6 {
+  margin-top:40px;
+}
+
+/**
+ * Ocamldoc generator uses .h7 as subheaders
+ */
+.h7 {
+  /* bodyFontSize */
+  font-size: 14px;
+  font-weight: bold;
+}
+
+body > h1 {
+  font-size: 22px;
+  text-align:right;
+  /* backgroundColorDark */
+  background-color: #252932;
+  margin-top: -50px;
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 90;
+}
+
+h1 > a {
+  /* colorRed */
+  color: #BF616A;
+}
+h1 > a:active, h1 > a:focus, h1 > a:hover {
+  /* colorRedActive */
+  color: #CB6D77;
+}
+
+.navbar {
+  position: fixed;
+  left: 0; right: 0;
+  margin-top: -50px; /* Match body padding */
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 0px;
+  z-index: 91;
+}
+
+
+.navbar > a {
+  display: inline-block;
+  font-weight: bold;
+  color: #999;
+  text-decoration: none;
+  padding-top: 14px;
+  padding-left: 5px;
+  padding-right: 5px;
+  height: 40px;
+  border-bottom: 4px solid;
+}
+
+.navbar > a:nth-child(1n) {
+  /* colorGreen */
+  border-bottom: 4px solid #91B376;
+}
+
+.navbar > a:nth-child(2n) {
+  /* colorRed */
+  border-bottom: 4px solid #BF616A;
+}
+
+.navbar > a:nth-child(3n) {
+  /* colorCyan */
+  border-bottom: 4px solid #96B5B4;
+}
+
+.navbar > a:nth-child(4n) {
+  border-bottom: 4px solid #cec47f;
+}
+
+.navbar > a:nth-child(5n) {
+  border-bottom: 4px solid #b58900;
+}
+
+
+.navbar a:hover, a:focus {
+  opacity: 1.0;
+  text-decoration: none
+}
+
+
+
+.indextable {
+  /* backgroundColor */
+  background-color: #2b303b;
+}
+
+.indextable td {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.indexlist {
+  margin-top: 12px;
+}
+
+
+body > .info {
+  /* backgroundColorPanel */
+  background-color: #313641;
+  padding: 20px;
+  margin-left:20px;
+  margin-top: 15px;
+  /* So that the top level pre's 30px margin-top is halfed, but param info's
+   * are sucked up into the top level .info's */
+  /* colorFadedText (comment) */
+  border-left: 5px solid rgba(101,115,126, 0.2);
+}
+
+
+
+body > .param_info {
+  /* backgroundColorPanel */
+  margin-top:1px;
+  background-color: #313641;
+  margin-left: 20px;
+  padding: 15px;
+  /* colorGreen */
+  border-left: 5px solid #91B376;
+}
+
+pre + .info, table + .info {
+  /* margin-bottom:15px; */
+}
+
+/**
+ * Each module entry should have proper spacing.
+ */
+body > pre {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+
+.paramstable {
+  /* codeFontSize */
+  font-size: 13px;
+}
+
+
+.info.module.top {
+  /* By default, free floating text in the top info will have a lighter weight and larger size.
+   * Then inner <p> tags style will then bring it back down to standard weight/size, but the first
+   * free floating text which describes the module is *not* in a p tag so will have this nicer look */
+  font-size: 18px;
+  /* colorText */
+  color: #c0c5ce;
+  /* margin-left: -50px; */
+  /* margin-right: -50px; */
+  margin-left: 0px;
+}
+
+/* The first block of text */
+.info.module.top  > *:nth-child(1) {
+  font-size: 16px;
+  font-weight: 300;
+  padding-bottom: 10px;
+}
+
+.info.module.top > code, .info.module.top > .code,
+.info.module.top > p > .code {
+  /* background-color: #545454; */
+}
+
+
+.info.module.top + hr {
+    position: relative;
+    font-weight: normal;
+    font-size: 24px;
+    border:none;
+    line-height: normal;
+    display: inline-block;
+    margin-top: 0;
+    margin-left: -25px;
+    color: white;
+    white-space: nowrap;
+    -webkit-transition: all 0.1s ease-out;
+    -moz-transition: all 0.1s ease-out;
+    -o-transition: all 0.1s ease-out;
+    transition: all 0.1s ease-out;
+    opacity: 0.8;
+    -webkit-backface-visibility: hidden
+}
+/**
+ * See the Set documentation for why we need this:
+ */
+.info > .codepre > code > br {
+  display:none;
+}
+.codepre {
+  padding:10px;
+  /* backgroundColorInlineCode */
+  background-color: #393d48;
+}
+.info > .codepre > .code {
+  font-weight: normal;
+  /* No background color on inner code lines/elements because the outer .codepre has
+   * provided the background color. */
+  background-color: transparent;
+}
+
+/* .info.module.top + hr:after { */
+/*     content: " "; */
+/*     display: block; */
+/*     border-top: 4px solid #3d3d3b; */
+/*     opacity: 0.8; */
+/*     width: 0; */
+/*     height: 0; */
+/*     position: absolute; */
+/*     bottom: -4px; */
+/*     border-left: 5px solid transparent; */
+/*     left: 0 */
+/* } */
+/*  */
+/* hr:after { */
+/*     border-top-color: #b9221f; */
+/* } */
+
+
+pre, code, .code {
+  /* colorText */
+  color: #c0c5ce;
+}
+
+pre, code, .code, pre *, code *, .code * {
+  /* codeFontSize */
+  font-size: 13px;
+}
+
+.typefieldcomment {
+  visibility:hidden;
+}
+
+.typefieldcomment > .info {
+  visibility: visible;
+}
+
+pre {
+  padding-left: 0px;  /* More to fix the trailing } */
+}
+
+.info, b, ol *, ul *, p {
+  /* bodyFontSize */
+  font-size: 14px;
+}
+
+
+.navbar {
+  font-size: 18px;
+}
+
+
+

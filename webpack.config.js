@@ -3,6 +3,7 @@ const webpack = require('webpack');
 module.exports = {
   entry: {
     ContentSelectionText: './src/ContentSelectionText.js',
+    AutoConversionPrompt: './src/AutoConversionPrompt.js',
     Popup: './src/Popup.js',
     Background: './src/Background.js',
   },
@@ -21,7 +22,7 @@ module.exports = {
         }
       },
       {
-        test: /\.(png|jpg|gif|json|html|css)$/,
+        test: /\.(png|jpg|gif|html|css)$/,
         loader: 'file-loader?name=[name].[ext]'
       }
     ],
