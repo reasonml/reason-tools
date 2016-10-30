@@ -1,6 +1,11 @@
 import ocamlDocCss from './css/ocamlDoc.css';
+import ocamlLogo from './images/ocamlLogo128.png';
+import reasonLogo from './images/logo128.png';
 
 const ocamlDocStyleTag = document.createElement('link');
+const syntaxSwap = document.createElement('div');
+const cssSwap = document.createElement('div');
+
 ocamlDocStyleTag.type = 'text/css';
 ocamlDocStyleTag.rel = 'stylesheet';
 ocamlDocStyleTag.href = chrome.extension.getURL('ocamlDoc.css');
@@ -88,22 +93,68 @@ function swapSyntax() {
     pres = document.getElementsByClassName('def'); // why is this so hard?
     usesFakePres = true;
   }
-  for (var pre of pres) {
-    const forEverPre = pre;
-    const inText = pre.innerText;
-    chrome.runtime.sendMessage({in: inText},
+  for (var p of pres) {
+    const pre = p;
+    chrome.runtime.sendMessage({in: pre.innerText},
       ({out: [conversionType, out]}) => {
         if (conversionType !== 'Failure') {
-          forEverPre.innerHTML = usesFakePres
+          pre.innerHTML = usesFakePres
             ? `<pre>${out}</pre>`
             : out;
         }
       }
     )
   }
+  syntaxSwap.style.backgroundImage =
+    syntaxSwap.style.backgroundImage === `url("${chrome.extension.getURL('logo128.png')}")`
+      ? `url("${chrome.extension.getURL('ocamlLogo128.png')}")`
+      : `url("${chrome.extension.getURL('logo128.png')}")`
+}
+
+function insertEl(el) {
+  document.body.appendChild(el);
+}
+
+function addSwappers() {
+  const styleTag = document.createElement('style');
+  styleTag.type = 'text/css';
+  styleTag.innerText = `
+  .reason_tools_button.reason_tools_button.reason_tools_button {
+    position: fixed;
+    right: 0;
+    height: 50px;
+    width: 50px;
+    background-color: black;
+    color: white;
+    font-family: monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+    opacity: 0.6;
+  }
+  .reason_tools_button.reason_tools_button.reason_tools_button:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+  `;
+  insertEl(styleTag);
+  cssSwap.style.top = '90px';
+  cssSwap.innerText = '</>';
+  cssSwap.className = 'reason_tools_button';
+  cssSwap.onclick = swapStyleSheets;
+  insertEl(cssSwap);
+
+  syntaxSwap.style.top = '40px';
+  syntaxSwap.className = 'reason_tools_button';
+  syntaxSwap.onclick = swapSyntax;
+  syntaxSwap.style.backgroundImage = `url("${chrome.extension.getURL('logo128.png')}")`
+  syntaxSwap.style.backgroundSize = 'cover';
+  insertEl(syntaxSwap);
 }
 
 if (mightBeOcamlDoc()) {
   swapStyleSheets();
   swapSyntax();
+  addSwappers();
 }

@@ -38,6 +38,8 @@
     "tabs"
   ],
   "web_accessible_resources": [
-   "ocamlDoc.css"
+   "ocamlDoc.css",
+   "logo128.png",
+   "ocamlLogo128.png"
  ]
 }
