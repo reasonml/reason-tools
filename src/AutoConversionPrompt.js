@@ -8,7 +8,7 @@ const cssSwap = document.createElement('div');
 
 ocamlDocStyleTag.type = 'text/css';
 ocamlDocStyleTag.rel = 'stylesheet';
-ocamlDocStyleTag.href = chrome.extension.getURL('ocamlDoc.css');
+ocamlDocStyleTag.href = chrome.extension.getURL(ocamlDocCss);
 
 let styleTags = [ocamlDocStyleTag];
 
@@ -75,7 +75,7 @@ function swapStyleSheets() {
   for(let sheet of stylesheets) {
     if(sheet.getAttribute('rel') === 'stylesheet') {
       tempSheets.push(sheet);
-      sheet.parentNode.removeChild(sheet);
+      removeEl(sheet);
     }
   }
 
@@ -84,6 +84,10 @@ function swapStyleSheets() {
   }
 
   styleTags = tempSheets;
+}
+
+function normalizeText(text) {
+  return text.trim().replace(/[^\x00-\x7F]/g, ' ');
 }
 
 function swapSyntax() {
@@ -95,9 +99,27 @@ function swapSyntax() {
   }
   for (var p of pres) {
     const pre = p;
-    chrome.runtime.sendMessage({in: pre.innerText},
+    let maybeTextSibilng;
+    let usesTypeTable = false;
+
+    const maybeTypeTable = pre.nextSibling;
+    let text = pre.innerText;
+    if (maybeTypeTable && maybeTypeTable.classList && maybeTypeTable.classList.contains('typetable')) {
+      // who came up with this markup??
+      usesTypeTable = true;
+      text += maybeTypeTable.innerText;
+      if (maybeTypeTable.nextSibling && maybeTypeTable.nextSibling.nodeType === Node.TEXT_NODE) {
+        maybeTextSibilng = maybeTypeTable.nextSibling;
+        text += maybeTextSibilng.nodeValue;
+      }
+    }
+    chrome.runtime.sendMessage({in: normalizeText(text)},
       ({out: [conversionType, out]}) => {
         if (conversionType !== 'Failure') {
+          if (usesTypeTable) {
+            removeEl(maybeTypeTable);
+            maybeTextSibilng && removeEl(maybeTextSibilng);
+          }
           pre.innerHTML = usesFakePres
             ? `<pre>${out}</pre>`
             : out;
@@ -106,13 +128,17 @@ function swapSyntax() {
     )
   }
   syntaxSwap.style.backgroundImage =
-    syntaxSwap.style.backgroundImage === `url("${chrome.extension.getURL('logo128.png')}")`
-      ? `url("${chrome.extension.getURL('ocamlLogo128.png')}")`
-      : `url("${chrome.extension.getURL('logo128.png')}")`
+    syntaxSwap.style.backgroundImage === `url("${chrome.extension.getURL(reasonLogo)}")`
+      ? `url("${chrome.extension.getURL(ocamlLogo)}")`
+      : `url("${chrome.extension.getURL(reasonLogo)}")`
 }
 
 function insertEl(el) {
   document.body.appendChild(el);
+}
+
+function removeEl(el) {
+  el.parentNode.removeChild(el);
 }
 
 function addSwappers() {
@@ -148,7 +174,7 @@ function addSwappers() {
   syntaxSwap.style.top = '40px';
   syntaxSwap.className = 'reason_tools_button';
   syntaxSwap.onclick = swapSyntax;
-  syntaxSwap.style.backgroundImage = `url("${chrome.extension.getURL('logo128.png')}")`
+  syntaxSwap.style.backgroundImage = `url("${chrome.extension.getURL(reasonLogo)}")`
   syntaxSwap.style.backgroundSize = 'cover';
   insertEl(syntaxSwap);
 }
