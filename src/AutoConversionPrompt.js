@@ -87,7 +87,31 @@ function swapStyleSheets() {
 }
 
 function normalizeText(text) {
-  return text.trim().replace(/[^\x00-\x7F]/g, ' ');
+  return text.trim().replace(/[^\x00-\x7F]/g, ' ').replace(String.fromCharCode(65533), '');
+}
+
+function getNormalizedLinks(pre) {
+  let anchors = pre.getElementsByTagName('a');
+  const textToHref = {};
+  for (var a of anchors) {
+    textToHref[normalizeText(a.innerText)] = a.href;
+  }
+  return textToHref;
+}
+
+function getNormalizedIds(pre) {
+  let spans = pre.querySelectorAll('[id]');
+  const textToId = {};
+  for (var span of spans) {
+    const words = normalizeText(span.innerText).split(' ')
+    const lastWord = words[words.length - 1];
+    textToId[lastWord] = span.id;
+  }
+  return textToId;
+}
+
+function escapeRegExp(str) {
+  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 
 function swapSyntax() {
@@ -99,6 +123,8 @@ function swapSyntax() {
   }
   for (var p of pres) {
     const pre = p;
+    const hrefs = getNormalizedLinks(pre);
+    const ids = getNormalizedIds(pre);
     let maybeTextSibilng;
     let usesTypeTable = false;
 
@@ -120,6 +146,18 @@ function swapSyntax() {
             removeEl(maybeTypeTable);
             maybeTextSibilng && removeEl(maybeTextSibilng);
           }
+          Object.keys(hrefs).forEach((text) => {
+            out = out.replace(
+              new RegExp(`\\b${escapeRegExp(text)}\\b`, 'g'),
+              `<a href=${hrefs[text]}>${text}</a>`,
+            );
+          });
+          Object.keys(ids).forEach((text) => {
+            out = out.replace(
+              new RegExp(`\\b${escapeRegExp(text)}\\b`, 'g'),
+              `<span class="reason_tools_anchor" id=${ids[text]}>${text}</span>`,
+            );
+          });
           pre.innerHTML = usesFakePres
             ? `<pre>${out}</pre>`
             : out;
@@ -162,6 +200,10 @@ function addSwappers() {
   .reason_tools_button.reason_tools_button.reason_tools_button:hover {
     opacity: 1;
     cursor: pointer;
+  }
+  .reason_tools_anchor {
+    position: relative;
+    margin-top: 50px;
   }
   `;
   insertEl(styleTag);
