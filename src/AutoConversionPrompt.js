@@ -23,7 +23,6 @@ const ocamlishRels = [
   'next',
   'Up',
   'Appendix',
-  'Chapter',
   'Section',
   'Subsection',
 ];
