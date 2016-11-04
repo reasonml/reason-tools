@@ -40,6 +40,7 @@
     "@opam-alpha/merlin": "^ 2.5.0",
     "@opam-alpha/ocaml": "4.2.3",
     "dependency-env": "https://github.com/reasonml/dependency-env.git",
+    "highlight.js": "^9.8.0",
     "nopam": "https://github.com/reasonml/nopam.git",
     "ocamlBetterErrors": "0.0.10",
     "react": "^15.3.2",
