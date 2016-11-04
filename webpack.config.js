@@ -33,10 +33,6 @@ module.exports = {
     //     'NODE_ENV': JSON.stringify('production')
     //   }
     // }),
-    // new webpack.optimize.UglifyJsPlugin({
-    //   // running uglify over pre-optimized jsoo code adds octal literals
-    //   // which are deprecated in FF.
-    //   exclude: /(_build|Background.js)/,
-    // })
+    // new webpack.optimize.UglifyJsPlugin(),
   ],
 };

@@ -1,4 +1,4 @@
-require('./Popup.html');
+require('./popup.html');
 require('./images/logo19.png');
 require('./images/logo38.png');
 require('./images/logo128.png');
