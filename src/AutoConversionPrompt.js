@@ -1,6 +1,10 @@
 import ocamlDocCss from './css/ocamlDoc.css';
 import ocamlLogo from './images/ocamlLogo128.png';
 import reasonLogo from './images/logo128.png';
+import hljs from 'highlight.js/lib/highlight.js';
+
+hljs.registerLanguage('ocaml', require('highlight.js/lib/languages/ocaml'));
+hljs.configure({classPrefix: '', languages: ['ocaml']});
 
 const ocamlDocStyleTag = document.createElement('link');
 const syntaxSwap = document.createElement('div');
@@ -122,7 +126,7 @@ function escapeRegExp(str) {
   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 
-function swapSyntax() {
+function swapSyntax(type) {
   let pres = document.getElementsByTagName('pre');
   let usesFakePres = false;
   if (!pres.length) {
@@ -172,9 +176,10 @@ function swapSyntax() {
           pre.innerHTML = usesFakePres
             ? `<pre>${out}</pre>`
             : out;
+          hljs.highlightBlock(pre);
         }
         finished++;
-        if (finished >= total && window.location.hash) {
+        if (type === 'initial' && finished >= total && window.location.hash) {
           window.location.href = window.location.href
         }
       }
@@ -216,6 +221,9 @@ function addSwappers() {
     opacity: 1;
     cursor: pointer;
   }
+  .reason_tools_anchor {
+    color: #cec47f;
+  }
   .reason_tools_anchor:before {
     content: '';
     float: left;
@@ -252,6 +260,6 @@ function addSwappers() {
 
 if (mightBeOcamlDoc()) {
   swapStyleSheets();
-  swapSyntax();
+  swapSyntax('initial');
   addSwappers();
 }

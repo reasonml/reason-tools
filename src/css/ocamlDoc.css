@@ -648,9 +648,13 @@ pre, .typetable {
   color: #b48ead;
 }
 
-/* .type { */
-/*   color: #ff0001; */
-/* } */
+.type {
+  color: #BF616A;
+}
+
+.string {
+  color: #91B376;
+}
 
 pre {
     display: block;
