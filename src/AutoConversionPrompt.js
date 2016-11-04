@@ -129,7 +129,7 @@ function swapSyntax() {
     pres = document.getElementsByClassName('def'); // why is this so hard?
     usesFakePres = true;
   }
-  const total = pres.length - 1;
+  const total = pres.length;
   let finished = 0;
   for (var p of pres) {
     const pre = p;
@@ -165,7 +165,7 @@ function swapSyntax() {
           });
           Object.keys(ids).forEach((text) => {
             out = out.replace(
-              new RegExp(`\\b${escapeRegExp(text)}\\b`, 'g'),
+              new RegExp(`\\b${escapeRegExp(text)}\\b`),
               `<span class="reason_tools_anchor" id=${ids[text]}>${text}</span>`,
             );
           });
@@ -174,9 +174,7 @@ function swapSyntax() {
             : out;
         }
         finished++;
-        console.log(finished, total);
-        if (finished >= total) {
-          console.log('oh yeah');
+        if (finished >= total && window.location.hash) {
           window.location.href = window.location.href
         }
       }
@@ -230,10 +228,11 @@ function addSwappers() {
     content: '';
     position: relative;
     width: 4px;
+    margin-left: -4px;
     height: 18px;
     float: left;
     background-color: #97B98c;
-    left: -10;
+    left: -10px;
   }
   `;
   insertEl(styleTag);
