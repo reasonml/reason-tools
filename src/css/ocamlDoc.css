@@ -696,7 +696,7 @@ li > a > *,
 .info > a > *,
 .param_info > a > * {
   /* colorFadedText (comment) */
-  border-bottom: 1px dotted rgba(101,115,126,1);
+  border-bottom: 1px dotted #EBCB8B;
 }
 
 body > a:hover > *,
@@ -710,7 +710,7 @@ li > a:focus > *,
 .param_info > a:hover > *,
 .param_info > a:focus > * {
   /* colorYellow */
-  border-bottom: 1px dotted #EBCB8B;
+  border-bottom: 1px solid #EBCB8B;
 }
 
 
@@ -723,7 +723,7 @@ pre > a,
 code > a,
 .typetable a {
   /* colorFadedText (comment) */
-  border-bottom: 1px dotted rgba(101,115,126,1);
+  border-bottom: 1px dotted #EBCB8B;
 }
 
 pre > a:focus,
@@ -733,7 +733,7 @@ code > a:hover,
 .typetable a:focus,
 .typetable a:hover {
   /* colorYellow */
-  border-bottom: 1px dotted #EBCB8B;
+  border-bottom: 1px solid #EBCB8B;
 }
 
 /**
