@@ -11,6 +11,7 @@ ocamlDocStyleTag.rel = 'stylesheet';
 ocamlDocStyleTag.href = chrome.extension.getURL(ocamlDocCss);
 
 let styleTags = [ocamlDocStyleTag];
+let body = document.body.outerHTML;
 
 function hasClassName(className) {
   const els = document.getElementsByClassName(className);
@@ -82,6 +83,8 @@ function swapStyleSheets() {
     document.head.appendChild(tag);
   }
 
+  document.body.outerHTML = body;
+
   styleTags = tempSheets;
 }
 
@@ -89,8 +92,11 @@ function normalizeText(text) {
   return text.trim().replace(/[^\x00-\x7F]/g, ' ').replace(String.fromCharCode(65533), '');
 }
 
-function getNormalizedLinks(pre) {
-  let anchors = pre.getElementsByTagName('a');
+function getNormalizedLinks(els) {
+  let anchors = els.reduce(
+    (anchors, el) => [...anchors, ...el.getElementsByTagName('a')],
+    [],
+  );
   const textToHref = {};
   for (var a of anchors) {
     textToHref[normalizeText(a.innerText)] = a.href;
@@ -98,8 +104,11 @@ function getNormalizedLinks(pre) {
   return textToHref;
 }
 
-function getNormalizedIds(pre) {
-  let spans = pre.querySelectorAll('[id]');
+function getNormalizedIds(els) {
+  let spans = els.reduce(
+    (spans, el) => [...spans, ...el.querySelectorAll('[id]')],
+    [],
+  );
   const textToId = {};
   for (var span of spans) {
     const words = normalizeText(span.innerText).split(' ')
@@ -120,10 +129,10 @@ function swapSyntax() {
     pres = document.getElementsByClassName('def'); // why is this so hard?
     usesFakePres = true;
   }
+  const total = pres.length - 1;
+  let finished = 0;
   for (var p of pres) {
     const pre = p;
-    const hrefs = getNormalizedLinks(pre);
-    const ids = getNormalizedIds(pre);
     let maybeTextSibilng;
     let usesTypeTable = false;
 
@@ -138,6 +147,9 @@ function swapSyntax() {
         text += maybeTextSibilng.nodeValue;
       }
     }
+    const relevantEls = usesTypeTable ? [pre, maybeTypeTable] : [pre];
+    const hrefs = getNormalizedLinks(relevantEls);
+    const ids = getNormalizedIds(relevantEls);
     chrome.runtime.sendMessage({in: normalizeText(text)},
       ({out: [conversionType, out]}) => {
         if (conversionType !== 'Failure') {
@@ -160,6 +172,12 @@ function swapSyntax() {
           pre.innerHTML = usesFakePres
             ? `<pre>${out}</pre>`
             : out;
+        }
+        finished++;
+        console.log(finished, total);
+        if (finished >= total) {
+          console.log('oh yeah');
+          window.location.href = window.location.href
         }
       }
     )
@@ -200,9 +218,22 @@ function addSwappers() {
     opacity: 1;
     cursor: pointer;
   }
-  .reason_tools_anchor {
+  .reason_tools_anchor:before {
+    content: '';
+    float: left;
     position: relative;
-    margin-top: 50px;
+    width: 0;
+    height: 50px;
+    margin-top: -50px;
+  }
+  .reason_tools_anchor:target:after {
+    content: '';
+    position: relative;
+    width: 4px;
+    height: 18px;
+    float: left;
+    background-color: #97B98c;
+    left: -10;
   }
   `;
   insertEl(styleTag);

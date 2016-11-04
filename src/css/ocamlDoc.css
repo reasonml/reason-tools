@@ -108,7 +108,7 @@
 
   Comment:
     #aeaea1;
-  
+
 
 .navbar > a:nth-child(1n) {
   border-bottom: 4px solid #d7df9d;
@@ -692,7 +692,7 @@ li > a > *,
 .info > a > *,
 .param_info > a > * {
   /* colorFadedText (comment) */
-  border-bottom: 1px dotted rgba(101,115,126,0.2);
+  border-bottom: 1px dotted rgba(101,115,126,1);
 }
 
 body > a:hover > *,
@@ -719,11 +719,11 @@ pre > a,
 code > a,
 .typetable a {
   /* colorFadedText (comment) */
-  border-bottom: 1px dotted rgba(101,115,126,0.2);
+  border-bottom: 1px dotted rgba(101,115,126,1);
 }
 
 pre > a:focus,
-pre > a:hover, 
+pre > a:hover,
 code > a:focus,
 code > a:hover,
 .typetable a:focus,
@@ -1052,6 +1052,3 @@ pre {
 .navbar {
   font-size: 18px;
 }
-
-
-
