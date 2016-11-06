@@ -22,7 +22,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["ContentSelectionText.bundle.js", "AutoConversionPrompt.bundle.js"],
+      "js": ["AutoConversionPrompt.bundle.js"],
       "run_at": "document_end"
     }
   ],
@@ -34,8 +34,7 @@
     }
   },
   "permissions": [
-    "activeTab",
-    "tabs"
+    "activeTab"
   ],
   "web_accessible_resources": [
    "ocamlDoc.css",

@@ -2,7 +2,6 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    ContentSelectionText: './src/ContentSelectionText.js',
     AutoConversionPrompt: './src/AutoConversionPrompt.js',
     Popup: './src/Popup.js',
     Background: './src/Background.js',
