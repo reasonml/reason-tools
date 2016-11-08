@@ -110,12 +110,13 @@ class Popup extends React.Component {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-    chrome.tabs.sendMessage(tabs[0].id, {getSelectedText: true}, (response) => {
-      ReactDOM.render(
-        <Popup initialSelectedText={response ? response.selectedText : null}/>,
-        document.getElementById('app'),
-      );
-    });
-  });
+    chrome.tabs.executeScript(
+      {code: 'window.getSelection().toString();'},
+      ([selection]) => {
+        ReactDOM.render(
+          <Popup initialSelectedText={selection}/>,
+          document.getElementById('app'),
+        );
+      },
+    );
 });
