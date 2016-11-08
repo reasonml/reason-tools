@@ -112,7 +112,11 @@ class Popup extends React.Component {
 document.addEventListener('DOMContentLoaded', () => {
     chrome.tabs.executeScript(
       {code: 'window.getSelection().toString();'},
-      ([selection]) => {
+      (selection) => {
+        // in ff you get a single result, chrome returns an array of results
+        selection = Array.isArray(selection)
+          ? selection[0]
+          : selection;
         ReactDOM.render(
           <Popup initialSelectedText={selection}/>,
           document.getElementById('app'),
