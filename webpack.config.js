@@ -1,4 +1,9 @@
 const webpack = require('webpack');
+const GenerateJsonPlugin = require('generate-json-webpack-plugin');
+const manifest = require('./src/manifest.json');
+const package = require('./package.json');
+
+manifest.version = package.version;
 
 module.exports = {
   entry: {
@@ -27,11 +32,6 @@ module.exports = {
     ],
   },
   plugins: [
-    // new webpack.DefinePlugin({
-    //   'process.env':{
-    //     'NODE_ENV': JSON.stringify('production')
-    //   }
-    // }),
-    // new webpack.optimize.UglifyJsPlugin(),
+    new GenerateJsonPlugin('manifest.json', manifest),
   ],
 };

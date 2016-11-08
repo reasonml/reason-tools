@@ -16,10 +16,9 @@ To get started contributing you can clone and build the extension:
 git clone https://github.com/rickyvetter/reason-tools.git
 cd reason-tools
 npm install # this will take a while
-npm run build:js
 ```
 
-once installed, you can rebuild the Reason code with `npm run build` and the js with `npm run build:js`. The JS consumes the Reason API, so always `npm run build:js` when in doubt. This will be streamlined in the future!
+once installed, you can rebuild the Reason code with `npm run build:re` and the js with `npm run build:js`. `npm run build` will run both.
 
 > [Yarn](https://github.com/yarnpkg/yarn) can also be used to make things a little faster, but there are some edge cases still being worked on: https://github.com/yarnpkg/yarn/milestone/2
 

@@ -28,8 +28,11 @@
   ],
   "scripts": {
     "postinstall": "npm run build",
-    "build": "eval $(dependencyEnv) && nopam && ./node_modules/rebel/_build/src/rebel",
+    "build": "npm run build:re && npm run build:js",
+    "build:prod": "npm run build:re && npm run build:js:prod",
     "build:js": "webpack",
+    "build:js:prod": "webpack -p --config ./webpack.production.config.js",
+    "build:re": "eval $(dependencyEnv) && nopam && ./node_modules/rebel/_build/src/rebel",
     "top": "eval $(dependencyEnv) && rtop",
     "env": "eval $(dependencyEnv) && env",
     "editor": "eval $(dependencyEnv) && eval $EDITOR",
@@ -79,6 +82,7 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "file-loader": "^0.9.0",
+    "generate-json-webpack-plugin": "^0.2.1",
     "webpack": "^1.13.2"
   }
 }
