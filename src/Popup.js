@@ -20,12 +20,7 @@ import {
   savedBadge,
   saveLink,
 } from './styles';
-
-const getLangList = (conversionType) => {
-  return conversionType && conversionType !== 'Failure'
-    ? conversionType.split('to')
-    : [null, null];
-}
+import getLangList from './getLangList';
 
 class Popup extends React.Component {
   state = {copy: false, in: '', out: '', inLang: null, outLang: null};
