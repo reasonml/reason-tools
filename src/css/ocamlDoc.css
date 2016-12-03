@@ -763,30 +763,30 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: 33px;
+  font-size: 22px;
 }
 
 h2 {
-  font-size: 33.75px
+  font-size: 20px
 }
 
 h3 {
-  font-size: 26.25px
+  font-size: 18px
 }
 
 h4 {
-  font-size: 18.75px
+  font-size: 16px
 }
 
 h5 {
-  font-size: 17px
+  font-size: 14px
 }
 
 /**
  * The ocamldoc generator uses these for primary headers:
  */
 h6 {
-  font-size: 18.75px;
+  font-size: 18px;
 }
 
 /**
@@ -806,19 +806,24 @@ h6 {
 }
 
 body > h1 {
-  font-size: 22px;
-  text-align:right;
   /* backgroundColorDark */
   background-color: #252932;
-  margin-top: -50px;
+  margin-right: -40px;
+  margin-left: -40px;
   padding-top: 10px;
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 10px;
+}
+
+body > h1:first-of-type {
+  text-align:right;
   position: fixed;
+  z-index: 90;
   left: 0;
   right: 0;
-  z-index: 90;
+  margin: 0;
+  margin-top: -50px;
 }
 
 h1 > a {
