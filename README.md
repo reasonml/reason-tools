@@ -6,11 +6,11 @@ Adds [Reason](http://facebook.github.io/reason/) to the browser.
 
 [Chrome](https://chrome.google.com/webstore/detail/reason-tools/kmdelnjbembbiodplmhgfjpecibfhadd) | [Firefox](https://addons.mozilla.org/en-US/firefox/addon/reason-tools/)
 
-![demo of reason-tools](https://raw.githubusercontent.com/rickyvetter/reason-tools/blob/master/assets/demo.gif)
-
-![before and after of code generation](https://github.com/rickyvetter/reason-tools/blob/master/assets/before-after.jpg)
+![demo of reason-tools](https://raw.githubusercontent.com/rickyvetter/reason-tools/master/assets/demo.gif)
 
 When you trigger the extension, it will copy the text you have highlighted and put it into an editor. The text is then translated into the corresponding Reason/OCaml text. Reason Tools will automatically convert between `.re`, `.ml`, `.rei`, and `.mli` text. In browsers that support it (currently just Chrome), a shortcut is added to open the extension with the highlighted text: `Alt+D`.
+
+![before and after of code generation](https://raw.githubusercontent.com/rickyvetter/reason-tools/master/assets/before-after.jpg)
 
 ## Contribute
 
