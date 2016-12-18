@@ -1,6 +1,6 @@
 {
   "name": "reason-tools",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Adds Reason to the browser",
   "repository": {
     "type": "git",
@@ -83,6 +83,7 @@
     "babel-preset-stage-0": "^6.16.0",
     "file-loader": "^0.9.0",
     "generate-json-webpack-plugin": "^0.2.1",
-    "webpack": "^1.13.2"
+    "webpack": "^1.13.2",
+    "zip-webpack-plugin": "^0.2.0"
   }
 }

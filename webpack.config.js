@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require('webpack');
 const GenerateJsonPlugin = require('generate-json-webpack-plugin');
 const manifest = require('./src/manifest.json');
@@ -12,7 +13,7 @@ module.exports = {
     Background: './src/Background.js',
   },
   output: {
-    path: './_build/extension/',
+    path: path.join(__dirname, '_build/extension/'),
     filename: '[name].bundle.js',
   },
   module: {
