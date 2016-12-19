@@ -27,7 +27,6 @@
     "Note: `rebuild` has nothing to do with the officially supported `npm rebuild` command."
   ],
   "scripts": {
-    "postinstall": "npm run build",
     "build": "npm run build:re && npm run build:js",
     "build:prod": "npm run build:re && npm run build:js:prod",
     "build:js": "webpack",
