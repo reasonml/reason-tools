@@ -1,0 +1,8 @@
+machine:
+  node:
+    version: 6.1.0
+deployment:
+  production:
+    branch: production
+    commands:
+      - node deploy/deploy.js
