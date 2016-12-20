@@ -69,7 +69,6 @@
       "reason",
       "js_of_ocaml",
       "menhirLib",
-      "re.str",
       "easy-format"
     ]
   },
