@@ -25,7 +25,7 @@ B ./_build/refmt/*
 # the location of third-party dependencies. For us, most of our third-party deps
 # reside in `node_modules/` (made visible to Merlin through the S command
 # above); this PKG command is for discovering the opam/ocamlfind packages.
-PKG compiler-libs.common reason js_of_ocaml menhirLib re.str easy-format
+PKG compiler-libs.common reason js_of_ocaml menhirLib easy-format
 
 # FLG is the set of flags to pass to Merlin, as if it used ocamlc to compile and
 # understand our sources. You don't have to understand what these flags are for
