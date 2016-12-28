@@ -17,7 +17,7 @@ S src
 
 
 # B stands for build (artifacts). We generate ours into _build
-B ./_build/refmt/*
+B ./_build/background/*
 
 
 
@@ -25,13 +25,13 @@ B ./_build/refmt/*
 # the location of third-party dependencies. For us, most of our third-party deps
 # reside in `node_modules/` (made visible to Merlin through the S command
 # above); this PKG command is for discovering the opam/ocamlfind packages.
-PKG compiler-libs.common reason js_of_ocaml menhirLib easy-format
+PKG compiler-libs.common menhirLib easy-format js_of_ocaml.syntax js_of_ocaml.compiler js_of_ocaml.ppx lwt reason js_of_ocaml.toplevel
 
 # FLG is the set of flags to pass to Merlin, as if it used ocamlc to compile and
 # understand our sources. You don't have to understand what these flags are for
 # now; but if you're curious, go check the rebel.ml that generated this
 # .merlin at https://github.com/reasonml/rebel
-FLG -w -30 -w -40 -open Refmt_Tar
+FLG -w -30 -w -40 -open Background_Tar
 
 
 

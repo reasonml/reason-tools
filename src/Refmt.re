@@ -79,14 +79,3 @@ let refmt code =>
       }
     }
   };
-
-let refmtJS jsString =>
-  switch (refmt (Js.to_string jsString)) {
-  | MLtoRE s => Js.array [|Js.string "MLtoRE", Js.string s|]
-  | REtoML s => Js.array [|Js.string "REtoML", Js.string s|]
-  | MLItoREI s => Js.array [|Js.string "MLItoREI", Js.string s|]
-  | REItoMLI s => Js.array [|Js.string "REItoMLI", Js.string s|]
-  | Failure s => Js.array [|Js.string "Failure", Js.string s|]
-  };
-
-Js.export "refmt" refmtJS;

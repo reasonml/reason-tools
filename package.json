@@ -31,7 +31,7 @@
     "build:prod": "npm run build:re && npm run build:js:prod",
     "build:js": "webpack",
     "build:js:prod": "webpack -p --config ./webpack.production.config.js",
-    "build:re": "eval $(dependencyEnv) && nopam && ./node_modules/rebel/_build/src/rebel",
+    "build:re": "eval $(dependencyEnv) && nopam && ./node_modules/rebel/_build/src/rebel -verbose",
     "top": "eval $(dependencyEnv) && rtop",
     "env": "eval $(dependencyEnv) && env",
     "editor": "eval $(dependencyEnv) && eval $EDITOR",
@@ -39,6 +39,8 @@
     "watch": "eval $(dependencyEnv) && nopam && ./node_modules/rebel/_build/src/rebel -P"
   },
   "dependencies": {
+    "@opam-alpha/js_of_ocaml": "2.8.2",
+    "@opam-alpha/lwt": "^2.5.2",
     "@opam-alpha/merlin": "^ 2.5.0",
     "@opam-alpha/ocaml": "4.2.3",
     "dependency-env": "https://github.com/reasonml/dependency-env.git",
@@ -56,20 +58,24 @@
   "rebel": {
     "targets": [
       {
-        "target": "refmt",
+        "target": "background",
         "engine": "jsoo",
-        "entry": "src/Refmt.re",
+        "entry": "src/Background.re",
         "unstable_flags": {
-          "jsoo": "+weak.js +toplevel.js --opt 3"
+          "jsoo": "+weak.js +dynlink.js +toplevel.js --toplevel -I ./node_modules/ocaml/lib/ocaml/compiler-libs/ -I ./node_modules/menhir-actual/_build/ocamlfind/lib/menhirLib/ -I ./node_modules/js_of_ocaml-actual/_build/ocamlfind/lib/js_of_ocaml/ -I ./node_modules/reason/_build/ocamlfind/lib/reason/ -I ./node_modules/easy-format-actual/_build/ocamlfind/lib/easy-format/ -I ./_build/omnitop/src/ -I ./_build/refmt/src/ -I ./_build/background/src/ -I ./node_modules/base64-actual/_build/ocamlfind/lib/base64/ -I ./node_modules/lwt-actual/_build/ocamlfind/lib/lwt/"
         }
       }
     ],
     "ocamlfindDependencies": [
       "compiler-libs.common",
-      "reason",
-      "js_of_ocaml",
       "menhirLib",
-      "easy-format"
+      "easy-format",
+      "js_of_ocaml.syntax",
+      "js_of_ocaml.compiler",
+      "js_of_ocaml.ppx",
+      "lwt",
+      "reason",
+      "js_of_ocaml.toplevel"
     ]
   },
   "devDependencies": {

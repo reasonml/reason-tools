@@ -95,8 +95,8 @@ class Popup extends React.Component {
     this.setState({in: value});
     // this isn't guaranteed to be sync or speedy, so
     // don't set this.state.in here, since it could cause lag.
-    chrome.runtime.sendMessage({in: value},
-      ({out: [conversionType, out, ...rest]}) => {
+    chrome.runtime.sendMessage({type: ['refmt'], payload: value},
+      ({refmt: [conversionType, out, ...rest]}) => {
         const [inLang, outLang] = getLangList(conversionType);
         this.setState({out, inLang, outLang});
       }
