@@ -3,6 +3,6 @@ machine:
     version: 6.1.0
 deployment:
   production:
-    branch: production
+    branch: master
     commands:
       - node deploy/deploy.js
