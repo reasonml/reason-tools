@@ -1,6 +1,6 @@
 {
   "name": "reason-tools",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Adds Reason to the browser",
   "repository": {
     "type": "git",
