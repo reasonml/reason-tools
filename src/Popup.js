@@ -18,7 +18,8 @@ import {
   popupInNOut,
   popupContext,
   savedBadge,
-  saveLink,
+  contextLink,
+  contextTitle,
 } from './styles';
 
 const getLangList = (conversionType) => {
@@ -30,9 +31,15 @@ const getLangList = (conversionType) => {
 class Popup extends React.Component {
   state = {copy: false, in: '', out: '', inLang: null, outLang: null};
 
+  constructor(props) {
+    super(props);
+    const normalizedHash = atob(window.location.hash.slice(1));
+    this._initialText = props.initialSelectedText || normalizedHash;
+  }
+
   componentDidMount() {
-    if (this.props.initialSelectedText) {
-      this._refmt(this.props.initialSelectedText);
+    if (this._initialText) {
+      this._refmt(this._initialText);
     }
     if (this._in) {
       this._in.focus();
@@ -57,7 +64,7 @@ class Popup extends React.Component {
           <CodeMirror
             style={popupInNOut}
             ref={(ref) => this._in = ref}
-            defaultValue={this.props.initialSelectedText}
+            defaultValue={this._initialText}
             value={this.state.in}
             onChange={this._refmt}
             options={{
@@ -68,13 +75,26 @@ class Popup extends React.Component {
         </div>
         <div style={popupColumn}>
           <h1 style={popupContext}>
-            Out{
+            <span style={contextTitle}>Out{
               hasConverted && this.state.outLang
                 ? ` (${this.state.outLang})`
                 : null}
+              </span>
             <CopyToClipboard text={this.state.out} onCopy={this._handleCopy}>
-              <a style={saveLink} href="#">copy</a>
+              <a style={contextLink} href="#">copy</a>
             </CopyToClipboard>
+            <a style={contextLink} href="#" onClick={this._handleOpen}>
+              <svg
+                height="16"
+                width="16"
+                viewBox="0 0 748 1024"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M640 768H128V257.90599999999995L256 256V128H0v768h768V576H640V768zM384 128l128 128L320 448l128 128 192-192 128 128V128H384z"
+                  fill={contextLink.color}
+                />
+              </svg>
+            </a>
           </h1>
           <CodeMirror
             style={popupInNOut}
@@ -96,6 +116,11 @@ class Popup extends React.Component {
     setTimeout(() => this.setState({copy: false}), 2500);
   }
 
+  _handleOpen = () => {
+    const inData = btoa(this.state.in);
+    chrome.tabs.create({url: 'popup.html#' + inData});
+  }
+
   _refmt = (value) => {
     this.setState({in: value});
     // this isn't guaranteed to be sync or speedy, so
@@ -109,7 +134,19 @@ class Popup extends React.Component {
   }
 }
 
+const renderPopup = (selection) => {
+  ReactDOM.render(
+    <Popup initialSelectedText={selection}/>,
+    document.getElementById('app'),
+  );
+};
+
 document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.protocol.indexOf('http') === -1) {
+      // can't execute scripts on internal settings pages
+      renderPopup(null);
+      return;
+    }
     chrome.tabs.executeScript(
       {code: 'window.getSelection().toString();'},
       (selection) => {
@@ -117,10 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         selection = Array.isArray(selection)
           ? selection[0]
           : selection;
-        ReactDOM.render(
-          <Popup initialSelectedText={selection}/>,
-          document.getElementById('app'),
-        );
+        renderPopup(selection);
       },
     );
 });
