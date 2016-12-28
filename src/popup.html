@@ -53,21 +53,26 @@
       }
 
       /* if you aren't specific about both here, ff gets mad at you :( */
-      body {
+      html, body {
         width: 800px;
         height: 455px;
       }
       #app {
-        width: 780px;
-        height: 435px;
-        padding: 10px;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+      }
+
+      .ReactCodeMirror {
+        flex: 1;
       }
 
       .CodeMirror.CodeMirror {
         font-size: 13px;
-        height: 400px;
-        padding: 5px;
-        width: 379px;
+        height: 100%;
+        padding: 0 0.5vw;
+        padding: 0.6%;
+        width: 48vw;
       }
       /* cm doesn't catch errors very well. we will have to handle ourselves */
       .CodeMirror.CodeMirror .cm-error {

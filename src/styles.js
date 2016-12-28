@@ -1,12 +1,14 @@
 export const popup = {
   display: "flex",
+  flex: "1",
   flexDirection: "row",
-  justifyContent: "space-between",
+  justifyContent: "space-around",
 };
 
 export const popupColumn = {
   display: "flex",
   flexDirection: "column",
+  paddingBottom: "1%",
   position: "relative",
 };
 
@@ -37,7 +39,13 @@ export const savedBadge = {
   pointerEvents: "none",
 };
 
-export const saveLink = {
+export const contextLink = {
   textDecoration: "none",
   color: "rgb(219, 76, 63)",
+  height: "16px",
+  paddingLeft: "10px",
+}
+
+export const contextTitle = {
+  flex: "1",
 }
