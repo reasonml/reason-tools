@@ -134,19 +134,7 @@ class Popup extends React.Component {
   }
 }
 
-const renderPopup = (selection) => {
-  ReactDOM.render(
-    <Popup initialSelectedText={selection}/>,
-    document.getElementById('app'),
-  );
-};
-
 document.addEventListener('DOMContentLoaded', () => {
-    if (window.location.protocol.indexOf('http') === -1) {
-      // can't execute scripts on internal settings pages
-      renderPopup(null);
-      return;
-    }
     chrome.tabs.executeScript(
       {code: 'window.getSelection().toString();'},
       (selection) => {
@@ -154,7 +142,10 @@ document.addEventListener('DOMContentLoaded', () => {
         selection = Array.isArray(selection)
           ? selection[0]
           : selection;
-        renderPopup(selection);
+          ReactDOM.render(
+            <Popup initialSelectedText={selection}/>,
+            document.getElementById('app'),
+          );
       },
     );
 });
