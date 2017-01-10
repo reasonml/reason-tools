@@ -49,7 +49,6 @@ function hasCommonClassNames() {
     'typ',
     'spec',
     'def',
-    'val',
     'ext',
     'exn',
     'cls',
