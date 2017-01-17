@@ -85,8 +85,8 @@ class Popup extends React.Component {
             </CopyToClipboard>
             <a style={contextLink} href="#" onClick={this._handleOpen}>
               <svg
-                height="16"
-                width="16"
+                height="3vh"
+                width="3vh"
                 viewBox="0 0 748 1024"
                 xmlns="http://www.w3.org/2000/svg">
                 <path
