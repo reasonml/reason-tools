@@ -131,21 +131,36 @@ class Popup extends React.Component {
         this.setState({out, inLang, outLang});
       }
     );
+
+    chrome.storage.local.set({latestRefmtString: value});
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    chrome.tabs.executeScript(
-      {code: 'window.getSelection().toString();'},
-      (selection) => {
-        // in ff you get a single result, chrome returns an array of results
-        selection = Array.isArray(selection)
-          ? selection[0]
-          : selection;
-          ReactDOM.render(
-            <Popup initialSelectedText={selection}/>,
-            document.getElementById('app'),
-          );
-      },
-    );
+    Promise.all([
+      new Promise((resolve) =>
+        chrome.tabs.executeScript(
+          {code: 'window.getSelection().toString();'},
+          resolve,
+        )
+      ),
+      new Promise((resolve) =>
+        chrome.storage.local.get(
+          'latestRefmtString',
+          ({latestRefmtString: selection}) => resolve(selection),
+        )
+      ),
+    ]).then(([selection, latestRefmtString]) => {
+      // in ff you get a single result, chrome returns an array of results
+      selection = Array.isArray(selection)
+        ? selection[0]
+        : selection;
+      if (!selection) {
+        selection = latestRefmtString;
+      }
+      ReactDOM.render(
+        <Popup initialSelectedText={selection}/>,
+        document.getElementById('app'),
+      );
+    });
 });
