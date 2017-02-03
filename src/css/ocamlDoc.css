@@ -823,7 +823,7 @@ body > h1:first-of-type {
   left: 0;
   right: 0;
   margin: 0;
-  margin-top: -50px;
+  top: 0;
 }
 
 h1 > a {
