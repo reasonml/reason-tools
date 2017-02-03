@@ -132,8 +132,12 @@ function swapSyntax(type) {
     pres = document.getElementsByClassName('def'); // why is this so hard?
     usesFakePres = true;
   }
+  if (!pres.length) {
+    pres = document.getElementsByClassName('lstframe');
+  }
   const total = pres.length;
   let finished = 0;
+
   for (var p of pres) {
     const pre = p;
     let maybeTextSibling;
@@ -172,10 +176,19 @@ function swapSyntax(type) {
               `<span class="reason_tools_anchor" id=${ids[text]}>${text}</span>`,
             );
           });
-          pre.innerHTML = usesFakePres
-            ? `<pre>${out}</pre>`
-            : out;
-          hljs.highlightBlock(pre);
+
+          if (pre.className === "lstframe") {
+            // .lstframe's are table elements, replace to avoid invalid html
+            const parent = pre.parentNode;
+            parent.innerHTML = `<pre>${out}</pre>`;
+            hljs.highlightBlock(parent);
+          } else if (usesFakePres) {
+            pre.innerHTML = `<pre>${out}</pre>`
+            hljs.highlightBlock(pre);
+          } else {
+            pre.innerHTML = out;
+            hljs.highlightBlock(pre);
+          }
         }
         finished++;
         if (type === 'initial' && finished >= total && window.location.hash) {

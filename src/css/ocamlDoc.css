@@ -1061,3 +1061,13 @@ pre {
 .navbar {
   font-size: 18px;
 }
+
+/* hacks for documents with .lstframe code listings */
+td[bgcolor=white] {
+  /* removes white blocks next to certain code listings */
+  display: none;
+}
+
+.lstframe {
+  background-color: transparent !important;
+}
