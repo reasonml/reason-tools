@@ -130,7 +130,7 @@ function getTypeTable(pre) {
   const el = pre.nextSibling;
   if (el && el.classList && el.classList.contains('typetable')) {
       removables.push(el);
-      let text = maybeTypeTable.innerText;
+      let text = el.innerText;
 
       if (el.nextSibling && el.nextSibling.nodeType === Node.TEXT_NODE) {
         removables.push(el.nextSibling);
