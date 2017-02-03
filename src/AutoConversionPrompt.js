@@ -136,7 +136,7 @@ function swapSyntax(type) {
   let finished = 0;
   for (var p of pres) {
     const pre = p;
-    let maybeTextSibilng;
+    let maybeTextSibling;
     let usesTypeTable = false;
 
     const maybeTypeTable = pre.nextSibling;
@@ -146,8 +146,8 @@ function swapSyntax(type) {
       usesTypeTable = true;
       text += maybeTypeTable.innerText;
       if (maybeTypeTable.nextSibling && maybeTypeTable.nextSibling.nodeType === Node.TEXT_NODE) {
-        maybeTextSibilng = maybeTypeTable.nextSibling;
-        text += maybeTextSibilng.nodeValue;
+        maybeTextSibling = maybeTypeTable.nextSibling;
+        text += maybeTextSibling.nodeValue;
       }
     }
     const relevantEls = usesTypeTable ? [pre, maybeTypeTable] : [pre];
@@ -158,7 +158,7 @@ function swapSyntax(type) {
         if (conversionType !== 'Failure') {
           if (usesTypeTable) {
             removeEl(maybeTypeTable);
-            maybeTextSibilng && removeEl(maybeTextSibilng);
+            maybeTextSibling && removeEl(maybeTextSibling);
           }
           Object.keys(hrefs).forEach((text) => {
             out = out.replace(
