@@ -125,78 +125,155 @@ function escapeRegExp(str) {
   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 
+function getTypeTable(pre) {
+  const removables = [];
+  const el = pre.nextSibling;
+  if (el && el.classList && el.classList.contains('typetable')) {
+      removables.push(el);
+      let text = maybeTypeTable.innerText;
+
+      if (el.nextSibling && el.nextSibling.nodeType === Node.TEXT_NODE) {
+        removables.push(el.nextSibling);
+        text += el.nextSibling.nodeValue;
+      }
+
+      return { el, text, remove: () => removables.forEach(removeEl) };
+  } else {
+    return null;
+  }
+}
+
+function getPreTargets() {
+  const els = document.getElementsByTagName('pre');
+
+  return [...els]
+    .map(el => {
+      let text = el.innerText;
+      const maybeTypeTable = getTypeTable(el);
+
+      if (maybeTypeTable) {
+        text += maybeTypeTable.text;
+      }
+
+      return {
+        els: maybeTypeTable ? [el, maybeTypeTable.el] : [el],
+        text,
+        replace: html => {
+            el.innerHTML = html;
+
+            if (maybeTypeTable) {
+              maybeTypeTable.reomve();
+            }
+
+            return el;
+        }
+      };
+    });
+}
+
+function getDefTargets() {
+  const els = document.getElementsByClassName('def');
+
+  return [...els].map(el => ({
+    els: [el],
+    text: el.innerText,
+    replace: html => {
+      el.innerhtml = `<pre>${html}</pre>`;
+      return el;
+    }
+  }));
+}
+
+function getLstListingTargets() {
+  const els = document.getElementsByClassName('lstlisting');
+  return [...els].map(el => ({
+    els: [el],
+    text: el.innerText,
+    replace: html => {
+        const parent = el.parentNode;
+        parent.innerHTML = `<pre>${html}</pre>`;
+        return parent;
+    }
+  }));
+}
+
+function getCodeTargets() {
+  const els = document.getElementsByTagName('code');
+  return [...els].map(el => ({
+    els: [el],
+    text: el.innerText,
+    replace: html => {
+      el.innerHTML = html;
+      return el;
+    }
+  }));
+}
+
+function getTargets() {
+    return [
+      ...getPreTargets(),
+      ...getDefTargets(),
+      ...getLstListingTargets(),
+      ...getCodeTargets()
+    ];
+}
+
+function replaceHrefs(hrefs, out) {
+  return Object.keys(hrefs).reduce((out, text) =>
+    out.replace(
+      new RegExp(`\\b${escapeRegExp(text)}\\b`, 'g'),
+      `<a href=${hrefs[text]}>${text}</a>`,
+    ), out);
+}
+
+function replaceIds(ids, out) {
+  return Object.keys(ids).reduce((out, text) =>
+    out.replace(
+      new RegExp(`\\b${escapeRegExp(text)}\\b`),
+      `<span class="reason_tools_anchor" id=${ids[text]}>${text}</span>`,
+    ), out);
+}
+
+function readjustViewport() {
+  if (window.location.hash) {
+    window.location.href = window.location.href
+  }
+}
+
 function swapSyntax(type) {
-  let pres = document.getElementsByTagName('pre');
-  let usesFakePres = false;
-  if (!pres.length) {
-    pres = document.getElementsByClassName('def'); // why is this so hard?
-    usesFakePres = true;
-  }
-  if (!pres.length) {
-    pres = document.getElementsByClassName('lstframe');
-  }
-  const total = pres.length;
+  const targets = getTargets();
   let finished = 0;
 
-  for (var p of pres) {
-    const pre = p;
-    let maybeTextSibling;
-    let usesTypeTable = false;
+  targets.forEach(({ els, text, replace }) => {
+    const hrefs = getNormalizedLinks(els);
+    const ids = getNormalizedIds(els);
 
-    const maybeTypeTable = pre.nextSibling;
-    let text = pre.innerText;
-    if (maybeTypeTable && maybeTypeTable.classList && maybeTypeTable.classList.contains('typetable')) {
-      // who came up with this markup??
-      usesTypeTable = true;
-      text += maybeTypeTable.innerText;
-      if (maybeTypeTable.nextSibling && maybeTypeTable.nextSibling.nodeType === Node.TEXT_NODE) {
-        maybeTextSibling = maybeTypeTable.nextSibling;
-        text += maybeTextSibling.nodeValue;
-      }
-    }
-    const relevantEls = usesTypeTable ? [pre, maybeTypeTable] : [pre];
-    const hrefs = getNormalizedLinks(relevantEls);
-    const ids = getNormalizedIds(relevantEls);
-    chrome.runtime.sendMessage({in: normalizeText(text)},
-      ({out: [conversionType, out]}) => {
+    chrome.runtime.sendMessage(
+      { in: normalizeText(text) },
+      (msg) => {
+        if (!msg) { return; } // msg might, for unknown reasons, sometimes be undefined
+
+        let { out: [conversionType, out] } = msg;
+
         if (conversionType !== 'Failure') {
-          if (usesTypeTable) {
-            removeEl(maybeTypeTable);
-            maybeTextSibling && removeEl(maybeTextSibling);
-          }
-          Object.keys(hrefs).forEach((text) => {
-            out = out.replace(
-              new RegExp(`\\b${escapeRegExp(text)}\\b`, 'g'),
-              `<a href=${hrefs[text]}>${text}</a>`,
-            );
-          });
-          Object.keys(ids).forEach((text) => {
-            out = out.replace(
-              new RegExp(`\\b${escapeRegExp(text)}\\b`),
-              `<span class="reason_tools_anchor" id=${ids[text]}>${text}</span>`,
-            );
-          });
+          out = replaceHrefs(hrefs, out);
+          out = replaceIds(ids, out);
 
-          if (pre.className === "lstframe") {
-            // .lstframe's are table elements, replace to avoid invalid html
-            const parent = pre.parentNode;
-            parent.innerHTML = `<pre>${out}</pre>`;
-            hljs.highlightBlock(parent);
-          } else if (usesFakePres) {
-            pre.innerHTML = `<pre>${out}</pre>`
-            hljs.highlightBlock(pre);
-          } else {
-            pre.innerHTML = out;
-            hljs.highlightBlock(pre);
-          }
+          const el = replace(out);
+          hljs.highlightBlock(el);
         }
+
+        // we're in an async callback, so keep track of when we're finished by keeping count
         finished++;
-        if (type === 'initial' && finished >= total && window.location.hash) {
-          window.location.href = window.location.href
+        if (type === 'initial' && finished >= targets.length) {
+          // when we're done, the DOM has most likely been shifted,
+          // so we need to go back to where we're supposed to be
+          readjustViewport();
         }
       }
     )
-  }
+  });
+
   syntaxSwap.style.backgroundImage =
     syntaxSwap.style.backgroundImage === `url("${chrome.extension.getURL(reasonLogo)}")`
       ? `url("${chrome.extension.getURL(ocamlLogo)}")`
