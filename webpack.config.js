@@ -8,9 +8,9 @@ manifest.version = package.version;
 
 module.exports = {
   entry: {
-    AutoConversionPrompt: './src/AutoConversionPrompt.js',
+    AutoConversionPrompt: './lib/js/src/extension/autoConversionPrompt.js',
     Popup: './src/Popup.js',
-    Background: './src/Background.js',
+    Background: './lib/js/src/extension/background.js',
   },
   output: {
     path: path.join(__dirname, '_build/extension/'),
