@@ -5,6 +5,10 @@ module Str = {
   external includes : string => string => Js.boolean = "includes" [@@bs.send];
 };
 
+module Re = {
+  external make : string => Js.Re.t = "RegExp" [@@bs.new];
+};
+
 module Chrome = {
   type promise;
   type resolve;
