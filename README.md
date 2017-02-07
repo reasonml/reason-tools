@@ -24,7 +24,7 @@ cd reason-tools
 npm install # this will take a while
 ```
 
-once installed, you can rebuild the Reason code with `npm run build:re` and the js with `npm run build:js`. `npm run build` will run both.
+once installed, you can rebuild Refmt with `npm run build:refmt` the extension code with `npm run build:ext` and bundle up the js with `npm run build:js`. `npm run build` will run all.
 
 > [Yarn](https://github.com/yarnpkg/yarn) can also be used to make things a little faster, but there are some edge cases still being worked on: https://github.com/yarnpkg/yarn/milestone/2
 
