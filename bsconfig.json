@@ -7,6 +7,6 @@
   "bs-dependencies": ["rehydrate", "reason-js"],
   "sources": [{
     "dir": "src/extension",
-    "subdirs": ["components", "vendor"]
+    "subdirs": ["components", "vendor", "protocol"]
   }],
 }

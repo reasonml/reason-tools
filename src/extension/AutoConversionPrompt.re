@@ -255,7 +255,7 @@ let swapSyntax type_ => {
 
   ignore (targets
   |> List.map (fun { els, text, replace } => {
-    open Background;
+    open RefmtProtocol;
     let hrefs = getNormalizedLinks els;
     let ids = getNormalizedIds els;
 

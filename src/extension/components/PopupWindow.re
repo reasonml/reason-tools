@@ -1,11 +1,5 @@
 open Core;
 
-let parseConversionType conversionType =>
-  switch (conversionType |> Js.String.split "to") {
-  | [| inLang, outLang |] => (Some inLang, Some outLang)
-  | _ => (None, None)
-};
-
 module PopupWindow = {
   include ReactRe.Component.Stateful.InstanceVars;
   let name = "PopupWindow";
@@ -47,7 +41,7 @@ module PopupWindow = {
   };
 
   let refmt { state, updater } value => {
-    open Background;
+    open RefmtProtocol;
     /* this isn't guaranteed to be sync or speedy, so
      * don't set this.state.in here, since it could cause lag.
      */
