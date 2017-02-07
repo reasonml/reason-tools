@@ -1,9 +1,9 @@
 type request = {
-  in_: string
+  input: string
 };
 
 type response = {
-  out: (string, string)
+  output: (string, string)
 };
 
 let parseConversionType conversionType =>

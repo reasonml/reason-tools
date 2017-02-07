@@ -8,35 +8,35 @@ module PopupWindow = {
     initialText: string
   };
   type state = {
-    copy: bool,
-    in_: string,
-    out: string,
+    showSaveBadge: bool,
+    inText: string,
+    outText: string,
     inLang: option string,
     outLang: option string
   };
   type instanceVars = {
-    mutable _in: option ReactRe.reactRef
+    mutable inputRef: option ReactRe.reactRef
   };
 
   let getInstanceVars () => {
-    _in: None
+    inputRef: None
   };
 
   let getInitialState props => {
-    copy: false,
-    in_: "",
-    out: "",
+    showSaveBadge: false,
+    inText: "",
+    outText: "",
     inLang: None,
     outLang: None
   };
 
-  let copy { state, updater } () => {
-    Util.setTimeout (updater (fun { state } () => Some { ...state, copy: false })) 2500;
-    Some { ...state, copy: true }
+  let showSaveBadge { state, updater } () => {
+    Util.setTimeout (updater (fun { state } () => Some { ...state, showSaveBadge: false })) 2500;
+    Some { ...state, showSaveBadge: true }
   };
 
   let open_ { state } e => {
-    Chrome.Tabs.create { "url": ("popup.html#" ^ (Util.btoa state.in_)) };
+    Chrome.Tabs.create { "url": ("popup.html#" ^ (Util.btoa state.inText)) };
     None
   };
 
@@ -46,20 +46,20 @@ module PopupWindow = {
      * don't set this.state.in here, since it could cause lag.
      */
     Chrome.Runtime.sendMessage
-      { in_: value }
-      (fun { out: (conversionType, out) } => {
+      { input: value }
+      (fun { output: (conversionType, outText) } => {
         let (inLang, outLang) = parseConversionType conversionType;
-        updater (fun { state } () => Some { ...state, out, inLang, outLang }) ()
+        updater (fun { state } () => Some { ...state, outText, inLang, outLang }) ()
       });
 
     Chrome.Storage.Local.set { "latestRefmtString": value };
-    Some { ...state, in_: value }
+    Some { ...state, inText: value }
   };
 
   let componentDidMount { props, instanceVars, updater } => {
     updater refmt props.initialText;
 
-    switch instanceVars._in {
+    switch instanceVars.inputRef {
       | None => ()
       | Some ref => {
         CM.focus ref;
@@ -76,21 +76,21 @@ module PopupWindow = {
           <ColumnTitle name="In" lang=state.inLang />
         </h1>
         <Editor
-          value=state.in_
+          value=state.inText
           defaultValue=props.initialText
           lang=state.inLang
-          ref=(refSetter (fun {instanceVars} ref => instanceVars._in = Some ref))
+          ref=(refSetter (fun {instanceVars} ref => instanceVars.inputRef = Some ref))
           onChange=(updater refmt)
         />
       </div>
       <div style=Styles.popupColumn>
         <h1 style=Styles.popupContext>
           <ColumnTitle name="Out" lang=state.outLang />
-          <CopyButton text=state.out onCopy=(updater copy) />
+          <CopyButton text=state.outText onCopy=(updater showSaveBadge) />
           <OpenButton onClick=(updater open_) />
         </h1>
-        <Editor value=state.out lang=state.outLang readOnly=true />
-        <SaveBadge show=state.copy />
+        <Editor value=state.outText lang=state.outLang readOnly=true />
+        <SaveBadge show=state.showSaveBadge />
       </div>
     </div>;
   }

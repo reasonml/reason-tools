@@ -260,13 +260,13 @@ let swapSyntax type_ => {
     let ids = getNormalizedIds els;
 
     Chrome.Runtime.sendMessage
-      { in_: normalizeText text }
+      { input: normalizeText text }
       (fun maybeResponse => {
         /* response might, for unknown reasons, sometimes be undefined */
         switch (Js.Undefined.to_opt maybeResponse) {
           | None => ()
-          | Some { out: ("Failure", _) } => ()
-          | Some { out: (_, result) } => {
+          | Some { output: ("Failure", _) } => ()
+          | Some { output: (_, result) } => {
             let el = result
             |> replaceHrefs hrefs
             |> replaceIds ids
