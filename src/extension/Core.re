@@ -77,7 +77,7 @@ module Chrome = {
   module Tabs = {
     external create : Js.t {. url: string } => unit = "chrome.tabs.create" [@@bs.val];
 
-    /* TODO: Nedd MaybeArray to work because FF will return an array */
+    /* TODO: Need MaybeArray to work because Chrome will return an array, but FF supposedly does not */
     /*external executeScript : Js.t {. code: string } => (MaybeArray.t (Js.t {..}) => unit) => unit = "chrome.tabs.executeScript" [@@bs.val];*/
     external executeScript : Js.t {. code: string } => (Js.null_undefined (array string) => unit) => unit = "chrome.tabs.executeScript" [@@bs.val];
   };
