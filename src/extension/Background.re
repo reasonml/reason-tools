@@ -1,7 +1,7 @@
 open Core;
 
 module Refmt = {
-  external refmt : string => array string = "refmt" [@@bs.module "../../../../_build/refmt/src/app.js"];
+  external refmt : string => (string, string) = "refmt" [@@bs.module "../../../../_build/refmt/src/app.js"];
 };
 
 type request = {
@@ -9,7 +9,7 @@ type request = {
 };
 
 type response = {
-  out: array string
+  out: (string, string)
 };
 
 Chrome.Runtime.addMessageListener

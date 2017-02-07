@@ -38,14 +38,3 @@ FLG -w -30 -w -40 -open Refmt_Tar
 
 # User Custom config here
 PKG reason compiler-libs
-
-####{BSB GENERATED: NO EDIT
-FLG -ppx /home/glennsl/projects.local/reason-tools/node_modules/reason/reactjs_jsx_ppx.native
-S /home/glennsl/projects.local/reason-tools/node_modules/bs-platform/bin/../lib/ocaml
-B /home/glennsl/projects.local/reason-tools/node_modules/bs-platform/bin/../lib/ocaml
-FLG -ppx /home/glennsl/projects.local/reason-tools/node_modules/bs-platform/bin/bsppx.exe
-
-FLG -w -40
-S src/extension
-B lib/bs/src/extension
-####BSB GENERATED: NO EDIT}

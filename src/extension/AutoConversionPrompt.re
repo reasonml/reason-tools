@@ -265,8 +265,8 @@ let swapSyntax type_ => {
         /* response might, for unknown reasons, sometimes be undefined */
         switch (Js.Undefined.to_opt maybeResponse) {
           | None => ()
-          | Some [|[| "Failure", _ |]|] => ()
-          | Some [|[| _, result |]|] => {
+          | Some { out: ("Failure", _) } => ()
+          | Some { out: (_, result) } => {
             let el = result
             |> replaceHrefs hrefs
             |> replaceIds ids
@@ -274,7 +274,6 @@ let swapSyntax type_ => {
 
             Hljs.highlightBlock el;
           }
-          | _ => raise Unreachable;
         };
 
         /* we're in an async callback, so keep track of when we're finished by keeping count */
