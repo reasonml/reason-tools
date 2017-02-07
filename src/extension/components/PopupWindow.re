@@ -1,6 +1,6 @@
 open Core;
 
-let getLangList conversionType =>
+let parseConversionType conversionType =>
   switch (conversionType |> Js.String.split "to") {
   | [| inLang, outLang |] => (Some inLang, Some outLang)
   | _ => (None, None)
@@ -54,7 +54,7 @@ module PopupWindow = {
     Chrome.Runtime.sendMessage
       { in_: value }
       (fun { out: (conversionType, out) } => {
-        let (inLang, outLang) = getLangList conversionType;
+        let (inLang, outLang) = parseConversionType conversionType;
         updater (fun { state } () => Some { ...state, out, inLang, outLang }) ()
       });
 
@@ -80,59 +80,28 @@ module PopupWindow = {
      * sometimes typing can flash the wrong lang very quickly
      */
     let hasConverted = not (Str.isEmpty state.in_) && not (Str.isEmpty state.out);
-    let inTitle = hasConverted ? state.inLang |> (Option.map_or (fun lang => "In (" ^ lang ^ ")") "In") : "In";
-    let outTitle = hasConverted ? state.outLang |> (Option.map_or (fun lang => "Out (" ^ lang ^ ")") "Out") : "Out";
 
     <div style=Styles.popup>
       <div style=Styles.popupColumn>
         <h1 style=Styles.popupContext>
-          (ReactRe.stringToElement inTitle)
+          <ColumnTitle name="In" lang=(hasConverted ? state.inLang : None) />
         </h1>
-        <CodeMirror
-          style=Styles.popupInNOut
-          ref=(refSetter (fun {instanceVars} ref => instanceVars._in = Some ref))
-          defaultValue=props.initialText
+        <Editor
           value=state.in_
+          defaultValue=props.initialText
+          lang=state.inLang
+          ref=(refSetter (fun {instanceVars} ref => instanceVars._in = Some ref))
           onChange=(updater refmt)
-          options={
-            "mode": state.inLang == Some "ML" ? "text/ocaml" : "javascript",
-            "theme": "oceanic-next"
-          }
         />
       </div>
       <div style=Styles.popupColumn>
         <h1 style=Styles.popupContext>
-          <span style=Styles.contextTitle>
-            (ReactRe.stringToElement outTitle)
-          </span>
-          <CopyToClipboard text=state.out onCopy=(updater copy)>
-            <a style=Styles.contextLink href="#"> (ReactRe.stringToElement "copy") </a>
-          </CopyToClipboard>
-          <a style=Styles.contextLink href="#" onClick=(updater open_)>
-            <svg
-              height="3vh"
-              width="3vh"
-              viewBox="0 0 748 1024"
-              /*xmlns="http://www.w3.org/2000/svg"*/> /* Unsupported attribute */
-              <path
-                d="M640 768H128V257.90599999999995L256 256V128H0v768h768V576H640V768zM384 128l128 128L320 448l128 128 192-192 128 128V128H384z"
-                fill=Styles.contextLink##color
-              />
-            </svg>
-          </a>
+          <ColumnTitle name="Out" lang=(hasConverted ? state.outLang : None) />
+          <CopyButton text=state.out onCopy=(updater copy) />
+          <OpenButton onClick=(updater open_) />
         </h1>
-        <CodeMirror
-          style=Styles.popupInNOut
-          value=state.out
-          options={
-            "mode": state.outLang == Some "ML" ? "text/x-ocaml" : "javascript",
-            "theme": "oceanic-next",
-            "readOnly": Js.Boolean.to_js_boolean true
-          }
-        />
-        (state.copy ?
-          <div style=Styles.savedBadge> (ReactRe.stringToElement (Str.fromCharCode 10003)) </div> :
-          ReactRe.nullElement)
+        <Editor value=state.out lang=state.outLang readOnly=true />
+        <SaveBadge show=state.copy />
       </div>
     </div>;
   }
