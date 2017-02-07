@@ -1,9 +1,22 @@
 exception Unreachable;
 
 module Option = {
-  let get_or other => fun
-  | Some x => x
+  let or_ other => fun
+  | Some _ as self => self
   | None => other;
+
+  let get_or other => fun
+  | Some v => v
+  | None => other;
+
+  let map f => fun
+  | Some v => Some (f v)
+  | None => None;
+
+  let map_or f other => fun
+  | Some v => f v
+  | None => other;
+
 };
 
 module MaybeArray = {
@@ -36,9 +49,9 @@ module Promise = {
 
   external make : (resolve 'a => unit) => t 'a = "Promise" [@@bs.new];
 
-  external all : list (t _) => t unit = "Promise.all" [@@bs.val];
+  external all : array (t 'a) => t (array 'a) = "Promise.all" [@@bs.val];
 
-  external then_ : t 'a => ('a => Js.undefined 'b) => t 'b = "then" [@@bs.send];
+  external then_ : ('a => Js.undefined 'b) => t 'b = "then" [@@bs.send.pipe: t 'a];
 };
 
 module Chrome = {
@@ -63,7 +76,10 @@ module Chrome = {
 
   module Tabs = {
     external create : Js.t {. url: string } => unit = "chrome.tabs.create" [@@bs.val];
-    external executeScript : Js.t {. code: string } => (MaybeArray.t (Js.t {..}) => unit) => unit = "chrome.tabs.executeScript" [@@bs.val];
+
+    /* TODO: Nedd MaybeArray to work because FF will return an array */
+    /*external executeScript : Js.t {. code: string } => (MaybeArray.t (Js.t {..}) => unit) => unit = "chrome.tabs.executeScript" [@@bs.val];*/
+    external executeScript : Js.t {. code: string } => (Js.null_undefined (array string) => unit) => unit = "chrome.tabs.executeScript" [@@bs.val];
   };
 };
 
@@ -124,6 +140,7 @@ module Dom = {
   module Document = {
     type t;
 
+    external addEventListener : string => (unit => unit) => unit = "document.addEventListener" [@@bs.val];
     external createElement : string => Element.t = "document.createElement" [@@bs.val];
     external getElementsByClassName : string => NotArray.t Element.t = "document.getElementsByClassName" [@@bs.val];
     external getElementsByTagName : string => NotArray.t Element.t = "document.getElementsByTagName" [@@bs.val];
@@ -146,8 +163,25 @@ module Dom = {
   };
 };
 
+module Util = {
+  external btoa : string => string = "window.btoa" [@@bs.val];
+  external atob : string => string = "window.atob" [@@bs.val];
+  external setTimeout : (unit => unit) => int => unit = "window.setTimeout" [@@bs.val];
+};
+
 module Hljs = {
   external registerLanguage : string => string => unit = "registerLanguage" [@@bs.module "highlight.js"];
   external configure : Js.t {..} => unit = "configure" [@@bs.module "highlight.js"];
   external highlightBlock : Dom.Element.t => unit = "highlightBlock" [@@bs.module "highlight.js"];
+};
+
+module CM = {
+  type t;
+
+  external focus : ReactRe.reactRef => unit = "" [@@bs.send];
+  let execCommand : ReactRe.reactRef => string => unit = [%bs.raw {|
+    function (el, command) {
+      return el.getCodeMirror().execCommand(command);
+    }
+  |}];
 };

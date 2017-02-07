@@ -13,5 +13,8 @@ type response = {
 };
 
 Chrome.Runtime.addMessageListener
-	(fun request _ respond =>
-     	respond { out: (Refmt.refmt request.in_) });
+	(fun request _ respond => {
+    let response = { out: (Refmt.refmt request.in_) };
+      Js.log response;
+     	respond response;
+  });
