@@ -16,7 +16,6 @@ module Option = {
   let map_or f other => fun
   | Some v => f v
   | None => other;
-
 };
 
 module MaybeArray = {
