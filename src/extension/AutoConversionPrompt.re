@@ -259,18 +259,16 @@ let swapSyntax type_ => {
     let hrefs = getNormalizedLinks els;
     let ids = getNormalizedIds els;
 
-    Chrome.Runtime.sendMessage
+    RefmtProtocol.send
       { input: normalizeText text }
       (fun maybeResponse => {
-        /* response might, for unknown reasons, sometimes be undefined */
-        switch (Js.Undefined.to_opt maybeResponse) {
-          | None => ()
-          | Some { output: ("Failure", _) } => ()
-          | Some { output: (_, result) } => {
-            let el = result
-            |> replaceHrefs hrefs
-            |> replaceIds ids
-            |> replace;
+        switch maybeResponse {
+          | Failure _ => ()
+          | Success { outText } => {
+            let el =
+              outText |> replaceHrefs hrefs
+                      |> replaceIds ids
+                      |> replace;
 
             Hljs.highlightBlock el;
           }

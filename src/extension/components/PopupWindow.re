@@ -5,7 +5,9 @@ module PopupWindow = {
   let name = "PopupWindow";
 
   type props = {
-    initialText: string
+    initialText: string,
+    onOpen: string => unit,
+    onRefmt: string => (string => option string => option string => unit) => unit
   };
   type state = {
     showSaveBadge: bool,
@@ -18,10 +20,10 @@ module PopupWindow = {
     mutable inputRef: option ReactRe.reactRef
   };
 
+  /* Init */
   let getInstanceVars () => {
     inputRef: None
   };
-
   let getInitialState props => {
     showSaveBadge: false,
     inText: "",
@@ -30,32 +32,25 @@ module PopupWindow = {
     outLang: None
   };
 
+  /* Actions */
   let showSaveBadge { state, updater } () => {
     Util.setTimeout (updater (fun { state } () => Some { ...state, showSaveBadge: false })) 2500;
     Some { ...state, showSaveBadge: true }
   };
-
-  let open_ { state } e => {
-    Chrome.Tabs.create { "url": ("popup.html#" ^ (Util.btoa state.inText)) };
+  let open_ { props, state } _ => {
+    props.onOpen state.inText;
     None
   };
+  let refmt { props, state, updater } inText => {
+    let updater' outText inLang outLang =>
+      updater (fun { state } () => Some { ...state, outText, inLang, outLang }) ();
 
-  let refmt { state, updater } value => {
-    open RefmtProtocol;
-    /* this isn't guaranteed to be sync or speedy, so
-     * don't set this.state.in here, since it could cause lag.
-     */
-    Chrome.Runtime.sendMessage
-      { input: value }
-      (fun { output: (conversionType, outText) } => {
-        let (inLang, outLang) = parseConversionType conversionType;
-        updater (fun { state } () => Some { ...state, outText, inLang, outLang }) ()
-      });
+    props.onRefmt inText updater';
 
-    Chrome.Storage.Local.set { "latestRefmtString": value };
-    Some { ...state, inText: value }
+    Some { ...state, inText }
   };
 
+  /* Lifecycle events */
   let componentDidMount { props, instanceVars, updater } => {
     updater refmt props.initialText;
 
@@ -68,13 +63,13 @@ module PopupWindow = {
     };
     None
   };
-
   let render { props, state, updater, refSetter } => {
     <div style=Styles.popup>
       <div style=Styles.popupColumn>
         <h1 style=Styles.popupContext>
           <ColumnTitle name="In" lang=state.inLang />
         </h1>
+
         <Editor
           value=state.inText
           defaultValue=props.initialText
@@ -83,12 +78,14 @@ module PopupWindow = {
           onChange=(updater refmt)
         />
       </div>
+
       <div style=Styles.popupColumn>
         <h1 style=Styles.popupContext>
           <ColumnTitle name="Out" lang=state.outLang />
           <CopyButton text=state.outText onCopy=(updater showSaveBadge) />
           <OpenButton onClick=(updater open_) />
         </h1>
+
         <Editor value=state.outText lang=state.outLang readOnly=true />
         <SaveBadge show=state.showSaveBadge />
       </div>
@@ -97,5 +94,5 @@ module PopupWindow = {
 };
 
 include ReactRe.CreateComponent PopupWindow;
-let createElement ::initialText ::children =>
-  wrapProps { initialText: initialText } ::children;
+let createElement ::initialText ::onOpen ::onRefmt ::children =>
+  wrapProps { initialText, onOpen, onRefmt } ::children;
