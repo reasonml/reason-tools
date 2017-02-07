@@ -53,7 +53,9 @@
     "react-dom": "^15.3.2",
     "realpath": "*",
     "reason": "https://github.com/facebook/reason.git",
-    "rebel": "https://github.com/reasonml/rebel.git"
+    "rebel": "https://github.com/reasonml/rebel.git",
+    "reason-js": "0.0.15",
+    "rehydrate": "https://github.com/reasonml/rehydrate.git"
   },
   "rebel": {
     "targets": [
