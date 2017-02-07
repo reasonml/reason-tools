@@ -1,12 +1,44 @@
 exception Unreachable;
 
+module Option = {
+  let get_or other => fun
+  | Some x => x
+  | None => other;
+};
+
+module MaybeArray = {
+  type t 'a;
+
+  /*
+  let unwrap : t 'a => 'a = [%bs.raw {|
+    function (maybeArray) {
+      return Array.isArray(maybeArray)
+        ? maybeArray[0]
+        : maybeArray;
+    }
+  |}];*/
+};
+
 module Str = {
   external fromCharCode : int => string = "String.fromCharCode" [@@bs.val];
   external includes : string => string => Js.boolean = "includes" [@@bs.send];
+
+  let isEmpty s => String.length (String.trim s) == 0;
 };
 
 module Re = {
   external make : string => Js.Re.t = "RegExp" [@@bs.new];
+};
+
+module Promise = {
+  type t 'a;
+  type resolve 'a = 'a => unit;
+
+  external make : (resolve 'a => unit) => t 'a = "Promise" [@@bs.new];
+
+  external all : list (t _) => t unit = "Promise.all" [@@bs.val];
+
+  external then_ : t 'a => ('a => Js.undefined 'b) => t 'b = "then" [@@bs.send];
 };
 
 module Chrome = {
@@ -24,14 +56,14 @@ module Chrome = {
 
   module Storage = {
     module Local = {
-      external get : string => (Js.t {..} => unit) => unit = "chrome.storage.local.get" [@@bs.val];
+      external get : string => ('a => unit) => unit = "chrome.storage.local.get" [@@bs.val];
       external set : Js.t {..} => unit = "chrome.storage.local.set" [@@bs.val];
     }
   };
 
   module Tabs = {
     external create : Js.t {. url: string } => unit = "chrome.tabs.create" [@@bs.val];
-    external executeScript : Js.t {. code: string } => resolve => unit = "chrome.tabs.executeScript" [@@bs.val];
+    external executeScript : Js.t {. code: string } => (MaybeArray.t (Js.t {..}) => unit) => unit = "chrome.tabs.executeScript" [@@bs.val];
   };
 };
 
