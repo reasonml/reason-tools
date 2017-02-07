@@ -70,15 +70,10 @@ module PopupWindow = {
   };
 
   let render { props, state, updater, refSetter } => {
-    /* extra cautious here because of the async on _refmt
-     * sometimes typing can flash the wrong lang very quickly
-     */
-    let hasConverted = not (Str.isEmpty state.in_) && not (Str.isEmpty state.out);
-
     <div style=Styles.popup>
       <div style=Styles.popupColumn>
         <h1 style=Styles.popupContext>
-          <ColumnTitle name="In" lang=(hasConverted ? state.inLang : None) />
+          <ColumnTitle name="In" lang=state.inLang />
         </h1>
         <Editor
           value=state.in_
@@ -90,7 +85,7 @@ module PopupWindow = {
       </div>
       <div style=Styles.popupColumn>
         <h1 style=Styles.popupContext>
-          <ColumnTitle name="Out" lang=(hasConverted ? state.outLang : None) />
+          <ColumnTitle name="Out" lang=state.outLang />
           <CopyButton text=state.out onCopy=(updater copy) />
           <OpenButton onClick=(updater open_) />
         </h1>
