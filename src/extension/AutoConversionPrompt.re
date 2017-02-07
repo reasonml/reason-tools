@@ -261,18 +261,15 @@ let swapSyntax type_ => {
 
     RefmtProtocol.send
       { input: normalizeText text }
-      (fun maybeResponse => {
-        switch maybeResponse {
-          | Failure _ => ()
-          | Success { outText } => {
-            let el =
-              outText |> replaceHrefs hrefs
-                      |> replaceIds ids
-                      |> replace;
+      (fun
+        | Failure _ => ()
+        | Success { outText } => {
+          let el =
+            outText |> replaceHrefs hrefs
+                    |> replaceIds ids
+                    |> replace;
 
-            Hljs.highlightBlock el;
-          }
-        };
+          Hljs.highlightBlock el;
 
         /* we're in an async callback, so keep track of when we're finished by keeping count */
         state.remaining = state.remaining - 1;

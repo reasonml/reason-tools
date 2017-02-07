@@ -20,12 +20,11 @@ let refmt value updater => {
    */
    RefmtProtocol.send
     { input: value }
-    (fun response =>
-      switch response {
+    (fun
       | Failure error => updater error None None
       | Success { outText, inLang, outLang } =>
         updater outText (Some inLang) (Some outLang)
-    });
+    );
 
   Chrome.Storage.Local.set { "latestRefmtString": value };
 };
