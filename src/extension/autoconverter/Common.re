@@ -24,3 +24,5 @@ let querySelectorAll el selector =>
 
 let arrayContains value arr =>
   Js.Array.includes value arr |> Js.to_bool;
+
+external id : 'a => 'a = "%identity";
