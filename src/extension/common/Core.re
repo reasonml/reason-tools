@@ -83,7 +83,7 @@ module Chrome = {
 };
 
 module Dom = {
-  module NotArray = {
+  module Arrayish = {
     type t 'a;
 
     external toArray : t 'a => array 'a = "Array.prototype.slice.call" [@@bs.val];
@@ -112,6 +112,7 @@ module Dom = {
     external href : t => string = "href" [@@bs.get];
     external setHref : t => string => unit = "href" [@@bs.set];
     external id : t => string = "id" [@@bs.get];
+    external setId : t => string => unit = "id" [@@bs.set];
     external setInnerHTML : t => string => unit = "innerHTML" [@@bs.set];
     external innerText : t => string = "innerText" [@@bs.get];
     external setInnerText : t => string => unit = "innerText" [@@bs.set];
@@ -123,17 +124,18 @@ module Dom = {
     external setOnClick : t => (unit => unit) => unit = "onclick" [@@bs.set];
 
     external getAttribute : t => string => string = "getAttribute" [@@bs.send];
-    external getElementsByTagName : t => string => NotArray.t t = "getElementsByTagName" [@@bs.send];
+    external getElementsByClassName : t => string => Arrayish.t t = "" [@@bs.send];
+    external getElementsByTagName : t => string => Arrayish.t t = "" [@@bs.send];
     external remove : t => unit = "remove" [@@bs.send];
-    external querySelectorAll : t => string => NotArray.t t = "querySelectorAll" [@@bs.send];
+    external querySelectorAll : t => string => Arrayish.t t = "" [@@bs.send];
   };
 
   module Node = {
     let _TEXT_NODE = 3;
 
-    external nodeType : Element.t => int = "nodeType" [@@bs.get];
-    external nodeValue : Element.t => string = "nodeValue" [@@bs.get];
-    external parentNode : Element.t => Element.t = "parentNode" [@@bs.get];
+    external nodeType : Element.t => int = "" [@@bs.get];
+    external nodeValue : Element.t => string = "" [@@bs.get];
+    external parentNode : Element.t => Element.t = "" [@@bs.get];
   };
 
   module Document = {
@@ -141,8 +143,9 @@ module Dom = {
 
     external addEventListener : string => (unit => unit) => unit = "document.addEventListener" [@@bs.val];
     external createElement : string => Element.t = "document.createElement" [@@bs.val];
-    external getElementsByClassName : string => NotArray.t Element.t = "document.getElementsByClassName" [@@bs.val];
-    external getElementsByTagName : string => NotArray.t Element.t = "document.getElementsByTagName" [@@bs.val];
+    external getElementsByClassName : string => Arrayish.t Element.t = "document.getElementsByClassName" [@@bs.val];
+    external getElementById : string => Element.t = "document.getElementById" [@@bs.val];
+    external getElementsByTagName : string => Arrayish.t Element.t = "document.getElementsByTagName" [@@bs.val];
   };
 
   module Location = {
