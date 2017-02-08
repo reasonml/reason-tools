@@ -1,17 +1,21 @@
 open Core;
 
 module Refmt = {
-  external refmt : string => (string, string) = "refmt" [@@bs.module "../../../../_build/refmt/src/app.js"];
+  type t = (string, string);
+
+  external refmt : string => t = "refmt" [@@bs.module ("../../../../_build/refmt/src/app.js", "Refmt")];
+
+  let parse: t => RefmtProtocol.response = fun
+  | ("Failure", error) => Failure error
+  | (conversion, outText) =>
+    switch (conversion |> Js.String.split "to") {
+    | [| inLang, outLang |] => Success { outText, inLang, outLang }
+    | _ => Failure "Encountered some weird unknown conversion";
+  };
 };
 
-type request = {
-  in_: string
-};
-
-type response = {
-  out: (string, string)
-};
-
-Chrome.Runtime.addMessageListener
-	(fun request _ respond =>
-     	respond { out: (Refmt.refmt request.in_) });
+RefmtProtocol.listen
+	(fun request respond =>
+    request.input |> Refmt.refmt
+                  |> Refmt.parse
+                  |> respond );

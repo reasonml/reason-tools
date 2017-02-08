@@ -4,8 +4,16 @@
   "version": "0.0.0",
   "ppx-flags": ["reason/reactjs_jsx_ppx.native"],
   "bsc-flags": ["-w", "-40"],
-  "bs-dependencies": [],
-  "sources": [
-    "src/extension"
-  ],
+  "bs-dependencies": ["rehydrate", "reason-js"],
+  "sources": [{
+    "dir": "src/extension",
+    "subdirs": [
+      "autoconverter",
+      "common",
+      {
+        "dir": "popup",
+        "subdirs": ["components", "vendor"]
+      }
+    ]
+  }],
 }

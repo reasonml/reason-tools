@@ -1,8 +1,20 @@
 exception Unreachable;
 
 module Option = {
+  let or_ other => fun
+  | Some _ as self => self
+  | None => other;
+
   let get_or other => fun
-  | Some x => x
+  | Some v => v
+  | None => other;
+
+  let map f => fun
+  | Some v => Some (f v)
+  | None => None;
+
+  let map_or f other => fun
+  | Some v => f v
   | None => other;
 };
 
@@ -36,9 +48,9 @@ module Promise = {
 
   external make : (resolve 'a => unit) => t 'a = "Promise" [@@bs.new];
 
-  external all : list (t _) => t unit = "Promise.all" [@@bs.val];
+  external all : array (t 'a) => t (array 'a) = "Promise.all" [@@bs.val];
 
-  external then_ : t 'a => ('a => Js.undefined 'b) => t 'b = "then" [@@bs.send];
+  external then_ : ('a => Js.undefined 'b) => t 'b = "then" [@@bs.send.pipe: t 'a];
 };
 
 module Chrome = {
@@ -63,12 +75,15 @@ module Chrome = {
 
   module Tabs = {
     external create : Js.t {. url: string } => unit = "chrome.tabs.create" [@@bs.val];
-    external executeScript : Js.t {. code: string } => (MaybeArray.t (Js.t {..}) => unit) => unit = "chrome.tabs.executeScript" [@@bs.val];
+
+    /* TODO: Need MaybeArray to work because Chrome will return an array, but FF supposedly does not */
+    /*external executeScript : Js.t {. code: string } => (MaybeArray.t (Js.t {..}) => unit) => unit = "chrome.tabs.executeScript" [@@bs.val];*/
+    external executeScript : Js.t {. code: string } => (Js.null_undefined (array string) => unit) => unit = "chrome.tabs.executeScript" [@@bs.val];
   };
 };
 
 module Dom = {
-  module NotArray = {
+  module Arrayish = {
     type t 'a;
 
     external toArray : t 'a => array 'a = "Array.prototype.slice.call" [@@bs.val];
@@ -97,6 +112,7 @@ module Dom = {
     external href : t => string = "href" [@@bs.get];
     external setHref : t => string => unit = "href" [@@bs.set];
     external id : t => string = "id" [@@bs.get];
+    external setId : t => string => unit = "id" [@@bs.set];
     external setInnerHTML : t => string => unit = "innerHTML" [@@bs.set];
     external innerText : t => string = "innerText" [@@bs.get];
     external setInnerText : t => string => unit = "innerText" [@@bs.set];
@@ -108,25 +124,28 @@ module Dom = {
     external setOnClick : t => (unit => unit) => unit = "onclick" [@@bs.set];
 
     external getAttribute : t => string => string = "getAttribute" [@@bs.send];
-    external getElementsByTagName : t => string => NotArray.t t = "getElementsByTagName" [@@bs.send];
+    external getElementsByClassName : t => string => Arrayish.t t = "" [@@bs.send];
+    external getElementsByTagName : t => string => Arrayish.t t = "" [@@bs.send];
     external remove : t => unit = "remove" [@@bs.send];
-    external querySelectorAll : t => string => NotArray.t t = "querySelectorAll" [@@bs.send];
+    external querySelectorAll : t => string => Arrayish.t t = "" [@@bs.send];
   };
 
   module Node = {
     let _TEXT_NODE = 3;
 
-    external nodeType : Element.t => int = "nodeType" [@@bs.get];
-    external nodeValue : Element.t => string = "nodeValue" [@@bs.get];
-    external parentNode : Element.t => Element.t = "parentNode" [@@bs.get];
+    external nodeType : Element.t => int = "" [@@bs.get];
+    external nodeValue : Element.t => string = "" [@@bs.get];
+    external parentNode : Element.t => Element.t = "" [@@bs.get];
   };
 
   module Document = {
     type t;
 
+    external addEventListener : string => (unit => unit) => unit = "document.addEventListener" [@@bs.val];
     external createElement : string => Element.t = "document.createElement" [@@bs.val];
-    external getElementsByClassName : string => NotArray.t Element.t = "document.getElementsByClassName" [@@bs.val];
-    external getElementsByTagName : string => NotArray.t Element.t = "document.getElementsByTagName" [@@bs.val];
+    external getElementsByClassName : string => Arrayish.t Element.t = "document.getElementsByClassName" [@@bs.val];
+    external getElementById : string => Element.t = "document.getElementById" [@@bs.val];
+    external getElementsByTagName : string => Arrayish.t Element.t = "document.getElementsByTagName" [@@bs.val];
   };
 
   module Location = {
@@ -146,8 +165,25 @@ module Dom = {
   };
 };
 
+module Util = {
+  external btoa : string => string = "window.btoa" [@@bs.val];
+  external atob : string => string = "window.atob" [@@bs.val];
+  external setTimeout : (unit => unit) => int => unit = "window.setTimeout" [@@bs.val];
+};
+
 module Hljs = {
   external registerLanguage : string => string => unit = "registerLanguage" [@@bs.module "highlight.js"];
   external configure : Js.t {..} => unit = "configure" [@@bs.module "highlight.js"];
   external highlightBlock : Dom.Element.t => unit = "highlightBlock" [@@bs.module "highlight.js"];
+};
+
+module CM = {
+  type t;
+
+  external focus : ReactRe.reactRef => unit = "" [@@bs.send];
+  let execCommand : ReactRe.reactRef => string => unit = [%bs.raw {|
+    function (el, command) {
+      return el.getCodeMirror().execCommand(command);
+    }
+  |}];
 };

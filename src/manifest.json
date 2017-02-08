@@ -21,7 +21,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["AutoConversionPrompt.bundle.js"],
+      "js": ["Content.bundle.js"],
       "run_at": "document_end",
       "all_frames": true
     }
