@@ -8,7 +8,7 @@ manifest.version = package.version;
 
 module.exports = {
   entry: {
-    AutoConversionPrompt: './lib/js/src/extension/autoConversionPrompt.js',
+    Content: './lib/js/src/extension/content.js',
     Popup: './lib/js/src/extension/popup.js',
     Background: './lib/js/src/extension/background.js',
   },
