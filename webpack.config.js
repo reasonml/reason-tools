@@ -19,14 +19,6 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.js$/,
-        exclude: /(node_modules|_build)/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['latest', 'react', 'stage-0']
-        }
-      },
-      {
         test: /\.(png|jpg|gif|html|css)$/,
         loader: 'file-loader?name=[name].[ext]'
       }
