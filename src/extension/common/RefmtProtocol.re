@@ -28,6 +28,6 @@ let deserialize = fun
 | _ => raise DeserializationFail;
 
 let send : request => (response => unit) => unit =
-  fun request cb => Chrome.Runtime.sendMessage request (fun response => cb (deserialize response ));
+  fun request cb => Message.send "refmt" request (fun response => cb (deserialize response));
 let listen : (request => (response => unit) => unit) => unit =
-  fun cb => Chrome.Runtime.addMessageListener (fun request _ respond => cb request (fun r => r |> serialize |> respond));
+  fun cb => Message.receive "refmt" (fun request respond => cb request (fun r => r |> serialize |> respond));

@@ -35,7 +35,8 @@
   },
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "contextMenus"
   ],
   "web_accessible_resources": [
    "ocamlDoc.css",

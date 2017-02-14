@@ -7,7 +7,7 @@ Hljs.configure { "classPrefix": "", "languages": [| "ocaml" |] };
 
 type saveState = {
   mutable stylesheets: list Element.t,
-  mutable body: string
+  mutable buttons: list Element.t
 };
 let savedState = (fun () => {
   let css = [%bs.raw {|require('../../../../src/css/ocamlDoc.css')|}];
@@ -17,7 +17,7 @@ let savedState = (fun () => {
   Element.setRel stylesheet "stylesheet";
   Element.setHref stylesheet (Chrome.Extension.getURL css);
 
-  { stylesheets: [stylesheet], body: Body.outerHTML }
+  { stylesheets: [stylesheet], buttons: [] }
 }) ();
 
 let swapStyleSheets => {
@@ -76,9 +76,22 @@ let swapSyntax mode => {
   UI.updateSyntaxSwapButton ();
 };
 
+let toggleButtons =>
+  if (List.length savedState.buttons > 0) {
+    savedState.buttons
+      |> List.iter Element.remove;
+  } else {
+    savedState.buttons = UI.addSwapButtons swapStyleSheets swapSyntax;
+  };
 
-if (Detect.mightBeOcamlDoc ()) {
+let toggle => {
   swapStyleSheets ();
-  UI.addSwapButtons swapStyleSheets swapSyntax;
+  toggleButtons ();
   swapSyntax `initial;
 };
+
+if (Detect.mightBeOcamlDoc ()) {
+  toggle ();
+};
+
+Message.receive "toggle" (fun _ _ => toggle ());

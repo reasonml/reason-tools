@@ -19,3 +19,24 @@ RefmtProtocol.listen
     request.input |> Refmt.refmt
                   |> Refmt.parse
                   |> respond );
+/*
+Chrome.ContextMenus.create {
+  "title": "Refmt",
+  "contexts": [| "selection" |],
+  "onclick": fun info tab => Message.sendToTab tab##id "toggle" info##selectionText (fun _ => ())
+};
+*/
+
+Chrome.ContextMenus.create {
+  "title": "Toggle",
+  "contexts": [| "browser_action" |],
+  "onclick": fun _ tab => Message.sendToTab tab##id "toggle" () (fun _ => ())
+};
+
+/*
+Chrome.ContextMenus.create {
+  "title": "Report",
+  "contexts": [| "browser_action" |],
+  "onclick": fun () => Js.log "reported!"
+};
+*/

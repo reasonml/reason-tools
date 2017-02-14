@@ -51,6 +51,7 @@ let addStyleSheet => {
   |};
 
   Body.appendChild element;
+  element
 };
 
 let updateSyntaxSwapButton => {
@@ -74,6 +75,7 @@ let addSyntaxSwapButton swap => {
   Style.setBackgroundImage (style element) ("url(" ^ (Chrome.Extension.getURL reasonLogo) ^ ")");
   Style.setBackgroundSize (style element) "cover";
   Body.appendChild element;
+  element
 };
 
 let addStyleSwapButton swap => {
@@ -85,10 +87,11 @@ let addStyleSwapButton swap => {
   setClassName element "reason_tools_button";
   setOnClick element swap;
   Body.appendChild element;
+  element
 };
 
-let addSwapButtons swapStyleSheets swapSyntax => {
-  addStyleSheet ();
-  addSyntaxSwapButton swapSyntax;
-  addStyleSwapButton swapStyleSheets;
-};
+let addSwapButtons swapStyleSheets swapSyntax => [
+  addStyleSheet (),
+  addSyntaxSwapButton swapSyntax,
+  addStyleSwapButton swapStyleSheets
+];
