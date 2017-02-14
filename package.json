@@ -38,7 +38,8 @@
     "env": "eval $(dependencyEnv) && env",
     "editor": "eval $(dependencyEnv) && eval $EDITOR",
     "whereisocamlmerlin": "eval $(dependencyEnv) && which ocamlmerlin-reason",
-    "watch": "eval $(dependencyEnv) && nopam && ./node_modules/rebel/_build/src/rebel -P"
+    "watch": "eval $(dependencyEnv) && nopam && ./node_modules/rebel/_build/src/rebel -P",
+    "watch:js": "webpack -w"
   },
   "dependencies": {
     "@opam-alpha/merlin": "^ 2.5.0",

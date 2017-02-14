@@ -79,7 +79,32 @@ module Chrome = {
     /* TODO: Need MaybeArray to work because Chrome will return an array, but FF supposedly does not */
     /*external executeScript : Js.t {. code: string } => (MaybeArray.t (Js.t {..}) => unit) => unit = "chrome.tabs.executeScript" [@@bs.val];*/
     external executeScript : Js.t {. code: string } => (Js.null_undefined (array string) => unit) => unit = "chrome.tabs.executeScript" [@@bs.val];
+
+    external sendMessage : 'id => 'a => ('b => unit) = "chrome.tabs.sendMessage" [@@bs.val];
   };
+
+  module ContextMenus = {
+    external create : Js.t {..} => unit = "chrome.contextMenus.create" [@@bs.val];
+  };
+};
+
+module Message = {
+  type message 'a = {
+    type_: string,
+    message: 'a
+  };
+
+  let send type_ message callback =>
+    Chrome.Runtime.sendMessage { type_, message } (fun response => callback response.message);
+
+  let sendToTab id type_ message callback =>
+    Chrome.Tabs.sendMessage id { type_, message } (fun response => response |>Js.Undefined.to_opt |> Option.map (fun r => callback r.message));
+
+  let receive type_ callback =>
+    Chrome.Runtime.addMessageListener (fun request _ respond =>
+      if (request.type_ == type_) {
+        callback request.message (fun response => respond { type_, message: response });
+      })
 };
 
 module Dom = {
