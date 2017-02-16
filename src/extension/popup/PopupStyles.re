@@ -43,12 +43,15 @@ let savedBadge = {
 let contextLink = {
   "textDecoration": "none",
   "color": "rgb(219, 76, 63)",
-  "height": "3vh",
-  "paddingLeft": "1vw"
+  "paddingLeft": "1vw",
+};
+let contextIcon = {
+  "paddingLeft": "1vw",
+  "fill": "rgb(219, 76, 63)",
+  "height": "1em",
+  "width": "1em"
 };
 
 let contextTitle = {
   "flex": "1"
 };
-
-let popupInNOut = [%bs.raw "{}"]; /* TODO: Missing from styles.js */

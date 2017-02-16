@@ -1,4 +1,3 @@
-open Core;
 open Core.Dom;
 open Common;
 
@@ -15,7 +14,7 @@ let ocamlishRels = [|
   "Subsection"
 |];
 
-let hasOcamlRels => {
+let hasOcamlRels () => {
   let hits =
     getElementsByTagName None "link"
       |> List.map (fun link => ocamlishRels |> arrayContains (Element.getAttribute link "rel"))
@@ -25,7 +24,7 @@ let hasOcamlRels => {
     hits >= 3
 };
 
-let hasCommonClassNames => {
+let hasCommonClassNames () => {
   let hits =
     [
       "keyword",
@@ -51,7 +50,7 @@ let hasCommonClassNames => {
   hits >= 3
 };
 
-let hasUniqueClassNames =>
+let hasUniqueClassNames () =>
   [
     "odoc-doc",
     "package-index"
@@ -59,5 +58,5 @@ let hasUniqueClassNames =>
   |> List.map hasClassName
   |> List.exists id;
 
-let mightBeOcamlDoc =>
+let mightBeOcamlDoc () =>
   hasUniqueClassNames () || hasOcamlRels () || hasCommonClassNames ();

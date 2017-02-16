@@ -1,7 +1,6 @@
 
-let createElement ::value ::lang ::defaultValue=? ::readOnly=false ::ref=? ::onChange=? ::children () =>
+let createElement ::value ::lang ::defaultValue=? ::readOnly=false ::ref=? ::onChange=? children::_ () =>
   <CodeMirror
-    style=Styles.popupInNOut
     value=value
     ref=?ref
     defaultValue=?defaultValue

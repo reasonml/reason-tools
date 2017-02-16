@@ -39,7 +39,7 @@
     "editor": "eval $(dependencyEnv) && eval $EDITOR",
     "whereisocamlmerlin": "eval $(dependencyEnv) && which ocamlmerlin-reason",
     "watch": "eval $(dependencyEnv) && nopam && ./node_modules/rebel/_build/src/rebel -P",
-    "watch:js": "webpack -w"
+    "watch:js": "webpack -vw"
   },
   "dependencies": {
     "@opam-alpha/merlin": "^ 2.5.0",
@@ -54,8 +54,8 @@
     "react-dom": "^15.3.2",
     "realpath": "*",
     "reason": "https://github.com/facebook/reason.git",
-    "rebel": "https://github.com/reasonml/rebel.git",
     "reason-js": "0.0.15",
+    "rebel": "https://github.com/reasonml/rebel.git",
     "rehydrate": "https://github.com/reasonml/rehydrate.git"
   },
   "rebel": {

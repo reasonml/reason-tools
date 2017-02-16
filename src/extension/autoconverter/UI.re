@@ -4,7 +4,7 @@ open Core.Dom;
 let ocamlLogo = [%bs.raw {|require('../../../../../src/images/ocamlLogo128.png')|}];
 let reasonLogo = [%bs.raw {|require('../../../../../src/images/logo128.png')|}];
 
-let addStyleSheet => {
+let addStyleSheet () => {
   let element = Document.createElement "style";
 
   Element.setType element "text/css";
@@ -54,7 +54,7 @@ let addStyleSheet => {
   element
 };
 
-let updateSyntaxSwapButton => {
+let updateSyntaxSwapButton () => {
   let element = Document.getElementById "syntax-swap-button";
   let style = Element.style element;
   let reasonLogoUrl = "url(" ^ (Chrome.Extension.getURL reasonLogo) ^ ")";
@@ -71,7 +71,7 @@ let addSyntaxSwapButton swap => {
   Style.setTop (style element) "40px";
   setId element "syntax-swap-button";
   setClassName element "reason_tools_button";
-  setOnClick element (fun () => swap `not_initial);
+  setOnClick element (fun _ => swap `not_initial);
   Style.setBackgroundImage (style element) ("url(" ^ (Chrome.Extension.getURL reasonLogo) ^ ")");
   Style.setBackgroundSize (style element) "cover";
   Body.appendChild element;

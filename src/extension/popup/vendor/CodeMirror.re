@@ -13,3 +13,10 @@ let createElement
     "onChange": Js.Null_undefined.from_opt onChange,
     "options": Js.Null_undefined.from_opt options
   };
+
+external focus : ReactRe.reactRef => unit = "" [@@bs.send];
+let execCommand : ReactRe.reactRef => string => unit = [%bs.raw {|
+  function (el, command) {
+    return el.getCodeMirror().execCommand(command);
+  }
+|}];
