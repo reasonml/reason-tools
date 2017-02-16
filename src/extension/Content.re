@@ -5,22 +5,21 @@ open Common;
 Hljs.registerLanguage "ocaml" [%bs.raw "require('highlight.js/lib/languages/ocaml')"];
 Hljs.configure { "classPrefix": "", "languages": [| "ocaml" |] };
 
+let stylesheet = Document.createElement "link";
+
+let css = [%bs.raw {|require('../../../../src/css/ocamlDoc.css')|}];
+
+Element.setType stylesheet "text/css";
+Element.setRel stylesheet "stylesheet";
+Element.setHref stylesheet (Chrome.Extension.getURL css);
+
 type saveState = {
   mutable stylesheets: list Element.t,
   mutable buttons: list Element.t
 };
-let savedState = (fun () => {
-  let css = [%bs.raw {|require('../../../../src/css/ocamlDoc.css')|}];
-  let stylesheet = Document.createElement "link";
+let savedState = { stylesheets: [stylesheet], buttons: [] };
 
-  Element.setType stylesheet "text/css";
-  Element.setRel stylesheet "stylesheet";
-  Element.setHref stylesheet (Chrome.Extension.getURL css);
-
-  { stylesheets: [stylesheet], buttons: [] }
-}) ();
-
-let swapStyleSheets => {
+let swapStyleSheets _ => {
   let stylesheets =
     getElementsByTagName None "link"
     |> List.filter (fun link => (Element.getAttribute link "rel") == "stylesheet");
@@ -34,7 +33,7 @@ let swapStyleSheets => {
   savedState.stylesheets = stylesheets;
 };
 
-let readjustViewport =>
+let readjustViewport () =>
   if (not (Str.isEmpty Location.hash)) {
     [%bs.raw {| window.location.href = window.location.href |}];
   };
@@ -42,7 +41,6 @@ let readjustViewport =>
 type swapState = { mutable remaining: int };
 
 let doListing mode state listing => {
-  open RefmtProtocol;
   open Retrieve;
   let { els, text, replace } = listing;
 
@@ -50,8 +48,8 @@ let doListing mode state listing => {
     { input: normalizeText text }
     (fun response => {
       switch response {
-        | Failure _ => ()
-        | Success { outText } => Replace.replaceListing els outText replace
+        | RefmtProtocol.Failure _ => ()
+        | RefmtProtocol.Success { outText } => Replace.replaceListing els outText replace
       };
 
       /* we're in an async callback, so keep track of when we're finished by keeping count */
@@ -76,7 +74,7 @@ let swapSyntax mode => {
   UI.updateSyntaxSwapButton ();
 };
 
-let toggleButtons =>
+let toggleButtons () =>
   if (List.length savedState.buttons > 0) {
     savedState.buttons
       |> List.iter Element.remove;
@@ -84,7 +82,7 @@ let toggleButtons =>
     savedState.buttons = UI.addSwapButtons swapStyleSheets swapSyntax;
   };
 
-let toggle => {
+let toggle () => {
   swapStyleSheets ();
   toggleButtons ();
   swapSyntax `initial;
@@ -95,3 +93,46 @@ if (Detect.mightBeOcamlDoc ()) {
 };
 
 Message.receive "toggle" (fun _ _ => toggle ());
+
+let open_ text =>
+  Message.send "open" text (fun _ => ());
+
+Message.receive "refmt.selection" (fun _ _ => {
+  let selection = Window.getSelection ();
+  let text = selection |> Selection.toString |> normalizeText;
+
+  Selection.removeAllRanges selection;
+
+  RefmtProtocol.send
+    { input: text }
+    (fun response => {
+      switch response {
+        | Failure _ => ()
+        | Success { outText, inLang, outLang } => {
+          let host = Document.createElement "div";
+          let shadow = Element.attachShadow host { "mode": "closed" };
+
+          Body.appendChild host;
+
+          /* React must render directly to the shadow root, otherwise onclick handlers won't work */
+          ReactDOMRe.render
+            <InlinePopover
+              inLang inText=text
+              outLang outText
+              close=(fun () => Body.removeChild host)
+              open_=open_
+            />
+            (Element.toReasonJsElement shadow);
+
+          /* Only after React has rendered can we attach the stylesheets, otherwise React will render over them */
+          Element.appendChild shadow (Node.cloneNode stylesheet);
+          let style = Document.createElement "style";
+          Element.setType style "text/css";
+          Element.setInnerText style InlineStyles.stylesheet;
+          Element.appendChild shadow style;
+        }
+      };
+    }
+  )
+
+});

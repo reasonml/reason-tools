@@ -8,9 +8,12 @@
   "sources": [{
     "dir": "src/extension",
     "subdirs": [
-      "autoconverter",
-      "common",
-      {
+      "autoconverter", {
+        "dir": "common",
+        "subdirs": ["components"]
+      }, {
+        "dir": "inline",
+      }, {
         "dir": "popup",
         "subdirs": ["components", "vendor"]
       }

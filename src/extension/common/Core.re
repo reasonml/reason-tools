@@ -1,6 +1,22 @@
 exception Unreachable;
 
 module Option = {
+  let unwrapUnsafely = fun
+  | Some v => v
+  | None => assert false;
+
+  let is_some = fun
+  | Some _ => true
+  | None => false;
+
+  let is_none = fun
+  | Some _ => false
+  | None => true;
+
+  let may f => fun
+  | Some v => f v
+  | None => ();
+
   let or_ other => fun
   | Some _ as self => self
   | None => other;
@@ -16,6 +32,14 @@ module Option = {
   let map_or f other => fun
   | Some v => f v
   | None => other;
+
+  let map_or_else f g => fun
+  | Some v => f v
+  | None => g ();
+
+  let and_then f => fun
+  | Some v => f v
+  | None => None;
 };
 
 module MaybeArray = {
@@ -44,13 +68,19 @@ module Re = {
 
 module Promise = {
   type t 'a;
-  type resolve 'a = 'a => unit;
 
-  external make : (resolve 'a => unit) => t 'a = "Promise" [@@bs.new];
+  external make : (('a => unit) => ('e => unit) => unit) => t 'a = "Promise" [@@bs.new];
+
+  external then_ : ('a => 'b) => t 'b = "then" [@@bs.send.pipe: t 'a];
+  external and_then : ('a => t 'b) => t 'b = "then" [@@bs.send.pipe: t 'a];
+  external catch : ('e => unit) => t 'a = "" [@@bs.send.pipe: t 'a];
+  external or_ : ('e => 'b) => t 'b = "catch" [@@bs.send.pipe: t 'a]; /* non-standard name for "overload" */
+  external or_else : ('e => t 'b) => t 'b = "catch" [@@bs.send.pipe: t 'a]; /* non-standard name for "overload" */
 
   external all : array (t 'a) => t (array 'a) = "Promise.all" [@@bs.val];
-
-  external then_ : ('a => Js.undefined 'b) => t 'b = "then" [@@bs.send.pipe: t 'a];
+  external race : array (t 'a) => t 'b = "Promise.race" [@@bs.val]; /* unsure about what the returned promise will hold */
+  external reject : 'e => t 'a = "Promise.reject" [@@bs.val];
+  external resolve : 'a => t 'a = "Promise.resolve" [@@bs.val];
 };
 
 module Chrome = {
@@ -144,23 +174,35 @@ module Dom = {
     external nextSibling : t => Js.null t = "nextSibling" [@@bs.get];
     external setRel : t => string => unit = "rel" [@@bs.set];
     external style : t => Style.t = "style" [@@bs.get];
+    external setStyle : t => string => unit = "style" [@@bs.set];
     external setType : t => string => unit = "type" [@@bs.set];
 
-    external setOnClick : t => (unit => unit) => unit = "onclick" [@@bs.set];
+    external setOnClick : t => (Js.t {..} => unit) => unit = "onclick" [@@bs.set];
 
+    external appendChild : t => t => unit = "" [@@bs.send];
     external getAttribute : t => string => string = "getAttribute" [@@bs.send];
     external getElementsByClassName : t => string => Arrayish.t t = "" [@@bs.send];
     external getElementsByTagName : t => string => Arrayish.t t = "" [@@bs.send];
     external remove : t => unit = "remove" [@@bs.send];
     external querySelectorAll : t => string => Arrayish.t t = "" [@@bs.send];
+
+    external attachShadow : t => Js.t {..} => t = "" [@@bs.send];
+
+    external toReasonJsElement : t => ReasonJs.Document.element = "%identity";
   };
 
   module Node = {
     let _TEXT_NODE = 3;
+    let _DOCUMENT_POSITION_PRECEDING = 2;
+    let _DOCUMENT_POSITION_CONTAINS	= 8;
 
     external nodeType : Element.t => int = "" [@@bs.get];
     external nodeValue : Element.t => string = "" [@@bs.get];
     external parentNode : Element.t => Element.t = "" [@@bs.get];
+    external cloneNode : Element.t => Element.t = "" [@@bs.send];
+    
+    external compareDocumentPosition : Element.t => Element.t => int = "" [@@bs.send];
+    external insertBefore : target::Element.t => new_::Element.t => ref_::Element.t => unit = "" [@@bs.send];
   };
 
   module Document = {
@@ -183,32 +225,40 @@ module Dom = {
     external outerHTML : string = "document.body.outerHTML" [@@bs.val];
 
     external appendChild : Element.t => unit = "document.body.appendChild" [@@bs.val];
+    external removeChild : Element.t => unit = "document.body.removeChild" [@@bs.val];
   };
 
   module Head = {
     external appendChild : Element.t => unit = "document.head.appendChild" [@@bs.val];
   };
+
+  module Selection = {
+    type t;
+
+    external anchorNode : t => Element.t = "" [@@bs.get];
+    external focusNode : t => Element.t = "" [@@bs.get];
+    external toString : t => string = "" [@@bs.send];
+    external removeAllRanges : t => unit = "" [@@bs.send];
+  };
+
+  module Window = {
+    external getSelection : unit => Selection.t = "window.getSelection" [@@bs.val];
+  }
 };
 
 module Util = {
   external btoa : string => string = "window.btoa" [@@bs.val];
   external atob : string => string = "window.atob" [@@bs.val];
   external setTimeout : (unit => unit) => int => unit = "window.setTimeout" [@@bs.val];
+  let classNames items =>
+    items
+    |> List.map (fun (name, flag) => flag ? name : "")
+    |> List.filter (fun s => s !== "")
+    |> String.concat " ";
 };
 
 module Hljs = {
   external registerLanguage : string => string => unit = "registerLanguage" [@@bs.module "highlight.js"];
   external configure : Js.t {..} => unit = "configure" [@@bs.module "highlight.js"];
   external highlightBlock : Dom.Element.t => unit = "highlightBlock" [@@bs.module "highlight.js"];
-};
-
-module CM = {
-  type t;
-
-  external focus : ReactRe.reactRef => unit = "" [@@bs.send];
-  let execCommand : ReactRe.reactRef => string => unit = [%bs.raw {|
-    function (el, command) {
-      return el.getCodeMirror().execCommand(command);
-    }
-  |}];
 };

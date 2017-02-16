@@ -24,7 +24,7 @@ module PopupWindow = {
   let getInstanceVars () => {
     inputRef: None
   };
-  let getInitialState props => {
+  let getInitialState _ => {
     showSaveBadge: false,
     inText: "",
     outText: "",
@@ -57,16 +57,16 @@ module PopupWindow = {
     switch instanceVars.inputRef {
       | None => ()
       | Some ref => {
-        CM.focus ref;
-        CM.execCommand ref "selectAll";
+        CodeMirror.focus ref;
+        CodeMirror.execCommand ref "selectAll";
       }
     };
     None
   };
   let render { props, state, updater, refSetter } => {
-    <div style=Styles.popup>
-      <div style=Styles.popupColumn>
-        <h1 style=Styles.popupContext>
+    <div style=PopupStyles.popup>
+      <div style=PopupStyles.popupColumn>
+        <h1 style=PopupStyles.popupContext>
           <ColumnTitle name="In" lang=state.inLang />
         </h1>
 
@@ -79,20 +79,20 @@ module PopupWindow = {
         />
       </div>
 
-      <div style=Styles.popupColumn>
-        <h1 style=Styles.popupContext>
+      <div style=PopupStyles.popupColumn>
+        <h1 style=PopupStyles.popupContext>
           <ColumnTitle name="Out" lang=state.outLang />
-          <CopyButton text=state.outText onCopy=(updater showSaveBadge) />
-          <OpenButton onClick=(updater open_) />
+          <CopyButton style=PopupStyles.contextLink text=state.outText onCopy=(updater showSaveBadge) />
+          <OpenButton style=PopupStyles.contextIcon onClick=(updater open_) />
         </h1>
 
         <Editor value=state.outText lang=state.outLang readOnly=true />
-        <SaveBadge show=state.showSaveBadge />
+        <SaveBadge style=PopupStyles.savedBadge show=state.showSaveBadge />
       </div>
     </div>;
   }
 };
 
 include ReactRe.CreateComponent PopupWindow;
-let createElement ::initialText ::onOpen ::onRefmt ::children =>
-  wrapProps { initialText, onOpen, onRefmt } ::children;
+let createElement ::initialText ::onOpen ::onRefmt =>
+  wrapProps { initialText, onOpen, onRefmt };

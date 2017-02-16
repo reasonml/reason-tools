@@ -11,58 +11,73 @@ open Core.Dom;
 [%bs.raw {|require('codemirror/mode/mllike/mllike')|}];
 
 let open_ text =>
-  Chrome.Tabs.create { "url": ("popup.html#" ^ (Util.btoa text)) };
+  Message.send "open" text (fun _ => ());
 
 let refmt value updater => {
-  open RefmtProtocol;
   /* this isn't guaranteed to be sync or speedy, so
    * don't set this.state.in here, since it could cause lag.
    */
    RefmtProtocol.send
     { input: value }
     (fun
-      | Failure error => updater error None None
-      | Success { outText, inLang, outLang } =>
+      | RefmtProtocol.Failure error => updater error None None
+      | RefmtProtocol.Success { outText, inLang, outLang } =>
         updater outText (Some inLang) (Some outLang)
     );
 
   Chrome.Storage.Local.set { "latestRefmtString": value };
 };
 
-Document.addEventListener "DOMContentLoaded" (fun () =>
-  ignore (Promise.all [|
-    Promise.make (fun resolve => {
-      Chrome.Tabs.executeScript
-        { "code": "window.getSelection().toString()" }
-        (fun maybeMaybeArray =>
-          maybeMaybeArray
+let getSelection () =>
+  Promise.make (fun resolve reject =>
+    Chrome.Tabs.executeScript
+      { "code": "window.getSelection().toString()" }
+      (fun maybeMaybeArray =>
+        maybeMaybeArray
           |> Js.Null_undefined.to_opt
           |> Option.map (fun maybeArray => Array.unsafe_get maybeArray 0)
-          |> resolve)
-    }),
-    Promise.make (fun resolve => {
-      Chrome.Storage.Local.get
-        "latestRefmtString"
-        (fun response => resolve (Js.Null.to_opt response##latestRefmtString))
-    })
-  |]
-  |> Promise.then_ (fun results => {
-    let (maybeSelection, latestRefmtString) =
-      switch results {
-      | [| a, b |] => (a, b)
-      | _ => (None, None);
-      };
-    let selection =
-      maybeSelection |> Option.or_ latestRefmtString
-                     |> Option.get_or (
-                       Location.hash
-                       |> Js.String.sliceToEnd 1
-                       |> Util.atob
-                     );
+          |> Option.and_then (fun s => Str.isEmpty s ? None : Some s)
+          |> Option.map_or_else resolve reject
+      )
+  );
 
+let getLatestInput () =>
+  Promise.make (fun resolve reject =>
+    Chrome.Storage.Local.get
+      "latestRefmtString"
+      (fun response =>
+        response##latestRefmtString
+          |> Js.Null.to_opt
+          |> Option.map_or_else resolve reject
+      )
+  );
+
+let getInputFromUrl () => {
+   let text = Location.hash
+    |> Js.String.sliceToEnd from::1
+    |> Util.atob;
+
+  if (Str.isEmpty text) {
+    Promise.reject ()
+  } else {
+    Promise.resolve text
+  }
+};
+
+let render input =>
     ReactDOMRe.render
-      <PopupWindow initialText=selection onOpen=open_ onRefmt=refmt />
+      <PopupWindow initialText=input onOpen=open_ onRefmt=refmt />
       (ReasonJs.Document.getElementById "app");
 
-    Js.Undefined.empty
-  })));
+let init _ => {
+  open Promise;
+
+  getInputFromUrl ()
+    |> or_else getSelection
+    |> or_else getLatestInput
+    |> or_ (fun _=> "")
+    |> then_ render
+    |> ignore;
+};
+
+Document.addEventListener "DOMContentLoaded" init;

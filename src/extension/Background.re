@@ -19,17 +19,21 @@ RefmtProtocol.listen
     request.input |> Refmt.refmt
                   |> Refmt.parse
                   |> respond );
-/*
+
+Message.receive "open"
+  (fun text _ =>
+    Chrome.Tabs.create { "url": ("popup.html#" ^ (Util.btoa text)) }
+  );
+
 Chrome.ContextMenus.create {
   "title": "Refmt",
   "contexts": [| "selection" |],
-  "onclick": fun info tab => Message.sendToTab tab##id "toggle" info##selectionText (fun _ => ())
+  "onclick": fun info tab => Message.sendToTab tab##id "refmt.selection" info##selectionText (fun _ => ())
 };
-*/
 
 Chrome.ContextMenus.create {
   "title": "Toggle",
-  "contexts": [| "browser_action" |],
+  "contexts": [| "browser_action", "page" |],
   "onclick": fun _ tab => Message.sendToTab tab##id "toggle" () (fun _ => ())
 };
 

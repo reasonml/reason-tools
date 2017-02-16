@@ -1,4 +1,3 @@
-open Core;
 open Core.Dom;
 open Common;
 
@@ -34,7 +33,7 @@ let getTypeTable pre =>
       }
   };
 
-let getPreListings =>
+let getPreListings () =>
   getElementsByTagName None "pre"
   |> List.map (fun el => {
     switch (getTypeTable el) {
@@ -55,7 +54,7 @@ let getPreListings =>
     }
   });
 
-let getDefListings =>
+let getDefListings () =>
   getElementsByClassName None "def"
   |> List.map (fun el => {
     els: [el],
@@ -66,7 +65,7 @@ let getDefListings =>
     })
   });
 
-let getLstListings =>
+let getLstListings () =>
   getElementsByClassName None "lstlisting"
   |> List.map (fun el => {
     els: [el],
@@ -78,7 +77,7 @@ let getLstListings =>
     })
   });
 
-let getCodeListings =>
+let getCodeListings () =>
   getElementsByTagName None "code"
   |> List.map (fun el => {
     els: [el],
@@ -89,7 +88,7 @@ let getCodeListings =>
     })
   });
 
-let getListings =>
+let getListings () =>
   [
     getPreListings,
     getDefListings,
