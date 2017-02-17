@@ -4,7 +4,9 @@ Adds [Reason](http://facebook.github.io/reason/) to the browser.
 
 ## Getting started
 
-[Chrome](https://chrome.google.com/webstore/detail/reason-tools/kmdelnjbembbiodplmhgfjpecibfhadd) | [Firefox](https://addons.mozilla.org/en-US/firefox/addon/reason-tools/)
+Directly in the browser: https://reasonml.github.io/reason-tools/popup.html
+
+Or, browser extensions: [Chrome](https://chrome.google.com/webstore/detail/reason-tools/kmdelnjbembbiodplmhgfjpecibfhadd) | [Firefox](https://addons.mozilla.org/en-US/firefox/addon/reason-tools/)
 
 ![demo of reason-tools](https://raw.githubusercontent.com/rickyvetter/reason-tools/master/assets/demo.gif)
 
