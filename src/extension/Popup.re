@@ -11,22 +11,10 @@ open Core.Dom;
 [%bs.raw {|require('codemirror/mode/mllike/mllike')|}];
 
 let open_ text =>
-  Message.send "open" text;
+  Message.send "background:open" text;
 
-let refmt value updater => {
-  /* this isn't guaranteed to be sync or speedy, so
-   * don't set this.state.in here, since it could cause lag.
-   */
-   RefmtProtocol.send
-    { input: value }
-    (fun
-      | RefmtProtocol.Failure error => updater error None None
-      | RefmtProtocol.Success { outText, inLang, outLang } =>
-        updater outText (Some inLang) (Some outLang)
-    );
-
-  Chrome.Storage.Local.set { "latestRefmtString": value };
-};
+let generateShareableLink text =>
+  "https://reasonml.github.io/reason-tools/popup.html#" ^ (Util.btoa text);
 
 let getSelection () =>
   Promise.make (fun resolve reject =>
@@ -64,9 +52,34 @@ let getInputFromUrl () => {
   }
 };
 
-let render input =>
+let rec inputChanged input => {
+  let link = generateShareableLink input;
+  /* this isn't guaranteed to be sync or speedy, so
+   * don't set this.state.in here, since it could cause lag.
+   */
+   RefmtProtocol.send
+    { input: input }
+    (fun
+      | RefmtProtocol.Failure error =>
+        render input error None None link
+      | RefmtProtocol.Success { outText, inLang, outLang } =>
+        render input outText (Some inLang) (Some outLang) link
+    );
+
+  Chrome.Storage.Local.set { "latestRefmtString": input };
+}
+
+and render inText outText inLang outLang link =>
     ReactDOMRe.render
-      <PopupWindow initialText=input onOpen=open_ onRefmt=refmt />
+      <PopupWindow
+        inText
+        inLang
+        outText
+        outLang
+        link
+        onOpen=open_
+        onInputChanged=inputChanged
+      />
       (ReasonJs.Document.getElementById "app");
 
 let init _ => {
@@ -76,7 +89,7 @@ let init _ => {
     |> or_else getSelection
     |> or_else getLatestInput
     |> or_ (fun _=> "")
-    |> then_ render
+    |> then_ inputChanged
     |> ignore;
 };
 

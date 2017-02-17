@@ -24,19 +24,21 @@ let popupContext = {
   "width": "100%"
 };
 
-let savedBadge = {
-  "alignItems": "center",
-  "backgroundColor": "rgba(0,0,0,0.8)",
-  "borderRadius": "50%",
-  "color": "white",
-  "display": "flex",
-  "height": "10vh",
-  "justifyContent": "center",
-  "left": "50%",
+let copyConfirmation = {
   "position": "absolute",
+  "zIndex": 10,
   "top": "50%",
+  "left": "50%",
   "transform": "translate(-50%,-50%)",
-  "width": "10vh",
+  "padding": "4vh 8vh 6vh",
+  "display": "flex",
+  "flexDirection": "column",
+  "justifyContent": "center",
+  "alignItems": "center",
+  "borderRadius": "2vh",
+  "backgroundColor": "rgba(0,0,0,0.8)",
+  "color": "white",
+  "fontFamily": "sans-serif",
   "pointerEvents": "none"
 };
 
