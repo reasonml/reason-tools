@@ -15,9 +15,8 @@ Element.setHref stylesheet (Chrome.Extension.getURL css);
 
 type saveState = {
   mutable stylesheets: list Element.t,
-  mutable buttons: list Element.t
 };
-let savedState = { stylesheets: [stylesheet], buttons: [] };
+let savedState = { stylesheets: [stylesheet] };
 
 let swapStyleSheets _ => {
   let stylesheets =
@@ -74,17 +73,9 @@ let swapSyntax mode => {
   UI.updateSyntaxSwapButton ();
 };
 
-let toggleButtons () =>
-  if (List.length savedState.buttons > 0) {
-    savedState.buttons
-      |> List.iter Element.remove;
-  } else {
-    savedState.buttons = UI.addSwapButtons swapStyleSheets swapSyntax;
-  };
-
 let toggle () => {
   swapStyleSheets ();
-  toggleButtons ();
+  UI.toggle swapStyleSheets swapSyntax;
   swapSyntax `initial;
 };
 
