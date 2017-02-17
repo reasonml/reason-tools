@@ -6,7 +6,16 @@ const package = require('./package.json');
 
 manifest.version = package.version;
 
-module.exports = {
+const commonModule = {
+  loaders: [
+    {
+      test: /\.(png|jpg|gif|html|css)$/,
+      loader: 'file-loader?name=[name].[ext]'
+    }
+  ],
+};
+
+const Extension = {
   entry: {
     Content: './lib/js/src/extension/content.js',
     ContentLoader: './lib/js/src/extension/contentLoader.js',
@@ -17,15 +26,22 @@ module.exports = {
     path: path.join(__dirname, '_build/extension/'),
     filename: '[name].bundle.js',
   },
-  module: {
-    loaders: [
-      {
-        test: /\.(png|jpg|gif|html|css)$/,
-        loader: 'file-loader?name=[name].[ext]'
-      }
-    ],
-  },
+  module: commonModule,
   plugins: [
     new GenerateJsonPlugin('manifest.json', manifest),
   ],
+  generateZip: true,
 };
+
+const Page = {
+  entry: {
+    Popup: './lib/js/src/extension/page.js',
+  },
+  output: {
+    path: path.join(__dirname, 'docs/'),
+    filename: '[name].bundle.js',
+  },
+  module: commonModule,
+};
+
+module.exports = [Extension, Page];

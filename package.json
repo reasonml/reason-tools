@@ -28,7 +28,7 @@
   ],
   "scripts": {
     "build": "npm run build:refmt && npm run build:ext && npm run build:js",
-    "build:prod": "npm run build:re && && npm run build:ext && npm run build:js:prod",
+    "build:prod": "npm run build:refmt && npm run build:ext && npm run build:js:prod",
     "build:js": "webpack -v",
     "build:js:prod": "webpack -p --config ./webpack.production.config.js",
     "build:refmt": "eval $(dependencyEnv) && nopam && ./node_modules/rebel/_build/src/rebel -verbose",

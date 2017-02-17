@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Reason Tools</title>
+    <style>
+      /* http://meyerweb.com/eric/tools/css/reset/
+       v2.0 | 20110126
+       License: none (public domain)
+      */
+
+      html, body, div, span, applet, object, iframe,
+      h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+      a, abbr, acronym, address, big, cite, code,
+      del, dfn, em, img, ins, kbd, q, s, samp,
+      small, strike, strong, sub, sup, tt, var,
+      b, u, i, center,
+      dl, dt, dd, ol, ul, li,
+      fieldset, form, label, legend,
+      table, caption, tbody, tfoot, thead, tr, th, td,
+      article, aside, canvas, details, embed,
+      figure, figcaption, footer, header, hgroup,
+      menu, nav, output, ruby, section, summary,
+      time, mark, audio, video {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+      }
+      /* HTML5 display-role reset for older browsers */
+      article, aside, details, figcaption, figure,
+      footer, header, hgroup, menu, nav, section {
+        display: block;
+      }
+      body {
+        line-height: 1;
+      }
+      ol, ul {
+        list-style: none;
+      }
+      blockquote, q {
+        quotes: none;
+      }
+      blockquote:before, blockquote:after,
+      q:before, q:after {
+        content: '';
+        content: none;
+      }
+      table {
+        border-collapse: collapse;
+        border-spacing: 0;
+      }
+
+      /* if you aren't specific about both here, ff gets mad at you :( */
+      html, body {
+        width: 800px;
+        height: 455px;
+      }
+      #app {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+      }
+
+      .ReactCodeMirror {
+        flex: 1;
+        max-height: 92vh;
+      }
+
+      .CodeMirror.CodeMirror {
+        font-size: 13px;
+        height: 100%;
+        padding: 0 0.5vw;
+        padding: 0.6%;
+        width: 48vw;
+      }
+      /* cm doesn't catch errors very well. we will have to handle ourselves */
+      .CodeMirror.CodeMirror .cm-error {
+        background-color: transparent;
+      }
+    </style>
+    <link rel="stylesheet" href="codemirror.css">
+    <link rel="stylesheet" href="oceanic-next.css">
+    <script charset="utf-8" src="Popup.bundle.js"></script>
+  </head>
+  <body>
+    <div id="app" />
+  </body>
+</html>
