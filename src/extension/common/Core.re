@@ -1,5 +1,7 @@
 exception Unreachable;
 
+let noop _ => ();
+
 module Option = {
   let unwrapUnsafely = fun
   | Some v => v
@@ -93,7 +95,7 @@ module Chrome = {
 
   module Runtime = {
     external sendMessage : 'a => ('b => unit) = "chrome.runtime.sendMessage" [@@bs.val];
-    external addMessageListener : ('a => unit => ('b => unit) => unit) => unit = "chrome.runtime.onMessage.addListener" [@@bs.val];
+    external addMessageListener : ('a => Js.t {..} => ('b => unit) => unit) => unit = "chrome.runtime.onMessage.addListener" [@@bs.val];
   };
 
   module Storage = {
@@ -124,17 +126,22 @@ module Message = {
     message: 'a
   };
 
-  let send type_ message callback =>
-    Chrome.Runtime.sendMessage { type_, message } (fun response => callback response.message);
+  let send type_ message =>
+    Chrome.Runtime.sendMessage { type_, message } noop;
 
-  let sendToTab id type_ message callback =>
-    Chrome.Tabs.sendMessage id { type_, message } (fun response => response |>Js.Undefined.to_opt |> Option.map (fun r => callback r.message));
+  let sendTab id type_ message =>
+    Chrome.Tabs.sendMessage id { type_, message } noop;
+
+  let query type_ message callback =>
+    Chrome.Runtime.sendMessage { type_, message } callback;
+
+  let queryTab id type_ message callback =>
+    Chrome.Tabs.sendMessage id { type_, message } callback;
 
   let receive type_ callback =>
-    Chrome.Runtime.addMessageListener (fun request _ respond =>
-      if (request.type_ == type_) {
-        callback request.message (fun response => respond { type_, message: response });
-      })
+    Chrome.Runtime.addMessageListener
+      (fun request sender respond =>
+        if (request.type_ == type_) { callback request.message sender respond; })
 };
 
 module Dom = {
@@ -258,7 +265,7 @@ module Util = {
 };
 
 module Hljs = {
-  external registerLanguage : string => string => unit = "registerLanguage" [@@bs.module "highlight.js"];
-  external configure : Js.t {..} => unit = "configure" [@@bs.module "highlight.js"];
-  external highlightBlock : Dom.Element.t => unit = "highlightBlock" [@@bs.module "highlight.js"];
+  external registerLanguage : string => string => unit = "registerLanguage" [@@bs.module "highlight.js/lib/highlight"];
+  external configure : Js.t {..} => unit = "configure" [@@bs.module "highlight.js/lib/highlight"];
+  external highlightBlock : Dom.Element.t => unit = "highlightBlock" [@@bs.module "highlight.js/lib/highlight"];
 };

@@ -21,7 +21,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["Content.bundle.js"],
+      "js": ["ContentLoader.bundle.js"],
       "run_at": "document_end",
       "all_frames": true
     }
@@ -36,7 +36,9 @@
   "permissions": [
     "activeTab",
     "storage",
-    "contextMenus"
+    "contextMenus",
+    "http://*/",
+    "https://*/"
   ],
   "web_accessible_resources": [
    "ocamlDoc.css",
