@@ -46,18 +46,21 @@ let ensureLoaded tabId callback =>
 Message.receive "background:load-content-scripts" (fun _ sender _ => loadContentScripts sender##tab##id noop);
 
 let refmtSelection tabId =>
-  Message.sendTab tabId "content:refmt-selection" ();
+  ensureLoaded tabId (Message.sendTab tabId "content:refmt-selection");
+
+let toggleConversion tabId =>
+  ensureLoaded tabId (Message.sendTab tabId "content:toggle");
 
 Chrome.ContextMenus.create {
   "title": "Refmt",
   "contexts": [| "selection" |],
-  "onclick": fun _ tab => ensureLoaded tab##id (fun () => refmtSelection tab##id)
+  "onclick": fun _ tab => refmtSelection tab##id
 };
 
 Chrome.ContextMenus.create {
   "title": "Toggle",
   "contexts": [| "browser_action", "page" |],
-  "onclick": fun _ tab => Message.sendTab tab##id "content:toggle" ()
+  "onclick": fun _ tab => toggleConversion tab##id
 };
 
 /*
