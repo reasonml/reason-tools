@@ -92,12 +92,12 @@ if (Detect.mightBeOcamlDoc ()) {
   toggle ();
 };
 
-Message.receive "toggle" (fun _ _ => toggle ());
+Message.receive "content:toggle" (fun _ _ _ => toggle ());
 
 let open_ text =>
-  Message.send "open" text (fun _ => ());
+  Message.send "background:open" text;
 
-Message.receive "refmt.selection" (fun _ _ => {
+Message.receive "content:refmt-selection" (fun _ _ _ => {
   let selection = Window.getSelection ();
   let text = selection |> Selection.toString |> normalizeText;
 

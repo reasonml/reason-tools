@@ -20,21 +20,44 @@ RefmtProtocol.listen
                   |> Refmt.parse
                   |> respond );
 
-Message.receive "open"
-  (fun text _ =>
+Message.receive "background:open"
+  (fun text _ _ =>
     Chrome.Tabs.create { "url": ("popup.html#" ^ (Util.btoa text)) }
   );
+
+external executeScript : Js.t {. file: string } => (unit => unit) => unit = "chrome.tabs.executeScript" [@@bs.val];
+
+let loadContentScripts tabId callback => {
+  executeScript { "file": "Content.bundle.js" } (fun () => {
+    Message.sendTab tabId "content:notify-loaded" ();
+    callback ();
+  });
+};
+
+let ensureLoaded tabId callback =>
+  Message.queryTab tabId "content:query-loaded" () (fun loaded => {
+    if (not loaded) {
+      loadContentScripts tabId callback
+    } else {
+      callback ();
+    }
+  });
+
+Message.receive "background:load-content-scripts" (fun _ sender _ => loadContentScripts sender##tab##id noop);
+
+let refmtSelection tabId =>
+  Message.sendTab tabId "content:refmt-selection" ();
 
 Chrome.ContextMenus.create {
   "title": "Refmt",
   "contexts": [| "selection" |],
-  "onclick": fun info tab => Message.sendToTab tab##id "refmt.selection" info##selectionText (fun _ => ())
+  "onclick": fun _ tab => ensureLoaded tab##id (fun () => refmtSelection tab##id)
 };
 
 Chrome.ContextMenus.create {
   "title": "Toggle",
   "contexts": [| "browser_action", "page" |],
-  "onclick": fun _ tab => Message.sendToTab tab##id "toggle" () (fun _ => ())
+  "onclick": fun _ tab => Message.sendTab tab##id "content:toggle" ()
 };
 
 /*

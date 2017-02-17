@@ -11,7 +11,7 @@ open Core.Dom;
 [%bs.raw {|require('codemirror/mode/mllike/mllike')|}];
 
 let open_ text =>
-  Message.send "open" text (fun _ => ());
+  Message.send "open" text;
 
 let refmt value updater => {
   /* this isn't guaranteed to be sync or speedy, so

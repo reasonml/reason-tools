@@ -9,6 +9,7 @@ manifest.version = package.version;
 module.exports = {
   entry: {
     Content: './lib/js/src/extension/content.js',
+    ContentLoader: './lib/js/src/extension/contentLoader.js',
     Popup: './lib/js/src/extension/popup.js',
     Background: './lib/js/src/extension/background.js',
   },
