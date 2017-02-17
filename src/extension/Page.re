@@ -47,9 +47,7 @@ let refmt value updater =>
           | ("Failure", error) => updater error None None
           | (conversion, outText) =>
             switch (conversion |> Js.String.split "to") {
-            | [|inLang, outLang|] =>
-              Js.log outText;
-              updater outText (Some inLang) (Some outLang)
+            | [|inLang, outLang|] => updater outText (Some inLang) (Some outLang)
             | _ => ()
             }
           };

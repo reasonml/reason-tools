@@ -35,19 +35,8 @@ module PopupWindow = {
     None
   };
   let refmt {props, state, updater} inText => {
-    let updater' outText inLang outLang => {
-      Js.log "prison";
-      Js.log outText;
-      updater
-        (
-          fun {state} () => {
-            Js.log "finally!";
-            Js.log inLang;
-            Some {...state, outText, inLang, outLang}
-          }
-        )
-        ()
-    };
+    let updater' outText inLang outLang =>
+      updater (fun {state} () => Some {...state, outText, inLang, outLang}) ();
     props.onRefmt inText updater';
     Some {...state, inText}
   };
@@ -62,8 +51,7 @@ module PopupWindow = {
     };
     None
   };
-  let render {props, state, updater, refSetter} => {
-    Js.log state;
+  let render {props, state, updater, refSetter} =>
     <div style=PopupStyles.popup>
       <div style=PopupStyles.popupColumn>
         <h1 style=PopupStyles.popupContext> <ColumnTitle name="In" lang=state.inLang /> </h1>
@@ -88,8 +76,7 @@ module PopupWindow = {
         <Editor value=state.outText lang=state.outLang readOnly=true />
         <SaveBadge style=PopupStyles.savedBadge show=state.showSaveBadge />
       </div>
-    </div>
-  };
+    </div>;
 };
 
 include ReactRe.CreateComponent PopupWindow;
