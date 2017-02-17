@@ -59,6 +59,7 @@ module MaybeArray = {
 
 module Str = {
   external fromCharCode : int => string = "String.fromCharCode" [@@bs.val];
+  external fromCodePoint : int => string = "String.fromCodePoint" [@@bs.val];
   external includes : string => string => Js.boolean = "includes" [@@bs.send];
 
   let isEmpty s => String.length (String.trim s) == 0;
