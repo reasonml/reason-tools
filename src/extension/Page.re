@@ -22,9 +22,17 @@ let open_: string => unit = [%bs.raw
   {|
   function (hash) {
     window.open(
-      window.location.href.replace(/#(\S*)/g, "") + "#" + window.btoa(hash),
+      window.location.href,
       "_blank"
     );
+  }
+|}
+];
+
+let setHash: string => unit = [%bs.raw
+  {|
+  function (hash) {
+    window.location.hash = window.btoa(hash);
   }
 |}
 ];
@@ -51,20 +59,13 @@ let refmt value updater =>
             | _ => ()
             }
           };
-          ReasonJs.LocalStorage.setItem "latestRefmtString" value
+          setHash value
         }
       )
       0
   );
 
 let getSelection () => Promise.make (fun _ reject => reject ());
-
-let getLatestInput () =>
-  Promise.make (
-    fun resolve reject =>
-      ReasonJs.LocalStorage.getItem "latestRefmtString" |> Js.Null.to_opt |>
-      Option.map_or_else resolve reject
-  );
 
 let getInputFromUrl () => {
   let text = Location.hash |> Js.String.sliceToEnd from::1 |> Util.atob;
@@ -82,8 +83,7 @@ let render input =>
 
 let init _ =>
   Promise.(
-    getInputFromUrl () |> or_else getSelection |> or_else getLatestInput |> or_ (fun _ => "") |>
-    then_ render |> ignore
+    getInputFromUrl () |> or_else getSelection |> or_ (fun _ => "") |> then_ render |> ignore
   );
 
 Document.addEventListener "DOMContentLoaded" init;

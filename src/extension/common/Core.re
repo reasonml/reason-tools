@@ -207,7 +207,7 @@ module Dom = {
     external nodeValue : Element.t => string = "" [@@bs.get];
     external parentNode : Element.t => Element.t = "" [@@bs.get];
     external cloneNode : Element.t => Element.t = "" [@@bs.send];
-    
+
     external compareDocumentPosition : Element.t => Element.t => int = "" [@@bs.send];
     external insertBefore : target::Element.t => new_::Element.t => ref_::Element.t => unit = "" [@@bs.send];
   };
