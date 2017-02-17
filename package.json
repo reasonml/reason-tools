@@ -65,7 +65,7 @@
         "engine": "jsoo",
         "entry": "src/refmt/Refmt.re",
         "unstable_flags": {
-          "jsoo": "+weak.js +toplevel.js --opt 3"
+          "jsoo": "+weak.js +toplevel.js --opt 3 --disable strict"
         }
       }
     ],
