@@ -1,3 +1,4 @@
+open Rebase;
 open Core;
 
 module Refmt = {
@@ -5,37 +6,33 @@ module Refmt = {
 
   external refmt : string => t = "refmt" [@@bs.module ("../../../../_build/refmt/src/app.js", "Refmt")];
 
-  let parse: t => RefmtProtocol.response = fun
-  | ("Failure", error) => Failure error
+  let parse = fun
+  | ("Failure", error) => Error error
   | (conversion, outText) =>
     switch (conversion |> Js.String.split "to") {
-    | [| inLang, outLang |] => Success { outText, inLang, outLang }
-    | _ => Failure "Encountered some weird unknown conversion";
+    | [| inLang, outLang |] => Ok Protocol.Refmt.{ outText, inLang, outLang }
+    | _ => Error "Encountered some weird unknown conversion";
   };
 };
 
-RefmtProtocol.listen
+Protocol.Refmt.listen
 	(fun request respond =>
     request.input |> Refmt.refmt
                   |> Refmt.parse
                   |> respond );
 
-Message.receive "background:open"
-  (fun text _ _ =>
-    Chrome.Tabs.create { "url": ("popup.html#" ^ (Util.btoa text)) }
-  );
-
-external executeScript : Js.t {. file: string } => (unit => unit) => unit = "chrome.tabs.executeScript" [@@bs.val];
+Protocol.OpenInTab.listen
+  (fun text => Chrome.Tabs.create { "url": ("popup.html#" ^ (Util.btoa text)) });
 
 let loadContentScripts tabId callback => {
-  executeScript { "file": "Content.bundle.js" } (fun () => {
-    Message.sendTab tabId "content:notify-loaded" ();
+  Chrome.Tabs.executeScriptFile { "file": "Content.bundle.js" } (fun () => {
+    Protocol.NotifyLoaded.send tabId;
     callback ();
   });
 };
 
 let ensureLoaded tabId callback =>
-  Message.queryTab tabId "content:query-loaded" () (fun loaded => {
+  Protocol.QueryLoaded.query tabId (fun loaded => {
     if (not loaded) {
       loadContentScripts tabId callback
     } else {
@@ -43,13 +40,14 @@ let ensureLoaded tabId callback =>
     }
   });
 
-Message.receive "background:load-content-scripts" (fun _ sender _ => loadContentScripts sender##tab##id noop);
+Protocol.LoadScripts.listen
+  (fun tabId => loadContentScripts tabId noop);
 
 let refmtSelection tabId =>
-  ensureLoaded tabId (Message.sendTab tabId "content:refmt-selection");
+  ensureLoaded tabId (fun () => Protocol.RefmtSelection.send tabId);
 
 let toggleConversion tabId =>
-  ensureLoaded tabId (Message.sendTab tabId "content:toggle");
+  ensureLoaded tabId (fun () => Protocol.ToggleConversion.send tabId);
 
 Chrome.ContextMenus.create {
   "title": "Refmt",

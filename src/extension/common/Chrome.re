@@ -15,15 +15,32 @@ module Storage = {
 };
 
 module Tabs = {
+  type tabId;
+  /*
+  type tab = Js.t {.
+    id: tabId
+  };
+  */
+
   external create : Js.t {. url: string } => unit = "chrome.tabs.create" [@@bs.val];
 
   /* TODO: Need MaybeArray to work because Chrome will return an array, but FF supposedly does not */
   /*external executeScript : Js.t {. code: string } => (MaybeArray.t (Js.t {..}) => unit) => unit = "chrome.tabs.executeScript" [@@bs.val];*/
   external executeScript : Js.t {. code: string } => (Js.null_undefined (array string) => unit) => unit = "chrome.tabs.executeScript" [@@bs.val];
+  external executeScriptFile : Js.t {. file: string } => (unit => unit) => unit = "chrome.tabs.executeScript" [@@bs.val];
+  /* TODO: could use bs.ginore here? */
 
-  external sendMessage : 'id => 'a => ('b => unit) = "chrome.tabs.sendMessage" [@@bs.val];
+  external sendMessage : tabId => 'a => ('b => unit) = "chrome.tabs.sendMessage" [@@bs.val];
 };
 
 module ContextMenus = {
-  external create : Js.t {..} => unit = "chrome.contextMenus.create" [@@bs.val];
+  /*
+  type config = Js.t {.
+    title: string,
+    context: array string,
+    onclick: (unit => Tabs.tab => unit)
+  };
+  */
+
+  external create : /*config*/ Js.t {..} => unit = "chrome.contextMenus.create" [@@bs.val];
 };

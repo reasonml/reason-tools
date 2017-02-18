@@ -11,9 +11,6 @@ open Dom;
 [%bs.raw {|require('codemirror/mode/javascript/javascript')|}];
 [%bs.raw {|require('codemirror/mode/mllike/mllike')|}];
 
-let open_ text =>
-  Message.send "background:open" text;
-
 let generateShareableLink text =>
   "https://reasonml.github.io/reason-tools/popup.html#" ^ (Util.btoa text);
 
@@ -58,12 +55,11 @@ let rec inputChanged input => {
   /* this isn't guaranteed to be sync or speedy, so
    * don't set this.state.in here, since it could cause lag.
    */
-   RefmtProtocol.send
-    { input: input }
+  Protocol.Refmt.send input
     (fun
-      | RefmtProtocol.Failure error =>
+      | Error error =>
         render input error None None link
-      | RefmtProtocol.Success { outText, inLang, outLang } =>
+      | Ok { outText, inLang, outLang } =>
         render input outText (Some inLang) (Some outLang) link
     );
 
@@ -78,7 +74,7 @@ and render inText outText inLang outLang link =>
         outText
         outLang
         link
-        onOpen=open_
+        onOpen=Protocol.OpenInTab.send
         onInputChanged=inputChanged
       />
       (ReasonJs.Document.getElementById "app");

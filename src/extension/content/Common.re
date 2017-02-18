@@ -8,14 +8,14 @@ let normalizeText text =>
 
 let getElementsByTagName maybeEl name =>
   switch maybeEl {
-    | None => Document.getElementsByTagName name
     | Some el => Element.getElementsByTagName el name
+    | None => Document.getElementsByTagName name
   } |> Arrayish.toArray |> Array.to_list;
 
 let getElementsByClassName maybeEl name =>
   switch maybeEl {
-    | None => Document.getElementsByClassName name
     | Some el => Element.getElementsByClassName el name
+    | None => Document.getElementsByClassName name
   } |> Arrayish.toArray |> Array.to_list;
 
 let querySelectorAll el selector =>
@@ -24,4 +24,14 @@ let querySelectorAll el selector =>
 let arrayContains value arr =>
   Js.Array.includes value arr |> Js.to_bool;
 
-external id : 'a => 'a = "%identity";
+let createStylesheet () => {
+  let stylesheet = Document.createElement "link";
+
+  let css = [%bs.raw {|require('../../../../../src/css/ocamlDoc.css')|}];
+
+  Element.setType stylesheet "text/css";
+  Element.setRel stylesheet "stylesheet";
+  Element.setHref stylesheet (Chrome.Extension.getURL css);
+
+  stylesheet
+};
