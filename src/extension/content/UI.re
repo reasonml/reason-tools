@@ -1,5 +1,4 @@
-open Core;
-open Core.Dom;
+open Dom;
 
 let ocamlLogo = [%bs.raw {|require('../../../../../src/images/ocamlLogo128.png')|}];
 let reasonLogo = [%bs.raw {|require('../../../../../src/images/logo128.png')|}];

@@ -1,5 +1,4 @@
-open Core;
-open Core.Dom;
+open Dom;
 open Common;
 
 let escapeRe =

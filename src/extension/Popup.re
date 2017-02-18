@@ -1,6 +1,6 @@
 open Rebase;
 open Core;
-open Core.Dom;
+open Dom;
 
 [%bs.raw {|require('../../../../src/popup.html')|}];
 [%bs.raw {|require('../../../../src/images/logo19.png')|}];

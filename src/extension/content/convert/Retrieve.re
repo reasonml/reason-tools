@@ -1,4 +1,4 @@
-open Core.Dom;
+open Dom;
 open Common;
 
 type typeTable = {

@@ -1,5 +1,3 @@
-open Core;
-
 exception DeserializationFail;
 
 type request = {
