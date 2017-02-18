@@ -7,15 +7,14 @@
   "bs-dependencies": ["rehydrate", "reason-js", "rebase"],
   "sources": [{
     "dir": "src/extension",
-    "subdirs": [
-      "autoconverter", {
+    "subdirs": [{
+        "dir": "content",
+        "subdirs": ["convert", "inline"]
+      }, {
         "dir": "common",
-        "subdirs": ["components"]
-      }, {
-        "dir": "inline",
-      }, {
-        "dir": "popup",
         "subdirs": ["components", "vendor"]
+      }, {
+        "dir": "popup"
       }
     ]
   }],
