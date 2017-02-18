@@ -11,8 +11,11 @@ open Dom;
 [%bs.raw {|require('codemirror/mode/javascript/javascript')|}];
 [%bs.raw {|require('codemirror/mode/mllike/mllike')|}];
 
-let generateShareableLink text =>
-  "https://reasonml.github.io/reason-tools/popup.html#" ^ (Util.btoa text);
+let makeContentHash text => "#" ^ Util.btoa text;
+
+let generateShareableLink text => "https://reasonml.github.io/reason-tools/popup.html" ^ text;
+
+let setHash hash => Core.Hisory.replaceState state::[%bs.raw "{}"] title::"" url::hash;
 
 let getSelection () =>
   Promise.make (fun resolve reject =>
@@ -51,7 +54,8 @@ let getInputFromUrl () => {
 };
 
 let rec inputChanged input => {
-  let link = generateShareableLink input;
+  let hash = makeContentHash input;
+  let link = generateShareableLink hash;
   /* this isn't guaranteed to be sync or speedy, so
    * don't set this.state.in here, since it could cause lag.
    */
@@ -62,7 +66,7 @@ let rec inputChanged input => {
       | Ok { outText, inLang, outLang } =>
         render input outText (Some inLang) (Some outLang) link
     );
-
+  setHash hash;
   Chrome.Storage.Local.set { "latestRefmtString": input };
 }
 
