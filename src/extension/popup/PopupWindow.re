@@ -4,7 +4,6 @@ open Core;
 module PopupWindow = {
   include ReactRe.Component.Stateful.InstanceVars;
   let name = "PopupWindow";
-
   type props = {
     inText: string,
     outText: string,
@@ -12,23 +11,18 @@ module PopupWindow = {
     outLang: option string,
     link: string,
     onOpen: string => unit,
-    onInputChanged: string => unit,
+    onInputChanged: string => unit
   };
-  type state = {
-    copyConfirmation: option string
-  };
+  type state = {copyConfirmation: option string};
   type instanceVars = {mutable inputRef: option ReactRe.reactRef};
-
   /* Init */
   let getInstanceVars () => {inputRef: None};
   let getInitialState _ => {copyConfirmation: None};
-
   /* Actions */
-  let showCopyConfirmation  text {updater} () => {
+  let showCopyConfirmation text {updater} () => {
     Util.setTimeout (updater (fun _ () => Some {copyConfirmation: None})) 2500;
     Some {copyConfirmation: Some text}
   };
-
   /* Lifecycle events */
   let componentDidMount {instanceVars} => {
     switch instanceVars.inputRef {
@@ -39,7 +33,6 @@ module PopupWindow = {
     };
     None
   };
-
   let render {props, state, updater, refSetter} =>
     <div style=PopupStyles.popup>
       <div style=PopupStyles.popupColumn>

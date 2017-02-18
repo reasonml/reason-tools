@@ -33,6 +33,13 @@ module Promise = {
   external resolve : 'a => t 'a = "Promise.resolve" [@@bs.val];
 };
 
+module Hisory = {
+  external replaceState :
+    state::string =>
+    title::string =>
+    url::string => unit = "window.history.replaceState" [@@bs.val];
+};
+
 module Util = {
   external btoa : string => string = "window.btoa" [@@bs.val];
   external atob : string => string = "window.atob" [@@bs.val];
