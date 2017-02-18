@@ -1,5 +1,7 @@
 open Rebase;
+
 open Core;
+
 open Dom;
 
 [%bs.raw {|require('../../../../src/popup.html')|}];
@@ -41,8 +43,6 @@ let makeContentHash text => "#" ^ Util.btoa text;
 
 let generateShareableLink text => "https://reasonml.github.io/reason-tools/popup.html" ^ text;
 
-let getSelection () => Promise.make (fun _ reject => reject ());
-
 let getInputFromUrl () => {
   let text = Location.hash |> Js.String.sliceToEnd from::1 |> Util.atob;
   if (Str.isEmpty text) {
@@ -81,9 +81,6 @@ and render inText outText inLang outLang link =>
     <PopupWindow inText inLang outText outLang link onOpen=open_ onInputChanged=inputChanged />
     (ReasonJs.Document.getElementById "app");
 
-let init _ =>
-  Promise.(
-    getInputFromUrl () |> or_else getSelection |> or_ (fun _ => "") |> then_ inputChanged |> ignore
-  );
+let init _ => Promise.(getInputFromUrl () |> or_ (fun _ => "") |> then_ inputChanged |> ignore);
 
 Document.addEventListener "DOMContentLoaded" init;

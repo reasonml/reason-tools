@@ -45,12 +45,12 @@ let copyConfirmation = {
 let contextLink = {
   "textDecoration": "none",
   "color": "rgb(219, 76, 63)",
-  "cusror": "pointer",
+  "cursor": "pointer",
   "paddingLeft": "1vw",
 };
 let contextIcon = {
   "paddingLeft": "1vw",
-  "cusror": "pointer",
+  "cursor": "pointer",
   "fill": "rgb(219, 76, 63)",
   "height": "1em",
   "width": "1em"
