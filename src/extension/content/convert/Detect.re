@@ -1,3 +1,4 @@
+open Core;
 open Dom;
 open Common;
 

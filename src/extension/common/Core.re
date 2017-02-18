@@ -1,6 +1,7 @@
 exception Unreachable;
 
 let noop _ => ();
+external id : 'a => 'a = "%identity";
 
 module MaybeArray = {
   type t 'a;
