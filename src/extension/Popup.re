@@ -1,3 +1,4 @@
+open Rebase;
 open Core;
 open Core.Dom;
 
@@ -24,8 +25,8 @@ let getSelection () =>
         maybeMaybeArray
           |> Js.Null_undefined.to_opt
           |> Option.map (fun maybeArray => Array.unsafe_get maybeArray 0)
-          |> Option.and_then (fun s => Str.isEmpty s ? None : Some s)
-          |> Option.map_or_else resolve reject
+          |> Option.andThen (fun s => Str.isEmpty s ? None : Some s)
+          |> Option.mapOrElse resolve reject
       )
   );
 
@@ -36,7 +37,7 @@ let getLatestInput () =>
       (fun response =>
         response##latestRefmtString
           |> Js.Null.to_opt
-          |> Option.map_or_else resolve reject
+          |> Option.mapOrElse resolve reject
       )
   );
 

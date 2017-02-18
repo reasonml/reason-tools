@@ -1,3 +1,4 @@
+open Rebase;
 open Core;
 open Core.Dom;
 

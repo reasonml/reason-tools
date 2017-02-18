@@ -9,7 +9,7 @@ let escapeRe =
 
 let replace this =>
   Js.String.replaceByRe
-    (Re.make ("/\\b" ^ (escapeRe this) ^ "\\b/g"));
+    (Js.Re.fromString ("/\\b" ^ (escapeRe this) ^ "\\b/g"));
 
 let replaceAll =
   List.fold_left (fun out (this, that) => out |> replace this that);
