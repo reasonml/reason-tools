@@ -1,4 +1,4 @@
-open Core.Dom;
+open Dom;
 
 let normalizeText text =>
   text

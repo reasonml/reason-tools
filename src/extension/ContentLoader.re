@@ -1,5 +1,3 @@
-open Core;
-
 let loaded = ref false;
 
 let load () =>

@@ -1,6 +1,5 @@
 open Rebase;
-open Core;
-open Core.Dom;
+open Dom;
 open Common;
 
 Hljs.registerLanguage "ocaml" [%bs.raw "require('highlight.js/lib/languages/ocaml')"];
