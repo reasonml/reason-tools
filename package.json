@@ -4,11 +4,11 @@
   "description": "Adds Reason to the browser",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rickyvetter/reason-tools.git"
+    "url": "https://github.com/reasonml/reason-tools.git"
   },
   "author": "rickyvetter",
   "license": "MIT",
-  "homepage": "https://github.com/rickyvetter/reason-tools",
+  "homepage": "https://github.com/reasonml/reason-tools",
   "keywords": [
     "reason",
     "reasonml",
@@ -44,19 +44,20 @@
   "dependencies": {
     "@opam-alpha/merlin": "^ 2.5.0",
     "@opam-alpha/ocaml": "4.2.3",
-    "dependency-env": "https://github.com/reasonml/dependency-env.git",
+    "dependency-env": "reasonml/dependency-env",
     "highlight.js": "^9.8.0",
-    "nopam": "https://github.com/reasonml/nopam.git",
+    "nopam": "reasonml/nopam",
     "ocamlBetterErrors": "0.0.10",
     "react": "^15.3.2",
     "react-codemirror": "^0.2.6",
     "react-copy-to-clipboard": "^4.2.3",
     "react-dom": "^15.3.2",
     "realpath": "*",
-    "reason": "https://github.com/facebook/reason.git",
+    "reason": "facebook/reason",
+    "rebase": "glennsl/rebase#v0.0.1",
     "reason-js": "0.0.15",
-    "rebel": "https://github.com/reasonml/rebel.git",
-    "rehydrate": "https://github.com/reasonml/rehydrate.git"
+    "rebel": "reasonml/rebel",
+    "rehydrate": "reasonml/rehydrate"
   },
   "rebel": {
     "targets": [
@@ -83,6 +84,6 @@
     "generate-json-webpack-plugin": "^0.2.1",
     "webpack": "^1.13.2",
     "zip-webpack-plugin": "^0.2.0",
-    "bs-platform": "https://github.com/bloomberg/bucklescript.git"
+    "bs-platform": "bloomberg/bucklescript"
   }
 }

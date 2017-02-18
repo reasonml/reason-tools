@@ -1,3 +1,4 @@
+open Rebase;
 open Core;
 
 module PopupWindow = {
@@ -69,8 +70,8 @@ module PopupWindow = {
         <Editor value=props.outText lang=props.outLang readOnly=true />
         <CopyConfirmation
           style=PopupStyles.copyConfirmation
-          show=(Option.is_some state.copyConfirmation)
-          text=(Option.get_or "" state.copyConfirmation)
+          show=(Option.isSome state.copyConfirmation)
+          text=(Option.getOr "" state.copyConfirmation)
         />
       </div>
     </div>;

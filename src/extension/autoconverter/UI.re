@@ -60,7 +60,7 @@ let updateSyntaxSwapButton () => {
   let ocamlLogoUrl = "url(" ^(Chrome.Extension.getURL ocamlLogo) ^ ")";
 
   Style.setBackgroundImage style
-    (Js.to_bool (Str.includes (Style.backgroundImage style) reasonLogo) ? ocamlLogoUrl : reasonLogoUrl);
+    (Js.to_bool (Js.String.includes (Style.backgroundImage style) reasonLogo) ? ocamlLogoUrl : reasonLogoUrl);
 };
 
 let addSyntaxSwapButton swap => {

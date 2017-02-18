@@ -1,11 +1,10 @@
-open Core;
 open Core.Dom;
 
 let normalizeText text =>
   text
   |> Js.String.trim
   |> Js.String.replaceByRe [%bs.re {|/[^\x00-\x7F]/g|}] " "
-  |> Js.String.replace (Str.fromCharCode 65533) "";
+  |> Js.String.replace (Js.String.fromCharCode 65533) "";
 
 let getElementsByTagName maybeEl name =>
   switch maybeEl {
