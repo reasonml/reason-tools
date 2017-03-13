@@ -12,6 +12,34 @@ let string_of_signature x => {
   Format.flush_str_formatter ()
 };
 
+let string_of_ml_signature signature => {
+  ignore (Format.flush_str_formatter ());
+  let f = Format.str_formatter;
+  Reason_toolchain.ML.print_canonical_interface_with_comments f signature;
+  Format.flush_str_formatter ()
+};
+
+let string_of_ml_structure structure => {
+  ignore (Format.flush_str_formatter ());
+  let f = Format.str_formatter;
+  Reason_toolchain.ML.print_canonical_implementation_with_comments f structure;
+  Format.flush_str_formatter ()
+};
+
+let string_of_re_signature signature => {
+  ignore (Format.flush_str_formatter ());
+  let f = Format.str_formatter;
+  Reason_toolchain.JS.print_canonical_interface_with_comments f signature;
+  Format.flush_str_formatter ()
+};
+
+let string_of_re_structure structure => {
+  ignore (Format.flush_str_formatter ());
+  let f = Format.str_formatter;
+  Reason_toolchain.JS.print_canonical_implementation_with_comments f structure;
+  Format.flush_str_formatter ()
+};
+
 let string_of_formatter comments f x => {
   ignore (Format.flush_str_formatter ());
   f comments Format.str_formatter x;
@@ -20,51 +48,50 @@ let string_of_formatter comments f x => {
 
 let reasonFormatter = Reason_pprint_ast.createFormatter ();
 
-let parserForREToML code => Reason_toolchain.JS.canonical_implementation_with_comments (
-  Lexing.from_string code
-);
+let parserForREToML code =>
+  Reason_toolchain.JS.canonical_implementation_with_comments (Lexing.from_string code);
 
-let parserForMLToRE code => Reason_toolchain.ML.canonical_implementation_with_comments (
-  Lexing.from_string code
-);
+let parserForMLToRE code =>
+  Reason_toolchain.ML.canonical_implementation_with_comments (Lexing.from_string code);
 
-let parserForREIToMLI code => Reason_toolchain.JS.canonical_interface_with_comments (
-  Lexing.from_string code
-);
+let parserForREIToMLI code =>
+  Reason_toolchain.JS.canonical_interface_with_comments (Lexing.from_string code);
 
-let parserForMLIToREI code => Reason_toolchain.ML.canonical_interface_with_comments (
-  Lexing.from_string code
-);
+let parserForMLIToREI code =>
+  Reason_toolchain.ML.canonical_interface_with_comments (Lexing.from_string code);
 
-let printML implementation => Pprintast.string_of_structure implementation;
+let printML implementation => string_of_ml_structure implementation;
 
-let printMLI signature => string_of_signature signature;
+let printMLI signature => string_of_ml_signature signature;
 
 let printReasonAST formatter ast comments => string_of_formatter comments formatter ast;
 
-let printRE = printReasonAST reasonFormatter#structure;
+let printRE = string_of_re_structure;
 
-let printREI = printReasonAST reasonFormatter#signature;
+let printREI = string_of_re_signature;
 
+/* Migrate_parsetree.Ast_404.Parsetree.structure; */
+/* Error: This expression has type Migrate_parsetree.Ast_404.Parsetree.structure
+   but an expression was expected of type Ast_404.Parsetree.structure: /Users/rickyvetter/code/fb/reason-tools/src/refmt/Refmt.re:53 */
 let refmt code =>
   try {
-    let (ast2, comments2) = parserForMLToRE code;
-    MLtoRE (printRE ast2 comments2)
+    let ast = parserForMLToRE code;
+    MLtoRE (printRE ast)
   } {
   | exn =>
     try {
-      let (ast, comments) = parserForREToML code;
+      let ast = parserForREToML code;
       REtoML (printML ast)
     } {
     | exn2 =>
       try {
-        let (ast, comments) = parserForREIToMLI code;
+        let ast = parserForREIToMLI code;
         REItoMLI (printMLI ast)
       } {
       | exn3 =>
         try {
-          let (ast, comments) = parserForMLIToREI code;
-          MLItoREI (printREI ast comments)
+          let ast = parserForMLIToREI code;
+          MLItoREI (printREI ast)
         } {
         | Syntaxerr.Error exn4 =>
           switch exn4 {

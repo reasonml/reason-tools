@@ -54,8 +54,8 @@
     "react-dom": "^15.3.2",
     "realpath": "*",
     "reason": "facebook/reason",
-    "rebase": "glennsl/rebase#v0.0.1",
     "reason-js": "0.0.15",
+    "rebase": "glennsl/rebase#v0.0.1",
     "rebel": "reasonml/rebel",
     "rehydrate": "reasonml/rehydrate"
   },
