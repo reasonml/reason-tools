@@ -34,9 +34,53 @@ let printRE = string_of_code Reason_toolchain.JS.print_canonical_implementation_
 
 let printREI = string_of_code Reason_toolchain.JS.print_canonical_interface_with_comments;
 
-/* Migrate_parsetree.Ast_404.Parsetree.structure; */
-/* Error: This expression has type Migrate_parsetree.Ast_404.Parsetree.structure
-   but an expression was expected of type Ast_404.Parsetree.structure: /Users/rickyvetter/code/fb/reason-tools/src/refmt/Refmt.re:53 */
+/* |>   */
+let (>!) (loc1: Location.t) (loc2: Location.t) => {
+  let (_, line1, col1) = Location.get_pos_info loc1.loc_start;
+  let (_, line2, col2) = Location.get_pos_info loc2.loc_start;
+  line1 === line2 ? col1 > col2 : line1 > line2
+};
+
+type lang =
+  | ML
+  | RE
+  | Other;
+
+let genErrors errors => {
+  let error =
+    List.fold_left
+      (
+        fun ((prevLoc, _, _) as prev) error => {
+          let (optionLoc, _, _) as curr =
+            switch error {
+            | Syntaxerr.Error error =>
+              /* ML */
+              let loc = Syntaxerr.location_of_error error;
+              let error = string_of_code Syntaxerr.report_error error;
+              (Some loc, error, ML)
+            | Syntax_util.Error loc error =>
+              /* RE */
+              let error = string_of_code Syntax_util.report_error error;
+              (Some loc, error, RE)
+            | finalExn => (None, Printexc.to_string finalExn, Other)
+            };
+          switch (optionLoc, prevLoc) {
+          | (Some loc, Some prevLoc) => loc >! prevLoc ? curr : prev
+          | (Some _, None) => curr
+          | _ => prev
+          }
+        }
+      )
+      (None, "", Other)
+      errors;
+  switch error {
+  | (None, message, _) => message
+  /* Reason error message printer doesn't include location, ML does */
+  | (Some loc, message, RE) => string_of_code Location.print_loc loc ^ ":\n" ^ message
+  | (_, message, _) => message
+  }
+};
+
 let refmt code =>
   try {
     let ast = parserForMLToRE code;
@@ -57,14 +101,7 @@ let refmt code =>
           let ast = parserForMLIToREI code;
           MLItoREI (printREI ast)
         } {
-        | Syntaxerr.Error exn4 =>
-          switch exn4 {
-          /* this is basically the only error I've ever seen.
-             If we need to pretty print others, we can! */
-          | Syntaxerr.Other {loc_start: {pos_lnum: sl}} =>
-            Failure ("Syntax error on line " ^ string_of_int sl)
-          | _ => Failure "Syntax Error"
-          }
+        | exn4 => Failure (genErrors [exn, exn2, exn3, exn4])
         | finalExn => Failure (Printexc.to_string finalExn)
         }
       }
