@@ -75,7 +75,8 @@
       "reason",
       "js_of_ocaml",
       "menhirLib",
-      "easy-format"
+      "easy-format",
+      "ocaml-migrate-parsetree"
     ]
   },
   "devDependencies": {

@@ -2770,9 +2770,9 @@
       "resolved": "https://registry.npmjs.org/realpath/-/realpath-1.1.0.tgz"
     },
     "reason": {
-      "version": "1.9.0",
+      "version": "1.10.2",
       "from": "facebook/reason",
-      "resolved": "git://github.com/facebook/reason.git#2eb3aca8c49ba64b0a9ae6e0103d370240a158f1"
+      "resolved": "git://github.com/facebook/reason.git#8cda253baf06e78ac967d45fa4de0782045f9a6d"
     },
     "reason-js": {
       "version": "0.0.15",
@@ -2800,9 +2800,9 @@
           "resolved": "git+https://github.com/yunxing/nopam.git#7cd19f068ac9aaf75010cd6961f7c65c779a1d4a"
         },
         "reason": {
-          "version": "1.9.0",
+          "version": "1.10.2",
           "from": "git+https://github.com/facebook/reason.git",
-          "resolved": "git+https://github.com/facebook/reason.git#2eb3aca8c49ba64b0a9ae6e0103d370240a158f1"
+          "resolved": "git+https://github.com/facebook/reason.git#8cda253baf06e78ac967d45fa4de0782045f9a6d"
         }
       }
     },
