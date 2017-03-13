@@ -1,6 +1,6 @@
 {
   "name": "reason-tools",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "dependencies": {
     "@opam-alpha/async": {
       "version": "113.33.3",
