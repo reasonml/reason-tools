@@ -5,48 +5,12 @@ type conversion =
   | REItoMLI string
   | Failure string;
 
-let string_of_signature x => {
+let string_of_code printer code => {
   ignore (Format.flush_str_formatter ());
   let f = Format.str_formatter;
-  Pprintast.default#signature f x;
+  printer f code;
   Format.flush_str_formatter ()
 };
-
-let string_of_ml_signature signature => {
-  ignore (Format.flush_str_formatter ());
-  let f = Format.str_formatter;
-  Reason_toolchain.ML.print_canonical_interface_with_comments f signature;
-  Format.flush_str_formatter ()
-};
-
-let string_of_ml_structure structure => {
-  ignore (Format.flush_str_formatter ());
-  let f = Format.str_formatter;
-  Reason_toolchain.ML.print_canonical_implementation_with_comments f structure;
-  Format.flush_str_formatter ()
-};
-
-let string_of_re_signature signature => {
-  ignore (Format.flush_str_formatter ());
-  let f = Format.str_formatter;
-  Reason_toolchain.JS.print_canonical_interface_with_comments f signature;
-  Format.flush_str_formatter ()
-};
-
-let string_of_re_structure structure => {
-  ignore (Format.flush_str_formatter ());
-  let f = Format.str_formatter;
-  Reason_toolchain.JS.print_canonical_implementation_with_comments f structure;
-  Format.flush_str_formatter ()
-};
-
-let string_of_formatter comments f x => {
-  ignore (Format.flush_str_formatter ());
-  f comments Format.str_formatter x;
-  Format.flush_str_formatter ()
-};
-
-let reasonFormatter = Reason_pprint_ast.createFormatter ();
 
 let parserForREToML code =>
   Reason_toolchain.JS.canonical_implementation_with_comments (Lexing.from_string code);
@@ -60,15 +24,15 @@ let parserForREIToMLI code =>
 let parserForMLIToREI code =>
   Reason_toolchain.ML.canonical_interface_with_comments (Lexing.from_string code);
 
-let printML implementation => string_of_ml_structure implementation;
+let printML implementation =>
+  string_of_code Reason_toolchain.ML.print_canonical_implementation_with_comments implementation;
 
-let printMLI signature => string_of_ml_signature signature;
+let printMLI signature =>
+  string_of_code Reason_toolchain.ML.print_canonical_interface_with_comments signature;
 
-let printReasonAST formatter ast comments => string_of_formatter comments formatter ast;
+let printRE = string_of_code Reason_toolchain.JS.print_canonical_implementation_with_comments;
 
-let printRE = string_of_re_structure;
-
-let printREI = string_of_re_signature;
+let printREI = string_of_code Reason_toolchain.JS.print_canonical_interface_with_comments;
 
 /* Migrate_parsetree.Ast_404.Parsetree.structure; */
 /* Error: This expression has type Migrate_parsetree.Ast_404.Parsetree.structure
