@@ -12,7 +12,9 @@ let getSelection () =>
         (
           fun maybeMaybeArray =>
             maybeMaybeArray |> Js.Null_undefined.to_opt |>
-            Option.map (fun maybeArray => Array.unsafe_get maybeArray 0) |>
+            Option.andThen (
+              fun maybeArray => Js.Array.findi (fun _ index => index === 0) maybeArray
+            ) |>
             Option.andThen (fun s => Str.isEmpty s ? None : Some s) |>
             Option.mapOrElse resolve reject
         )
@@ -25,7 +27,8 @@ let getLatestInput () =>
         "latestRefmtString"
         (
           fun response =>
-            response##latestRefmtString |> Js.Null.to_opt |> Option.mapOrElse resolve reject
+            response##latestRefmtString |> Js.Null_undefined.to_opt |>
+            Option.mapOrElse resolve reject
         )
   );
 
