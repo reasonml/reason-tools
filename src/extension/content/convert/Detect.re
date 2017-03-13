@@ -1,28 +1,19 @@
 open Core;
+
 open Dom;
+
 open Common;
 
-let hasClassName className =>
-  List.length (getElementsByClassName None className) > 0;
+let hasClassName className => List.length (getElementsByClassName None className) > 0;
 
-let ocamlishRels = [|
-  "Start",
-  "previous",
-  "next",
-  "Up",
-  "Appendix",
-  "Section",
-  "Subsection"
-|];
+let ocamlishRels = [|"Start", "previous", "next", "Up", "Appendix", "Section", "Subsection"|];
 
 let hasOcamlRels () => {
   let hits =
-    getElementsByTagName None "link"
-      |> List.map (fun link => ocamlishRels |> arrayContains (Element.getAttribute link "rel"))
-      |> List.filter id
-      |> List.length;
-
-    hits >= 3
+    getElementsByTagName None "link" |>
+    List.map (fun link => ocamlishRels |> Js.Array.includes (Element.getAttribute link "rel")) |>
+    List.filter id |> List.length;
+  hits >= 3
 };
 
 let hasCommonClassNames () => {
@@ -43,21 +34,13 @@ let hasCommonClassNames () => {
       "cons",
       "paramstable",
       "sig_block"
-    ]
-    |> List.map hasClassName
-    |> List.filter id
-    |> List.length;
-
+    ] |>
+    List.map hasClassName |>
+    List.filter id |> List.length;
   hits >= 3
 };
 
 let hasUniqueClassNames () =>
-  [
-    "odoc-doc",
-    "package-index"
-  ]
-  |> List.map hasClassName
-  |> List.exists id;
+  ["odoc-doc", "package-index"] |> List.map hasClassName |> List.exists id;
 
-let mightBeOcamlDoc () =>
-  hasUniqueClassNames () || hasOcamlRels () || hasCommonClassNames ();
+let mightBeOcamlDoc () => hasUniqueClassNames () || hasOcamlRels () || hasCommonClassNames ();

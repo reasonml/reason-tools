@@ -1,13 +1,15 @@
 open Dom;
 
 let ocamlLogo = [%bs.raw {|require('../../../../../src/images/ocamlLogo128.png')|}];
+
 let reasonLogo = [%bs.raw {|require('../../../../../src/images/logo128.png')|}];
 
 let addStyleSheet () => {
   let element = Document.createElement "style";
-
   Element.setType element "text/css";
-  Element.setInnerText element {|
+  Element.setInnerText
+    element
+    {|
     .reason_tools_button.reason_tools_button.reason_tools_button {
       position: fixed;
       right: 0;
@@ -48,55 +50,52 @@ let addStyleSheet () => {
       left: -10px;
     }
   |};
-
-  Body.appendChild element;
+  Body.appendChild element
 };
 
 let updateSyntaxSwapButton () => {
   let element = Document.getElementById "syntax-swap-button";
   let style = Element.style element;
-  let reasonLogoUrl = "url(" ^ (Chrome.Extension.getURL reasonLogo) ^ ")";
-  let ocamlLogoUrl = "url(" ^(Chrome.Extension.getURL ocamlLogo) ^ ")";
-
-  Style.setBackgroundImage style
-    (Js.to_bool (Js.String.includes (Style.backgroundImage style) reasonLogo) ? ocamlLogoUrl : reasonLogoUrl);
+  let reasonLogoUrl = "url(" ^ Chrome.Extension.getURL reasonLogo ^ ")";
+  let ocamlLogoUrl = "url(" ^ Chrome.Extension.getURL ocamlLogo ^ ")";
+  Style.setBackgroundImage
+    style
+    (Js.String.includes (Style.backgroundImage style) reasonLogo ? ocamlLogoUrl : reasonLogoUrl)
 };
 
 let addSyntaxSwapButton swap => {
   open Element;
-
   let element = Document.createElement "div";
   Style.setTop (style element) "40px";
   setId element "syntax-swap-button";
   setClassName element "reason_tools_button";
   setOnClick element (fun _ => swap `not_initial);
-  Style.setBackgroundImage (style element) ("url(" ^ (Chrome.Extension.getURL reasonLogo) ^ ")");
+  Style.setBackgroundImage (style element) ("url(" ^ Chrome.Extension.getURL reasonLogo ^ ")");
   Style.setBackgroundSize (style element) "cover";
-  Body.appendChild element;
+  Body.appendChild element
 };
 
 let addStyleSwapButton swap => {
   open Element;
-
   let element = Document.createElement "div";
   Style.setTop (style element) "90px";
   setInnerText element "</>";
   setClassName element "reason_tools_button";
   setOnClick element swap;
-  Body.appendChild element;
+  Body.appendChild element
 };
 
 let addSwapButtons swapStyleSheets swapSyntax => {
   addStyleSheet ();
   addSyntaxSwapButton swapSyntax;
-  addStyleSwapButton swapStyleSheets;
+  addStyleSwapButton swapStyleSheets
 };
 
 let toggle swapStyleSheets swapSyntax => {
   let buttons = Document.getElementsByClassName "reason_tools_button" |> Arrayish.toArray;
   if (Array.length buttons > 0) {
-    buttons |> Array.iter Element.remove;
+    buttons |> Array.iter Element.remove
   } else {
-    addSwapButtons swapStyleSheets swapSyntax;
-  };
-}
+    addSwapButtons swapStyleSheets swapSyntax
+  }
+};

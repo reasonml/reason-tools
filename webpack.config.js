@@ -3,6 +3,8 @@ const webpack = require('webpack');
 const GenerateJsonPlugin = require('generate-json-webpack-plugin');
 const manifest = require('./src/manifest.json');
 const package = require('./package.json');
+const ocamlPackage = require('ocaml/package.json');
+const reasonPackage = require('reason/package.json');
 
 manifest.version = package.version;
 
@@ -29,6 +31,10 @@ const Extension = {
   module: commonModule,
   plugins: [
     new GenerateJsonPlugin('manifest.json', manifest),
+    new webpack.DefinePlugin({
+      '__REASON_VERSION__': JSON.stringify(reasonPackage.version),
+      '__OCAML_VERSION__': JSON.stringify(ocamlPackage.version)
+    }),
   ],
   generateZip: true,
 };
