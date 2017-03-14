@@ -12,11 +12,8 @@ let queryTab id type_ message callback => Chrome.Tabs.sendMessage id {type_, mes
 
 let receive type_ callback =>
   Chrome.Runtime.addMessageListener (
-    fun request sender respond => {
-      Js.log request;
-      Js.log sender;
+    fun request sender respond =>
       if (request.type_ == type_) {
         callback request.message sender respond
       }
-    }
   );
