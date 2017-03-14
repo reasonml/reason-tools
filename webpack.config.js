@@ -47,6 +47,12 @@ const Page = {
     path: path.join(__dirname, 'docs/'),
     filename: '[name].bundle.js',
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      '__REASON_VERSION__': JSON.stringify(reasonPackage.version),
+      '__OCAML_VERSION__': JSON.stringify(ocamlPackage.version)
+    }),
+  ],
   module: commonModule,
 };
 
