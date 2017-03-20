@@ -2775,9 +2775,9 @@
       "resolved": "git://github.com/facebook/reason.git#8cda253baf06e78ac967d45fa4de0782045f9a6d"
     },
     "reason-js": {
-      "version": "0.0.15",
-      "from": "reason-js@0.0.15",
-      "resolved": "https://registry.npmjs.org/reason-js/-/reason-js-0.0.15.tgz"
+      "version": "0.0.16",
+      "from": "reason-js@0.0.16",
+      "resolved": "https://registry.npmjs.org/reason-js/-/reason-js-0.0.16.tgz"
     },
     "rebase": {
       "version": "0.0.1",
@@ -2816,10 +2816,10 @@
       "from": "regex-cache@>=0.4.2 <0.5.0",
       "resolved": "https://registry.npmjs.org/regex-cache/-/regex-cache-0.4.3.tgz"
     },
-    "rehydrate": {
+    "reason-react": {
       "version": "0.0.1",
-      "from": "reasonml/rehydrate",
-      "resolved": "git://github.com/reasonml/rehydrate.git#1bd1df00f073dc4f89ce8ba0f879922563323c33",
+      "from": "reasonml/reason-react",
+      "resolved": "git://github.com/reasonml/reason-react.git#1bd1df00f073dc4f89ce8ba0f879922563323c33",
       "dependencies": {
         "reason-js": {
           "version": "0.0.16",

@@ -57,7 +57,7 @@
     "reason-js": "0.0.15",
     "rebase": "glennsl/rebase#v0.0.1",
     "rebel": "reasonml/rebel",
-    "rehydrate": "reasonml/rehydrate"
+    "reason-react": "reasonml/reason-react"
   },
   "rebel": {
     "targets": [
@@ -85,6 +85,6 @@
     "generate-json-webpack-plugin": "^0.2.1",
     "webpack": "^1.13.2",
     "zip-webpack-plugin": "^0.2.0",
-    "bs-platform": "bloomberg/bucklescript"
+    "bs-platform": "^1.5.2"
   }
 }
