@@ -16,7 +16,7 @@ let refmt input cb =>
     Js.Global.setTimeout
       (
         fun () =>
-          switch (Background.Refmt.refmt input) {
+          switch (RefmtBS.refmt input) {
           | ("Failure", error) => cb error None None
           | (conversion, outText) =>
             switch (conversion |> Js.String.split "to") {

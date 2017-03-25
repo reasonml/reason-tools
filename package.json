@@ -32,8 +32,8 @@
     "build:js": "webpack -v",
     "build:js:prod": "webpack -p --config ./webpack.production.config.js",
     "build:refmt": "eval $(dependencyEnv) && nopam && ./node_modules/rebel/_build/src/rebel -verbose",
-    "build:ext": "eval $(dependencyEnv) && nopam && bsb -make-world",
-    "start": "eval $(dependencyEnv) && nopam && bsb -make-world -w",
+    "build:ext": "bsb -make-world",
+    "start": "bsb -make-world -w",
     "top": "eval $(dependencyEnv) && rtop",
     "env": "eval $(dependencyEnv) && env",
     "editor": "eval $(dependencyEnv) && eval $EDITOR",
@@ -44,7 +44,9 @@
   "dependencies": {
     "@opam-alpha/merlin": "^ 2.5.0",
     "@opam-alpha/ocaml": "4.2.3",
+    "bs-discord.js": "github:buckletypes/bs-discord.js",
     "dependency-env": "reasonml/dependency-env",
+    "gfm-code-blocks": "^1.0.0",
     "highlight.js": "^9.8.0",
     "nopam": "reasonml/nopam",
     "ocamlBetterErrors": "0.0.10",
@@ -57,7 +59,11 @@
     "reason-js": "0.3.0",
     "rebase": "glennsl/rebase#v0.0.2",
     "rebel": "reasonml/rebel",
-    "reason-react": "reasonml/reason-react#v0.1.0"
+    "reason-react": "reasonml/reason-react#v0.1.0",
+    "erlpack": "^0.1.2",
+    "node-opus": "^0.2.6",
+    "opusscript": "0.0.3",
+    "uws": "^0.14.1"
   },
   "rebel": {
     "targets": [
@@ -80,11 +86,11 @@
     ]
   },
   "devDependencies": {
+    "bs-platform": "^1.5.2",
     "chrome-store-api": "^1.0.5",
     "file-loader": "^0.9.0",
     "generate-json-webpack-plugin": "^0.2.1",
     "webpack": "^1.13.2",
-    "zip-webpack-plugin": "^0.2.0",
-    "bs-platform": "^1.6.0"
+    "zip-webpack-plugin": "^0.2.0"
   }
 }
