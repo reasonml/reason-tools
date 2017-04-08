@@ -33,7 +33,7 @@ module Promise = {
   external resolve : 'a => t 'a = "Promise.resolve" [@@bs.val];
 };
 
-module Hisory = {
+module History = {
   external replaceState :
     state::string =>
     title::string =>
