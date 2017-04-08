@@ -22,7 +22,7 @@ open Dom;
 
 let rejectedPromise () => Promise.make (fun _ reject => reject ());
 
-let setHash hash => Core.Hisory.replaceState state::[%bs.raw "{}"] title::"" url::hash;
+let setHash hash => Core.History.replaceState state::[%bs.raw "{}"] title::"" url::hash;
 
 let makeContentHash text => "#" ^ Util.btoa text;
 
