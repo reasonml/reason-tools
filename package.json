@@ -55,7 +55,7 @@
     "realpath": "*",
     "reason": "facebook/reason",
     "reason-js": "0.3.0",
-    "rebase": "glennsl/rebase#a532b99a2978f8cbc4336344dcbc818d567b2149",
+    "rebase": "glennsl/rebase#v0.0.2",
     "rebel": "reasonml/rebel",
     "reason-react": "reasonml/reason-react#v0.1.0"
   },
