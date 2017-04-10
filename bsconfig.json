@@ -2,8 +2,7 @@
 {
   "name" : "reason-tools",
   "version": "0.0.0",
-  "ppx-flags": ["reason/reactjs_jsx_ppx.native"],
-  "bsc-flags": ["-w", "-40"],
+  "reason" : {"react-jsx" : true},
   "bs-dependencies": ["reason-react", "reason-js", "rebase"],
   "sources": [{
     "dir": "src/extension",

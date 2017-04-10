@@ -54,10 +54,10 @@
     "react-dom": "^15.3.2",
     "realpath": "*",
     "reason": "facebook/reason",
-    "reason-js": "0.0.15",
-    "rebase": "glennsl/rebase#v0.0.1",
+    "reason-js": "0.3.0",
+    "rebase": "glennsl/rebase#a532b99a2978f8cbc4336344dcbc818d567b2149",
     "rebel": "reasonml/rebel",
-    "reason-react": "reasonml/reason-react"
+    "reason-react": "reasonml/reason-react#v0.1.0"
   },
   "rebel": {
     "targets": [
@@ -85,6 +85,6 @@
     "generate-json-webpack-plugin": "^0.2.1",
     "webpack": "^1.13.2",
     "zip-webpack-plugin": "^0.2.0",
-    "bs-platform": "^1.5.2"
+    "bs-platform": "^1.6.0"
   }
 }

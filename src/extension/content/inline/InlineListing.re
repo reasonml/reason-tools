@@ -1,12 +1,12 @@
 open Core;
 
-external refToElement : ReactRe.reactRef => Dom.Element.t = "%identity";
+external refToElement : Dom.element => LocalDom.Element.t = "%identity";
 
 module InlineListing = {
   include ReactRe.Component.InstanceVars;
   let name = "InlineListing";
   type props = {lang: string, text: string, slideInFrom: string, open_: string => unit};
-  type instanceVars = {mutable preRef: option ReactRe.reactRef};
+  type instanceVars = {mutable preRef: option Dom.element};
   let getInstanceVars () => {preRef: None};
   let componentDidMount {instanceVars} => {
     switch instanceVars.preRef {
@@ -15,7 +15,7 @@ module InlineListing = {
     };
     None
   };
-  let render {props, refSetter} => {
+  let render {props, handler} => {
     let translateY = props.slideInFrom == "above" ? "-10vh" : "10vh";
     let className =
       Util.classNames [
@@ -29,7 +29,7 @@ module InlineListing = {
       <div className onClick=(fun e => ReactEventRe.Mouse.stopPropagation e)>
         <div className="sidebar"> (ReactRe.stringToElement props.lang) </div>
         <div className="main">
-          <pre ref=(refSetter (fun {instanceVars} r => instanceVars.preRef = Some r))>
+          <pre ref=(handler (fun {instanceVars} r => instanceVars.preRef = Some r))>
             (ReactRe.stringToElement props.text)
           </pre>
           <footer>

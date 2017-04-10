@@ -1,4 +1,4 @@
-open Dom;
+open LocalDom;
 
 let onOpen: string => unit = [%bs.raw
   {|
@@ -13,7 +13,7 @@ let onOpen: string => unit = [%bs.raw
 
 let refmt input cb =>
   ignore (
-    ReasonJs.setTimeout
+    Js.Global.setTimeout
       (
         fun () =>
           switch (Background.Refmt.refmt input) {

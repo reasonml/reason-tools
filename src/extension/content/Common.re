@@ -1,4 +1,4 @@
-open Dom;
+open LocalDom;
 
 let normalizeText text =>
   text |> Js.String.trim |> Js.String.replaceByRe [%bs.re {|/[^\x00-\x7F]/g|}] " " |>

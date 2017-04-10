@@ -1,6 +1,6 @@
 open Core;
 
-open Dom;
+open LocalDom;
 
 open Common;
 

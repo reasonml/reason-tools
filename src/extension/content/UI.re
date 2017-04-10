@@ -1,4 +1,4 @@
-open Dom;
+open LocalDom;
 
 let ocamlLogo = [%bs.raw {|require('../../../../../src/images/ocamlLogo128.png')|}];
 

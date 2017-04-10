@@ -1,5 +1,3 @@
-external toElement : ReactRe.reactRef => ReasonJs.Document.element = "%identity";
-
 module InlinePopover = {
   include ReactRe.Component;
   let name = "InlinePopover";

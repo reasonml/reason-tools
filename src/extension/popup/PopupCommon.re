@@ -2,7 +2,7 @@ open Rebase;
 
 open Core;
 
-open Dom;
+open LocalDom;
 
 [%bs.raw {|require('../../../../../src/popup.html')|}];
 
@@ -45,9 +45,8 @@ let init ::getSelection=rejectedPromise ::getLatestInput=rejectedPromise ::onOpe
     refmt input (fun outText inLang outLang => render input outText inLang outLang link)
   }
   and render inText outText inLang outLang link =>
-    ReactDOMRe.render
-      <PopupWindow inText inLang outText outLang link onOpen onInputChanged=inputChanged />
-      (ReasonJs.Document.getElementById "app");
+    ReactDOMRe.renderToElementWithId
+      <PopupWindow inText inLang outText outLang link onOpen onInputChanged=inputChanged /> "app";
   Promise.(
     getInputFromUrl () |> or_else getSelection |> or_else getLatestInput |> or_ (fun _ => "") |>
     then_ inputChanged |> ignore

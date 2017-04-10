@@ -292,6 +292,11 @@
       "from": "@opam-alpha/ppx_tools@>=0.99.3",
       "resolved": "https://registry.npmjs.org/@opam-alpha/ppx_tools/-/ppx_tools-5.0.4020.tgz"
     },
+    "@opam-alpha/ppx_tools_versioned": {
+      "version": "5.0.0",
+      "from": "@opam-alpha/ppx_tools_versioned@5.0.0",
+      "resolved": "https://registry.npmjs.org/@opam-alpha/ppx_tools_versioned/-/ppx_tools_versioned-5.0.0.tgz"
+    },
     "@opam-alpha/ppx_type_conv": {
       "version": "113.33.3",
       "from": "@opam-alpha/ppx_type_conv@>=113.33.3 <113.34.0",
@@ -321,6 +326,11 @@
       "version": "1.1.0",
       "from": "@opam-alpha/react@*",
       "resolved": "https://registry.npmjs.org/@opam-alpha/react/-/react-1.1.0.tgz"
+    },
+    "@opam-alpha/reason-parser": {
+      "version": "1.13.3",
+      "from": "@opam-alpha/reason-parser@1.13.3",
+      "resolved": "https://registry.npmjs.org/@opam-alpha/reason-parser/-/reason-parser-1.13.3.tgz"
     },
     "@opam-alpha/result": {
       "version": "1.2.0",
@@ -654,6 +664,11 @@
       "from": "browserify-zlib@>=0.1.4 <0.2.0",
       "resolved": "https://registry.npmjs.org/browserify-zlib/-/browserify-zlib-0.1.4.tgz"
     },
+    "bs-fetch": {
+      "version": "0.1.0",
+      "from": "buckletypes/bs-fetch",
+      "resolved": "git://github.com/buckletypes/bs-fetch.git#dfc68f86f68cd3e96611db5967bb616c6dc820bd"
+    },
     "buffer": {
       "version": "4.9.1",
       "from": "buffer@>=4.9.0 <5.0.0",
@@ -666,7 +681,7 @@
     },
     "buffer-shims": {
       "version": "1.0.0",
-      "from": "buffer-shims@>=1.0.0 <2.0.0",
+      "from": "buffer-shims@>=1.0.0 <1.1.0",
       "resolved": "https://registry.npmjs.org/buffer-shims/-/buffer-shims-1.0.0.tgz"
     },
     "builtin-modules": {
@@ -2022,7 +2037,14 @@
     "node-libs-browser": {
       "version": "0.7.0",
       "from": "node-libs-browser@>=0.7.0 <0.8.0",
-      "resolved": "https://registry.npmjs.org/node-libs-browser/-/node-libs-browser-0.7.0.tgz"
+      "resolved": "https://registry.npmjs.org/node-libs-browser/-/node-libs-browser-0.7.0.tgz",
+      "dependencies": {
+        "string_decoder": {
+          "version": "0.10.31",
+          "from": "string_decoder@>=0.10.25 <0.11.0",
+          "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-0.10.31.tgz"
+        }
+      }
     },
     "nopam": {
       "version": "0.1.0",
@@ -2552,6 +2574,23 @@
         }
       }
     },
+    "ppx_tools_versioned-actual": {
+      "version": "5.0.0",
+      "from": "git://github.com/npm-opam/ppx_tools_versioned.git#5.0.0",
+      "resolved": "git://github.com/npm-opam/ppx_tools_versioned.git#26459b24f731053e34eab96535bfd265b67406af",
+      "dependencies": {
+        "@opam-alpha/ocaml-migrate-parsetree": {
+          "version": "0.5.0",
+          "from": "@opam-alpha/ocaml-migrate-parsetree@>=0.5.0",
+          "resolved": "https://registry.npmjs.org/@opam-alpha/ocaml-migrate-parsetree/-/ocaml-migrate-parsetree-0.5.0.tgz"
+        },
+        "ocaml-migrate-parsetree-actual": {
+          "version": "0.5.0",
+          "from": "git://github.com/npm-opam/ocaml-migrate-parsetree.git#0.5.0",
+          "resolved": "git://github.com/npm-opam/ocaml-migrate-parsetree.git#4bd4c57673a7a0df5c79089507adf61c943c3a28"
+        }
+      }
+    },
     "ppx_tools-actual": {
       "version": "5.0.4020",
       "from": "git://github.com/npm-opam/ppx_tools.git#5.0.04020",
@@ -2770,19 +2809,29 @@
       "resolved": "https://registry.npmjs.org/realpath/-/realpath-1.1.0.tgz"
     },
     "reason": {
-      "version": "1.10.2",
+      "version": "1.13.3",
       "from": "facebook/reason",
-      "resolved": "git://github.com/facebook/reason.git#8cda253baf06e78ac967d45fa4de0782045f9a6d"
+      "resolved": "git://github.com/facebook/reason.git#e700d19f49f1de49e5d786fa1d4a6fc2dbd5c8e1"
     },
     "reason-js": {
-      "version": "0.0.16",
-      "from": "reason-js@0.0.16",
-      "resolved": "https://registry.npmjs.org/reason-js/-/reason-js-0.0.16.tgz"
+      "version": "0.3.0",
+      "from": "reason-js@0.3.0",
+      "resolved": "https://registry.npmjs.org/reason-js/-/reason-js-0.3.0.tgz"
+    },
+    "reason-parser-actual": {
+      "version": "1.13.3",
+      "from": "git://github.com/npm-opam/reason-parser.git#1.13.3",
+      "resolved": "git://github.com/npm-opam/reason-parser.git#43f181287bbf6f81a4877655821e8b12d254373a"
+    },
+    "reason-react": {
+      "version": "0.1.0",
+      "from": "reasonml/reason-react#v0.1.0",
+      "resolved": "git://github.com/reasonml/reason-react.git#eda683568492971e314924e0eb108099305c0622"
     },
     "rebase": {
       "version": "0.0.1",
-      "from": "glennsl/rebase#v0.0.1",
-      "resolved": "git://github.com/glennsl/rebase.git#a984ba4f3ee7bb1db6143c88480a785a65dccf88"
+      "from": "glennsl/rebase#a532b99a2978f8cbc4336344dcbc818d567b2149",
+      "resolved": "git://github.com/glennsl/rebase.git#a532b99a2978f8cbc4336344dcbc818d567b2149"
     },
     "rebel": {
       "version": "0.0.23",
@@ -2800,9 +2849,16 @@
           "resolved": "git+https://github.com/yunxing/nopam.git#7cd19f068ac9aaf75010cd6961f7c65c779a1d4a"
         },
         "reason": {
-          "version": "1.10.2",
+          "version": "1.13.3",
           "from": "git+https://github.com/facebook/reason.git",
-          "resolved": "git+https://github.com/facebook/reason.git#8cda253baf06e78ac967d45fa4de0782045f9a6d"
+          "resolved": "git+https://github.com/facebook/reason.git#e700d19f49f1de49e5d786fa1d4a6fc2dbd5c8e1",
+          "dependencies": {
+            "@opam-alpha/reason-parser": {
+              "version": "1.13.3",
+              "from": "@opam-alpha/reason-parser@1.13.3",
+              "resolved": "https://registry.npmjs.org/@opam-alpha/reason-parser/-/reason-parser-1.13.3.tgz"
+            }
+          }
         }
       }
     },
@@ -2815,18 +2871,6 @@
       "version": "0.4.3",
       "from": "regex-cache@>=0.4.2 <0.5.0",
       "resolved": "https://registry.npmjs.org/regex-cache/-/regex-cache-0.4.3.tgz"
-    },
-    "reason-react": {
-      "version": "0.0.1",
-      "from": "reasonml/reason-react",
-      "resolved": "git://github.com/reasonml/reason-react.git#1bd1df00f073dc4f89ce8ba0f879922563323c33",
-      "dependencies": {
-        "reason-js": {
-          "version": "0.0.16",
-          "from": "reason-js@0.0.16",
-          "resolved": "https://registry.npmjs.org/reason-js/-/reason-js-0.0.16.tgz"
-        }
-      }
     },
     "repeat-element": {
       "version": "1.1.2",

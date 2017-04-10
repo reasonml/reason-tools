@@ -2,7 +2,7 @@ open Rebase;
 
 open Core;
 
-open Dom;
+open LocalDom;
 
 let getSelection () =>
   Promise.make (

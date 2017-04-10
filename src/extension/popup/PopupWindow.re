@@ -1,4 +1,5 @@
 open Rebase;
+
 open Core;
 
 module PopupWindow = {
@@ -33,14 +34,14 @@ module PopupWindow = {
     };
     None
   };
-  let render {props, state, updater, refSetter} =>
+  let render {props, state, updater, handler} =>
     <div style=PopupStyles.popup>
       <div style=PopupStyles.popupColumn>
         <h1 style=PopupStyles.popupContext> <ColumnTitle name="In" lang=props.inLang /> </h1>
         <Editor
           value=props.inText
           lang=props.inLang
-          ref=(refSetter (fun {instanceVars} ref => instanceVars.inputRef = Some ref))
+          ref=(handler (fun {instanceVars} ref => instanceVars.inputRef = Some ref))
           onChange=props.onInputChanged
         />
       </div>
