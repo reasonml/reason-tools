@@ -3,18 +3,19 @@ open Core;
 external refToElement : Dom.element => LocalDom.Element.t = "%identity";
 
 module InlineListing = {
-  include ReactRe.Component.InstanceVars;
+  include ReactRe.Component.Stateful;
   let name = "InlineListing";
   type props = {lang: string, text: string, slideInFrom: string, open_: string => unit};
-  type instanceVars = {mutable preRef: option Dom.element};
-  let getInstanceVars () => {preRef: None};
-  let componentDidMount {instanceVars} => {
-    switch instanceVars.preRef {
+  type state = {mutable preRef: option Dom.element};
+  let getInitialState _ => {preRef: None};
+  let componentDidMount {state} => {
+    switch state.preRef {
     | Some r => Hljs.highlightBlock (refToElement r)
     | None => ()
     };
     None
   };
+  let updatePreRef {state} r => state.preRef = Some r;
   let render {props, handler} => {
     let translateY = props.slideInFrom == "above" ? "-10vh" : "10vh";
     let className =
@@ -29,9 +30,7 @@ module InlineListing = {
       <div className onClick=(fun e => ReactEventRe.Mouse.stopPropagation e)>
         <div className="sidebar"> (ReactRe.stringToElement props.lang) </div>
         <div className="main">
-          <pre ref=(handler (fun {instanceVars} r => instanceVars.preRef = Some r))>
-            (ReactRe.stringToElement props.text)
-          </pre>
+          <pre ref=(handler updatePreRef)> (ReactRe.stringToElement props.text) </pre>
           <footer>
             <CopyButton
               text=props.text

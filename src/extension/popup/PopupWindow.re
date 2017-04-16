@@ -3,7 +3,7 @@ open Rebase;
 open Core;
 
 module PopupWindow = {
-  include ReactRe.Component.Stateful.InstanceVars;
+  include ReactRe.Component.Stateful;
   let name = "PopupWindow";
   type props = {
     inText: string,
@@ -14,19 +14,18 @@ module PopupWindow = {
     onOpen: string => unit,
     onInputChanged: string => unit
   };
-  type state = {copyConfirmation: option string};
-  type instanceVars = {mutable inputRef: option ReactRe.reactRef};
+  type state = {copyConfirmation: option string, mutable inputRef: option ReactRe.reactRef};
   /* Init */
-  let getInstanceVars () => {inputRef: None};
-  let getInitialState _ => {copyConfirmation: None};
+  let getInitialState _ => {copyConfirmation: None, inputRef: None};
   /* Actions */
-  let showCopyConfirmation text {updater} () => {
-    Util.setTimeout (updater (fun _ () => Some {copyConfirmation: None})) 2500;
-    Some {copyConfirmation: Some text}
+  let showCopyConfirmation text {state, updater} () => {
+    Util.setTimeout (updater (fun _ () => Some {...state, copyConfirmation: None})) 2500;
+    Some {...state, copyConfirmation: Some text}
   };
+  let updateInputRef {state} ref => state.inputRef = Some ref;
   /* Lifecycle events */
-  let componentDidMount {instanceVars} => {
-    switch instanceVars.inputRef {
+  let componentDidMount {state} => {
+    switch state.inputRef {
     | None => ()
     | Some ref =>
       CodeMirror.focus ref;
@@ -41,7 +40,7 @@ module PopupWindow = {
         <Editor
           value=props.inText
           lang=props.inLang
-          ref=(handler (fun {instanceVars} ref => instanceVars.inputRef = Some ref))
+          ref=(handler updateInputRef)
           onChange=props.onInputChanged
         />
       </div>
