@@ -1,0 +1,6 @@
+sessionname "reason-tools build console"
+defscrollback 10000
+screen -t "bsb -- `C-a \` to quit" 0 npm run start
+split
+focus down
+screen -t "webpack -- `C-a \` to quit - `C-a Esc` to scroll" 1 npm run watch:js
