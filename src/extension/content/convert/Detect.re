@@ -44,3 +44,33 @@ let hasUniqueClassNames () =>
   ["odoc-doc", "package-index"] |> List.map hasClassName |> List.exists id;
 
 let mightBeOcamlDoc () => hasUniqueClassNames () || hasOcamlRels () || hasCommonClassNames ();
+
+let getBlacklist () => [
+  "caml.inria.fr/pub/docs/u3-ocaml/ocaml-objects.html", /* #17 */
+  "asciidoctor.org/docs/user-manual/", /* #40 */
+  "ocaml.janestreet.com/ocaml-core/latest/doc/core/", /* #46 */
+  "mwhittaker.github.io/distributed-systems-ocaml/code_MorePipes.html", /* #49 */
+];
+
+let getWhitelist () => [
+];
+
+let getSignificantUrl () =>
+  Location.hostname ^ Location.pathname;
+
+let isWhitelisted () =>
+  getWhitelist () |> List.mem (getSignificantUrl ());
+
+let isBlacklisted () =>
+  getBlacklist () |> List.mem (getSignificantUrl ());
+
+let shouldConvert () => {
+  /*
+  Js.log @@ "isWhitelisted:   " ^ (string_of_bool @@ isWhitelisted ());
+  Js.log @@ "mightBeOcamlDoc: " ^ (string_of_bool @@ mightBeOcamlDoc ());
+  Js.log @@ "isBlackListed:   " ^ (string_of_bool @@ isBlacklisted ());
+  Js.log @@ "shouldConvert:   " ^ (string_of_bool (isWhitelisted () || (mightBeOcamlDoc () && not (isBlacklisted ()))));
+  */
+  isWhitelisted () || (mightBeOcamlDoc () && not (isBlacklisted ()));
+};
+

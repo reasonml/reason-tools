@@ -72,6 +72,8 @@ module Document = {
 
 module Location = {
   external hash : string = "window.location.hash" [@@bs.val];
+  external hostname : string = "window.location.hostname" [@@bs.val];
+  external pathname : string = "window.location.pathname" [@@bs.val];
   external reload : Js.boolean => unit = "window.location.reload" [@@bs.val];
 };
 

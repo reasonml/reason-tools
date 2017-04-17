@@ -1,7 +1,7 @@
 let loaded = ref false;
 
 Protocol.Storage.queryDisabled (fun disabled => {
-  if (not disabled && Detect.mightBeOcamlDoc ()) {
+  if (not disabled && Detect.shouldConvert ()) {
     Protocol.LoadScripts.send ();
   };
 });
