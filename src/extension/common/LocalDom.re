@@ -30,6 +30,7 @@ module Element = {
   external setInnerText : t => string => unit = "innerText" [@@bs.set];
   external setTitle : t => string => unit = "title" [@@bs.set];
   external nextSibling : t => Js.null t = "nextSibling" [@@bs.get];
+  external nextElementSibling : t => Js.null t = "nextElementSibling" [@@bs.get];
   external setRel : t => string => unit = "rel" [@@bs.set];
   external style : t => Style.t = "style" [@@bs.get];
   external setStyle : t => string => unit = "style" [@@bs.set];
@@ -56,6 +57,7 @@ module Node = {
   external compareDocumentPosition : Element.t => Element.t => int = "" [@@bs.send];
   external insertBefore : target::Element.t => new_::Element.t => ref_::Element.t => unit =
     "" [@@bs.send];
+  external removeChild : Element.t => Element.t => unit = "" [@@bs.send];
 };
 
 module Document = {
