@@ -68,6 +68,7 @@ let addSyntaxSwapButton swap => {
   let element = Document.createElement "div";
   Style.setTop (style element) "40px";
   setId element "syntax-swap-button";
+  setTitle element "Swap between OCaml and Reason syntax";
   setClassName element "reason_tools_button";
   setOnClick element (fun _ => swap `not_initial);
   Style.setBackgroundImage (style element) ("url(" ^ Chrome.Extension.getURL reasonLogo ^ ")");
@@ -80,6 +81,7 @@ let addStyleSwapButton swap => {
   let element = Document.createElement "div";
   Style.setTop (style element) "90px";
   setInnerText element "</>";
+  setTitle element "Swap between custom and original stylesheet";
   setClassName element "reason_tools_button";
   setOnClick element swap;
   Body.appendChild element
