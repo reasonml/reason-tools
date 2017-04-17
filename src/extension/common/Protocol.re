@@ -105,4 +105,14 @@ module Storage = {
       | Some change => callback change##newValue
       | None => ()
     });
+
+  let queryLatestInput (callback: option string => unit) =>
+      Chrome.Storage.Local.get "latestRefmtString" (fun response =>
+        response##latestRefmtString
+          |> Js.Null_undefined.to_opt
+          |> callback
+      );
+
+  let setLatestInput (value: string) =>
+    Chrome.Storage.Local.set {"latestRefmtString": value}
 };

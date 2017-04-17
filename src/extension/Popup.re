@@ -21,26 +21,19 @@ let getSelection () =>
   );
 
 let getLatestInput () =>
-  Promise.make (
-    fun resolve reject =>
-      Chrome.Storage.Local.get
-        "latestRefmtString"
-        (
-          fun response =>
-            response##latestRefmtString |> Js.Null_undefined.to_opt |>
-            Option.mapOrElse resolve reject
-        )
+  Promise.make (fun resolve reject =>
+    Protocol.Storage.queryLatestInput (fun maybeInput =>
+      maybeInput |> Option.mapOrElse resolve reject
+    )
   );
 
 let refmt input cb => {
-  Protocol.Refmt.send
-    input
-    (
-      fun
-      | Error error => cb error None None
-      | Ok {outText, inLang, outLang} => cb outText (Some inLang) (Some outLang)
-    );
-  Chrome.Storage.Local.set {"latestRefmtString": input}
+  Protocol.Refmt.send input (fun
+    | Error error => cb error None None
+    | Ok {outText, inLang, outLang} => cb outText (Some inLang) (Some outLang)
+  );
+
+  Protocol.Storage.setLatestInput input;
 };
 
 let onOpen = Protocol.OpenInTab.send;
