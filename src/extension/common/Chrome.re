@@ -11,7 +11,9 @@ module Storage = {
   module Local = {
     external get : string => ('a => unit) => unit = "chrome.storage.local.get" [@@bs.val];
     external set : Js.t {..} => unit = "chrome.storage.local.set" [@@bs.val];
-  }
+  };
+
+  external addChangeListener : (Js.Dict.t (Js.t {. newValue: 'a, oldValue: 'a }) => string => unit) => unit = "chrome.storage.onChanged.addListener" [@@bs.val];
 };
 
 module Tabs = {
@@ -34,6 +36,7 @@ module Tabs = {
 };
 
 module ContextMenus = {
+  type id;
   /*
   type config = Js.t {.
     title: string,
@@ -42,5 +45,6 @@ module ContextMenus = {
   };
   */
 
-  external create : /*config*/ Js.t {..} => unit = "chrome.contextMenus.create" [@@bs.val];
+  external create : /*config*/ Js.t {..} => id = "chrome.contextMenus.create" [@@bs.val];
+  external update : id => /*config*/ Js.t {..} => unit = "chrome.contextMenus.update" [@@bs.val];
 };
