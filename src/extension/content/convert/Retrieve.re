@@ -7,7 +7,7 @@ type typeTable = {el: Element.t, text: string, remove: unit => unit};
 type listing = {els: list Element.t, text: string, replace: string => Element.t};
 
 let getTypeTable pre =>
-  switch (Js.Null.to_opt (Element.nextSibling pre)) {
+  switch (Js.Null.to_opt (Element.nextElementSibling pre)) {
   | None => None
   | Some el =>
     if (Js.to_bool (DOMTokenList.contains (Element.classList el) "typetable")) {
@@ -15,13 +15,13 @@ let getTypeTable pre =>
       switch (Js.Null.to_opt (Element.nextSibling el)) {
       | None => Some {el, text, remove: fun () => Element.remove el}
       | Some next =>
-        if (Node.nodeType el == Node._TEXT_NODE) {
+        if (Node.nodeType next == Node._TEXT_NODE) {
           Some {
             el,
             text: text ^ Node.nodeValue next,
             remove: fun () => {
               Element.remove el;
-              Element.remove next
+              Node.removeChild (Node.parentNode next) next;
             }
           }
         } else {
