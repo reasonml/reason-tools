@@ -28,6 +28,7 @@ module Element = {
   external setInnerHTML : t => string => unit = "innerHTML" [@@bs.set];
   external innerText : t => string = "innerText" [@@bs.get];
   external setInnerText : t => string => unit = "innerText" [@@bs.set];
+  external setTitle : t => string => unit = "title" [@@bs.set];
   external nextSibling : t => Js.null t = "nextSibling" [@@bs.get];
   external setRel : t => string => unit = "rel" [@@bs.set];
   external style : t => Style.t = "style" [@@bs.get];
