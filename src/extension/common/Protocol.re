@@ -86,3 +86,23 @@ module QueryLoaded = {
   let listen callback =>
     Message.receive "content:query-loaded" (fun _ _ respond => respond (callback ()));
 };
+
+module Storage = {
+  let queryDisabled (callback: bool => unit) =>
+    Chrome.Storage.Local.get "disabled" (fun response =>
+      response##disabled
+        |> Js.Undefined.to_opt
+        |> Option.getOr false
+        |> callback
+    );
+    
+  let setDisabled (value: bool) =>
+    Chrome.Storage.Local.set { "disabled": value };
+
+  let onDisabledChanged (callback: bool => unit) =>
+    Chrome.Storage.addChangeListener (fun changes _ =>
+      switch (Js.Dict.get changes "disabled") {
+      | Some change => callback change##newValue
+      | None => ()
+    });
+};

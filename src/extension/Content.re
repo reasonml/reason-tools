@@ -1,14 +1,15 @@
 open LocalDom;
-
 open Common;
 
 Hljs.registerLanguage "ocaml" [%bs.raw "require('highlight.js/lib/languages/ocaml')"];
 
 Hljs.configure {"classPrefix": "", "languages": [|"ocaml"|]};
 
-if (Detect.mightBeOcamlDoc ()) {
-  ConvertPage.toggle ()
-};
+Protocol.Storage.queryDisabled (fun disabled => {
+  if (not disabled && Detect.mightBeOcamlDoc ()) {
+    ConvertPage.toggle ()
+  };
+});
 
 Protocol.ToggleConversion.listen ConvertPage.toggle;
 

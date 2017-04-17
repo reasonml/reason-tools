@@ -61,6 +61,23 @@ Chrome.ContextMenus.create {
   "onclick": fun _ tab => toggleConversion tab##id
 };
 
+Protocol.Storage.queryDisabled (fun disabled => {
+  let set value () =>
+    Protocol.Storage.setDisabled value;
+
+  let id = Chrome.ContextMenus.create {
+    "title": disabled ? "Enable" : "Disable",
+    "contexts": [| "browser_action" |],
+    "onclick": set (not disabled)
+  };
+
+  Protocol.Storage.onDisabledChanged (fun disabled =>
+    Chrome.ContextMenus.update id {
+      "title": disabled ? "Enable" : "Disable",
+      "onclick": set (not disabled)
+  });
+})
+
 /*
 Chrome.ContextMenus.create {
   "title": "Report",
