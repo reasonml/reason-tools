@@ -65,12 +65,28 @@ let isBlacklisted () =>
   getBlacklist () |> List.mem (getSignificantUrl ());
 
 let shouldConvert () => {
-  /*
-  Js.log @@ "isWhitelisted:   " ^ (string_of_bool @@ isWhitelisted ());
-  Js.log @@ "mightBeOcamlDoc: " ^ (string_of_bool @@ mightBeOcamlDoc ());
-  Js.log @@ "isBlackListed:   " ^ (string_of_bool @@ isBlacklisted ());
-  Js.log @@ "shouldConvert:   " ^ (string_of_bool (isWhitelisted () || (mightBeOcamlDoc () && not (isBlacklisted ()))));
-  */
-  isWhitelisted () || (mightBeOcamlDoc () && not (isBlacklisted ()));
+  let cached: option bool = [%raw "window._rtShouldConvert"] |> Js.Undefined.to_opt;
+  switch cached {
+  | Some shouldConvert => shouldConvert
+  | None =>
+    let isWhitelisted = isWhitelisted ();
+    let mightBeOcamlDoc = mightBeOcamlDoc ();
+    let isBlacklisted = isBlacklisted ();
+    let shouldConvert = isWhitelisted || (mightBeOcamlDoc && not isBlacklisted);
+    /* 
+    Js.log @@ "isWhitelisted:   " ^ (string_of_bool isWhitelisted);
+    Js.log @@ "mightBeOcamlDoc: " ^ (string_of_bool mightBeOcamlDoc);
+    Js.log @@ "isBlackListed:   " ^ (string_of_bool isBlacklisted);
+    Js.log @@ "shouldConvert:   " ^ (string_of_bool shouldConvert); 
+    */
+    if shouldConvert {
+      ignore [%raw "window._rtShouldConvert = 1"];
+    } else {
+      ignore [%raw "window._rtShouldConvert = 0"];
+    };
+
+    shouldConvert
+  }
+  
 };
 
