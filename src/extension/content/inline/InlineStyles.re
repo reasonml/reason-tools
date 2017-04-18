@@ -79,6 +79,14 @@ let stylesheet = {|
     padding: .5em;
     passin-tTop: 0;
   }
+  .listing-container.re > .main > footer {
+    color: #dd4b39;
+    fill: #dd4b39;
+  }
+  .listing-container.ml > .main > footer {
+    color: #c87a27;
+    fill: #c87a27;
+  }
 
   .listing-container > .main > footer > a {
     color: #51555E;
