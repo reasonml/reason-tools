@@ -24,7 +24,8 @@ let stylesheet = {|
     transition: background 4000ms;
   }
 
-  .listing-container {
+  .listing-container,
+  .error-message-container {
     display: flex;
 
     box-shadow: 5px 5px 7px 0 rgba(0, 0, 0, 0.3);
@@ -40,6 +41,11 @@ let stylesheet = {|
     margin: 0 auto;
     margin-bottom: 2vh;
     max-width: 1200px;
+  }
+
+  .error-message-container {
+    padding: 1em 2em;
+    color: #dd4b39;
   }
 
   .listing-container > .sidebar {
