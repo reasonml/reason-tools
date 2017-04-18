@@ -4,6 +4,16 @@ let normalizeText text =>
   text |> Js.String.trim |> Js.String.replaceByRe [%bs.re {|/[^\x00-\x7F]/g|}] " " |>
   Js.String.replace (Js.String.fromCharCode 65533) "";
 
+let untoplevel text => {
+  open Js.String;
+
+  if (text |> startsWith "# ") {
+    text |> sliceToEnd from::2;
+  } else {
+    text;
+  }
+};
+
 let getElementsByTagName maybeEl name =>
   (
     switch maybeEl {

@@ -35,7 +35,7 @@ let showError message =>
 
 let try_ text =>
   Protocol.Refmt.send
-    (normalizeText text)
+    text
     (
       fun response =>
         switch response {

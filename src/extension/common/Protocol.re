@@ -1,4 +1,5 @@
 open Rebase;
+open Common;
 
 module Refmt = {
   exception DeserializationFail;
@@ -27,7 +28,8 @@ module Refmt = {
   | _ => raise DeserializationFail;
 
   let send : string => (response => unit) => unit =
-    fun text cb => Message.query "refmt:refmt" { input: text } (fun response => cb (deserialize response));
+    fun text cb =>
+      Message.query "refmt:refmt" { input: text |> normalizeText |> untoplevel } (fun response => cb (deserialize response));
 
   let listen : (request => (response => unit) => unit) => unit =
     fun cb => Message.receive "refmt:refmt" (fun request _ respond => cb request (fun r => r |> serialize |> respond));
