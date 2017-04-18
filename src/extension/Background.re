@@ -61,6 +61,16 @@ Chrome.ContextMenus.create {
   "onclick": fun _ tab => toggleConversion tab##id
 };
 
+let enabledIconSet = {
+  "19": "logo19.png",
+  "38": "logo38.png"
+};
+
+let disabledIconSet = {
+  "19": "logo19_gray.png",
+  "38": "logo38_gray.png"
+};
+
 Protocol.Storage.queryDisabled (fun disabled => {
   let set value () =>
     Protocol.Storage.setDisabled value;
@@ -70,11 +80,14 @@ Protocol.Storage.queryDisabled (fun disabled => {
     "contexts": [| "browser_action" |],
     "onclick": set (not disabled)
   };
+  Chrome.BrowserAction.setIcon {"path": disabled ? disabledIconSet : enabledIconSet};
 
-  Protocol.Storage.onDisabledChanged (fun disabled =>
+  Protocol.Storage.onDisabledChanged (fun disabled => {
     Chrome.ContextMenus.update id {
       "title": disabled ? "Enable" : "Disable",
       "onclick": set (not disabled)
+    };
+    Chrome.BrowserAction.setIcon {"path": disabled ? disabledIconSet : enabledIconSet};
   });
 })
 

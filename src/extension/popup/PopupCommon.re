@@ -7,8 +7,10 @@ open LocalDom;
 [%bs.raw {|require('../../../../../src/popup.html')|}];
 
 [%bs.raw {|require('../../../../../src/images/logo19.png')|}];
-
 [%bs.raw {|require('../../../../../src/images/logo38.png')|}];
+
+[%bs.raw {|require('../../../../../src/images/logo19_gray.png')|}];
+[%bs.raw {|require('../../../../../src/images/logo38_gray.png')|}];
 
 [%bs.raw {|require('../../../../../src/images/logo128.png')|}];
 

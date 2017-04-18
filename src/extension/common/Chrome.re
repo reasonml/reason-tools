@@ -1,3 +1,7 @@
+module BrowserAction = {
+  external setIcon : Js.t {..} => unit = "chrome.browserAction.setIcon" [@@bs.val];
+};
+
 module Extension = {
   external getURL : string => string = "chrome.extension.getURL" [@@bs.val];
 };
