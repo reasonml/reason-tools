@@ -27,7 +27,7 @@ let open_ inLang inText outLang outText => {
 
 let try_ text =>
   Protocol.Refmt.send
-    (normalizeText text)
+    text
     (
       fun response =>
         switch response {

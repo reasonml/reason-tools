@@ -28,7 +28,7 @@ let doListing mode state listing => {
   open Retrieve;
   let {els, text, replace} = listing;
   Protocol.Refmt.send
-    (normalizeText text)
+    text
     (
       fun response => {
         switch response {
