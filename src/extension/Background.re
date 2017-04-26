@@ -4,7 +4,7 @@ open Core;
 module Refmt = {
   type t = (string, string);
 
-  external refmt : string => t = "refmt" [@@bs.module ("../../../../_build/refmt/src/app.js", "Refmt")];
+  external refmt : string => t = "refmt" [@@bs.module ("../../../../_build/refmt/app.js", "Refmt")];
 
   let parse = fun
   | ("Failure", error) => Error error
