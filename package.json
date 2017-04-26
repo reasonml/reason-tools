@@ -32,8 +32,8 @@
     "build:js": "webpack -v",
     "build:js:prod": "webpack -p --config ./webpack.production.config.js",
     "build:refmt": "eval $(dependencyEnv) && nopam && ./node_modules/rebel/_build/src/rebel -verbose",
-    "build:ext": "eval $(dependencyEnv) && nopam && bsb -make-world",
-    "start": "eval $(dependencyEnv) && nopam && bsb -make-world -w",
+    "build:ext": "bsb -make-world",
+    "start": "bsb -make-world -w",
     "watch": "eval $(dependencyEnv) && nopam && ./node_modules/rebel/_build/src/rebel -P",
     "watch:js": "webpack -w",
     "watch:screen": "screen -c .screenrc"
