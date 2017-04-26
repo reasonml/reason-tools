@@ -11,12 +11,12 @@ let onOpen: string => unit = [%bs.raw
 |}
 ];
 
-let refmt input cb =>
+let refmt input ::inLang="unknown" ::inType="unknown" ::outLang="unknown" cb =>
   ignore (
     Js.Global.setTimeout
       (
         fun () =>
-          switch (Background.Refmt.refmt input) {
+          switch (Background.Refmt.refmt input inLang inType outLang) {
           | ("Failure", error) => cb error None None
           | (conversion, outText) =>
             switch (conversion |> Js.String.split "to") {

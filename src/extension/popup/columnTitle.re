@@ -9,11 +9,5 @@ let showVersion lang =>
   | _ => ""
   };
 
-let formatTitle name lang => name ^ " (" ^ lang ^ ")";
-
-let createElement ::name ::lang children::_ () => {
-  let title = lang |> Option.mapOr (formatTitle name) name;
-  <span title=(showVersion lang) style=PopupStyles.contextTitle>
-    (ReactRe.stringToElement title)
-  </span>
-};
+let createElement ::lang ::select children::_ () =>
+  <span title=(showVersion lang) style=PopupStyles.contextTitle> select </span>;
