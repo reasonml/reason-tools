@@ -31,47 +31,27 @@
     "build:prod": "npm run build:refmt && npm run build:ext && npm run build:js:prod",
     "build:js": "webpack -v",
     "build:js:prod": "webpack -p --config ./webpack.production.config.js",
-    "build:refmt": "eval $(dependencyEnv) && nopam && ./node_modules/rebel/_build/src/rebel -verbose",
+    "build:refmt": "./shell.sh",
     "build:ext": "bsb -make-world",
     "start": "bsb -make-world -w",
-    "watch": "eval $(dependencyEnv) && nopam && ./node_modules/rebel/_build/src/rebel -P",
     "watch:js": "webpack -w",
     "watch:screen": "screen -c .screenrc"
   },
   "dependencies": {
     "@opam-alpha/ocaml": "4.2.3",
+    "@opam-alpha/ocamlfind": "https://registry.npmjs.org/@opam-alpha/ocamlfind/-/ocamlfind-1.6.2.tgz",
     "dependency-env": "*",
     "highlight.js": "^9.8.0",
+    "js_of_ocaml-bin": "https://github.com/reasonml/js_of_ocaml-bin.git",
     "nopam": "*",
     "react": "^15.3.2",
     "react-codemirror": "^0.2.6",
     "react-copy-to-clipboard": "^4.2.3",
     "react-dom": "^15.3.2",
-    "reason": "facebook/reason",
+    "reason": "1.13.0",
     "reason-js": "0.3.0",
-    "rebase": "glennsl/rebase#v0.0.2",
-    "rebel": "reasonml/rebel",
-    "reason-react": "reasonml/reason-react#v0.1.0"
-  },
-  "rebel": {
-    "targets": [
-      {
-        "target": "refmt",
-        "engine": "jsoo",
-        "entry": "src/refmt/Refmt.re",
-        "unstable_flags": {
-          "jsoo": "+weak.js +toplevel.js --opt 3 --disable strict"
-        }
-      }
-    ],
-    "ocamlfindDependencies": [
-      "compiler-libs.common",
-      "reason",
-      "js_of_ocaml",
-      "menhirLib",
-      "easy-format",
-      "ocaml-migrate-parsetree"
-    ]
+    "reason-react": "0.1.0",
+    "rebase": "glennsl/rebase#v0.0.2"
   },
   "devDependencies": {
     "chrome-store-api": "^1.0.5",
