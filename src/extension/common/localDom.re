@@ -19,6 +19,7 @@ module Style = {
 module Element = {
   type t;
   external classList : t => DOMTokenList.t = "classList" [@@bs.get];
+  external value : Dom.element => string = "value" [@@bs.get];
   external setClassName : t => string => unit = "className" [@@bs.set];
   external href : t => string = "href" [@@bs.get];
   external setHref : t => string => unit = "href" [@@bs.set];
