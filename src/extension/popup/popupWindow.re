@@ -52,9 +52,7 @@ module PopupWindow = {
     outLang: option string,
     link: string,
     onOpen: string => unit,
-    onInputChanged: inLang::string? => outLang::string? => string => unit,
-    inLangChanged: string => ReactEventRe.Form.t => unit,
-    outLangChanged: string => ReactEventRe.Form.t => unit
+    onInputChanged: inLang::string? => outLang::string? => string => unit
   };
   type state = {
     copyConfirmation: option string,
@@ -157,24 +155,5 @@ module PopupWindow = {
 
 include ReactRe.CreateComponent PopupWindow;
 
-let createElement
-    ::inText
-    ::inLang
-    ::outText
-    ::outLang
-    ::link
-    ::onOpen
-    ::onInputChanged
-    ::inLangChanged
-    ::outLangChanged =>
-  wrapProps {
-    inText,
-    inLang,
-    outText,
-    outLang,
-    onOpen,
-    link,
-    onInputChanged,
-    inLangChanged,
-    outLangChanged
-  };
+let createElement ::inText ::inLang ::outText ::outLang ::link ::onOpen ::onInputChanged =>
+  wrapProps {inText, inLang, outText, outLang, onOpen, link, onInputChanged};
