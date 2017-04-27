@@ -17,15 +17,6 @@
     "browser",
     "chrome"
   ],
-  "notes": [
-    "The scripts can be invoked with `npm run scriptNamed`.",
-    "`dependencyEnv` ensure the environment is set up correctly to include",
-    "build artifacts from your dependencies.",
-    "npm run reasonBuild uses a program called `rebuild` which is included with Reason ",
-    "to build very simple test projects. `refmterr` processes stderr to print type errors ",
-    "more beautifully.",
-    "Note: `rebuild` has nothing to do with the officially supported `npm rebuild` command."
-  ],
   "scripts": {
     "build:refmt": "./shell.sh",
     "build:self": "bsb -make-world",
@@ -39,10 +30,8 @@
   "dependencies": {
     "@opam-alpha/ocaml": "4.2.3",
     "@opam-alpha/ocamlfind": "https://registry.npmjs.org/@opam-alpha/ocamlfind/-/ocamlfind-1.6.2.tgz",
-    "dependency-env": "*",
     "highlight.js": "^9.8.0",
     "js_of_ocaml-bin": "https://github.com/reasonml/js_of_ocaml-bin.git",
-    "nopam": "*",
     "react": "^15.3.2",
     "react-codemirror": "^0.2.6",
     "react-copy-to-clipboard": "^4.2.3",
@@ -58,6 +47,6 @@
     "generate-json-webpack-plugin": "^0.2.1",
     "webpack": "^1.13.2",
     "zip-webpack-plugin": "^0.2.0",
-    "bs-platform": "^1.6.0"
+    "bs-platform": "^1.7.1"
   }
 }
