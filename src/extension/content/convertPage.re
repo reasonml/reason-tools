@@ -50,11 +50,11 @@ let swapSyntax mode => {
   let listings = Retrieve.getListings ();
   let state = {remaining: List.length listings};
   listings |> List.iter (doListing mode state);
-  UI.updateSyntaxSwapButton ()
+  Overlay.updateSyntaxSwapButton ()
 };
 
 let toggle () => {
   swapStyleSheets ();
-  UI.toggle swapStyleSheets swapSyntax;
+  Overlay.toggle swapStyleSheets swapSyntax;
   swapSyntax `initial
 };
