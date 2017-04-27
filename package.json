@@ -27,13 +27,11 @@
     "Note: `rebuild` has nothing to do with the officially supported `npm rebuild` command."
   ],
   "scripts": {
-    "build": "npm run build:refmt && npm run build:ext && npm run build:js",
-    "build:prod": "npm run build:refmt && npm run build:ext && npm run build:js:prod",
-    "build:js": "webpack -v",
-    "build:js:prod": "webpack -p --config ./webpack.production.config.js",
     "build:refmt": "./shell.sh",
-    "build:ext": "bsb -make-world",
-    "start": "bsb -make-world -w",
+    "build:self": "bsb -make-world",
+    "build:js": "webpack -v",
+    "build": "npm run build:refmt && npm run build:self && npm run build:js",
+    "build:prod": "npm run build:refmt && npm run build:self && webpack -p --config ./webpack.production.config.js",
     "watch:js": "webpack -w",
     "watch:screen": "screen -c .screenrc",
     "test": "exit 0"
