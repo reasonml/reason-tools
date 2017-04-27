@@ -35,7 +35,8 @@
     "build:ext": "bsb -make-world",
     "start": "bsb -make-world -w",
     "watch:js": "webpack -w",
-    "watch:screen": "screen -c .screenrc"
+    "watch:screen": "screen -c .screenrc",
+    "test": "exit 0"
   },
   "dependencies": {
     "@opam-alpha/ocaml": "4.2.3",
