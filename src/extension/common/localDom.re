@@ -1,4 +1,3 @@
-/* Should be replaced by ReasonJs eventually */
 module Arrayish = {
   type t 'a;
   external toArray : t 'a => array 'a = "Array.prototype.slice.call" [@@bs.val];
@@ -43,7 +42,7 @@ module Element = {
   external remove : t => unit = "remove" [@@bs.send];
   external querySelectorAll : t => string => Arrayish.t t = "" [@@bs.send];
   external attachShadow : t => Js.t {..} => t = "" [@@bs.send];
-  external toReasonJsElement : t => ReasonJs.Dom.Element.t = "%identity";
+  external toReasonJsElement : t => Dom.element = "%identity";
 };
 
 module Node = {

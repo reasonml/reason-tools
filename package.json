@@ -37,7 +37,6 @@
     "react-copy-to-clipboard": "^4.2.3",
     "react-dom": "^15.3.2",
     "reason": "1.13.0",
-    "reason-js": "0.3.0",
     "reason-react": "0.1.0",
     "rebase": "glennsl/rebase#v0.0.2"
   },

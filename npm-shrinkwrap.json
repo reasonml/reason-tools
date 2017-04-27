@@ -192,11 +192,6 @@
       "resolved": "https://registry.npmjs.org/browserify-zlib/-/browserify-zlib-0.1.4.tgz",
       "dev": true
     },
-    "bs-fetch": {
-      "version": "0.1.0",
-      "from": "buckletypes/bs-fetch",
-      "resolved": "git://github.com/buckletypes/bs-fetch.git#dfc68f86f68cd3e96611db5967bb616c6dc820bd"
-    },
     "bs-platform": {
       "version": "1.7.1",
       "from": "bs-platform@>=1.7.1 <2.0.0",
@@ -1822,11 +1817,6 @@
       "version": "1.13.0",
       "from": "reason@1.13.0",
       "resolved": "https://registry.npmjs.org/reason/-/reason-1.13.0.tgz"
-    },
-    "reason-js": {
-      "version": "0.3.0",
-      "from": "reason-js@0.3.0",
-      "resolved": "https://registry.npmjs.org/reason-js/-/reason-js-0.3.0.tgz"
     },
     "reason-parser-actual": {
       "version": "1.13.0",
