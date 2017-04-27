@@ -4,14 +4,19 @@ open Core;
 
 module Refmt = {
   type t = (string, string);
-  external refmt : string => string => string => string => t =
+  external refmt : string => Protocol.language => Protocol.codeType => Protocol.language => t =
     "refmt" [@@bs.module ("../../../../_build/refmt/app.js", "Refmt")];
   let parse =
     fun
     | ("Failure", error) => Error error
     | (conversion, outText) =>
       switch (conversion |> Js.String.split "to") {
-      | [|inLang, outLang|] => Ok Protocol.Refmt.{outText, inLang, outLang}
+      | [|inLang, outLang|] =>
+        Ok Protocol.Refmt.{
+             outText,
+             inLang: Protocol.languageOfString inLang,
+             outLang: Protocol.languageOfString outLang
+           }
       | _ => Error "Encountered some weird unknown conversion"
       };
 };

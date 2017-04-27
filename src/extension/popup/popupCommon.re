@@ -46,14 +46,14 @@ let init
     refmt::(
       refmt:
         Js.String.t =>
-        inLang::string? =>
-        inType::string? =>
-        outLang::string? =>
-        (string => option string => option string => 'a) =>
+        inLang::Protocol.language? =>
+        inType::Protocol.codeType? =>
+        outLang::Protocol.language? =>
+        (string => Protocol.language => Protocol.language => 'a) =>
         unit
     )
     () => {
-  let rec inputChanged ::inLang="unknown" ::outLang="unknown" input => {
+  let rec inputChanged ::inLang=Protocol.UnknownLang ::outLang=Protocol.UnknownLang input => {
     let hash = makeContentHash input;
     let link = generateShareableLink hash;
     setHash hash;

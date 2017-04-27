@@ -28,7 +28,12 @@ let getLatestInput () =>
       )
   );
 
-let refmt input ::inLang="unknown" ::inType="unknown" ::outLang="unknown" cb => {
+let refmt
+    input
+    ::inLang=Protocol.UnknownLang
+    ::inType=Protocol.UnknownType
+    ::outLang=Protocol.UnknownLang
+    cb => {
   Js.log outLang;
   Protocol.Refmt.send
     input
@@ -38,8 +43,8 @@ let refmt input ::inLang="unknown" ::inType="unknown" ::outLang="unknown" cb => 
     (
       fun error => {
         switch error {
-        | Error error => cb error None None
-        | Ok {outText, inLang, outLang} => cb outText (Some inLang) (Some outLang)
+        | Error error => cb error Protocol.UnknownLang Protocol.UnknownLang
+        | Ok {outText, inLang, outLang} => cb outText inLang outLang
         };
         Js.log error
       }

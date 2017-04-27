@@ -2,10 +2,8 @@ open Rebase;
 
 let showVersion lang =>
   switch lang {
-  | Some "RE"
-  | Some "REI" => Globals.reasonVersion
-  | Some "ML"
-  | Some "MLI" => Globals.ocamlVersion
+  | Protocol.RE => Globals.reasonVersion
+  | Protocol.ML => Globals.ocamlVersion
   | _ => ""
   };
 
