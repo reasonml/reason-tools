@@ -23,22 +23,20 @@ To get started contributing you can clone and build the extension:
 ```sh
 git clone https://github.com/rickyvetter/reason-tools.git
 cd reason-tools
-npm install # this will take a while
+npm install # this will take a few minutes
 ```
 
-once installed, you can rebuild Refmt with `npm run build:refmt` the extension code with `npm run build:ext` and bundle up the js with `npm run build:js`. `npm run build` will run all.
-
-> [Yarn](https://github.com/yarnpkg/yarn) can also be used to make things a little faster, but there are some edge cases still being worked on: https://github.com/yarnpkg/yarn/milestone/2
+`npm run build` to build the project. You also have the granular steps `build:refmt` `build:self` and `build:js` for faster iteration.
 
 To load in Chrome, go to `chrome://extensions/` and turn on Developer Mode. From there you should be able to select "Load unpacked extension..." and choose `reason-tools/_build/extension`.
 
-### Rebel
+### Build Systems
 
-This project uses [Rebel](https://github.com/reasonml/rebel) as it's Reason build system. It will probably help to familiarize yourself with that system before jumping into changing the build process.
+This project is a bit unconventional in nature (compiling a compiler and a parser/printer to web), so it uses a few build systems currently.
 
-### webpack
-
-This project uses [webpack](http://webpack.github.io/) as it's JavaScript build system. Currently it isn't very integrated with Rebel, so the ability to have one command to watch all changes and incrementally build isn't really available (yet).
+- A custom `shell.sh` is used to compile Reason and the compiler to JavaScript.
+- [Bsb](http://bloomberg.github.io/bucklescript/Manual.html#_build_system_support) is used to build its Reason logic. Nothing special.
+- [Webpack](http://webpack.github.io/) is used to bundle the whole js output into a single pack.
 
 ## Thanks
 
