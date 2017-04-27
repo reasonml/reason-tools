@@ -5,7 +5,7 @@ external refToElement : Dom.element => LocalDom.Element.t = "%identity";
 module InlineListing = {
   include ReactRe.Component.Stateful;
   let name = "InlineListing";
-  type props = {lang: string, text: string, slideInFrom: string, open_: string => unit};
+  type props = {lang: Protocol.language, text: string, slideInFrom: string, open_: string => unit};
   type state = {mutable preRef: option Dom.element};
   let getInitialState _ => {preRef: None};
   let componentDidMount {state} => {
@@ -21,14 +21,16 @@ module InlineListing = {
     let className =
       Util.classNames [
         ("listing-container", true),
-        ("ml", props.lang == "ML"),
-        ("re", props.lang == "RE")
+        ("ml", props.lang == ML),
+        ("re", props.lang == RE)
       ];
     <Transition
       before=(ReactDOMRe.Style.make transform::("translateY(" ^ translateY ^ ")") ())
       after=(ReactDOMRe.Style.make transform::"translateY(0)" transition::"transform 250ms" ())>
       <div className onClick=(fun e => ReactEventRe.Mouse.stopPropagation e)>
-        <div className="sidebar"> (ReactRe.stringToElement props.lang) </div>
+        <div className="sidebar">
+          (ReactRe.stringToElement (Protocol.stringOfLanguage props.lang))
+        </div>
         <div className="main">
           <pre ref=(handler updatePreRef)> (ReactRe.stringToElement props.text) </pre>
           <footer>

@@ -2,23 +2,67 @@ open Rebase;
 
 open Common;
 
+type language =
+  | ML
+  | RE
+  | UnknownLang;
+
+type codeType =
+  | Implementation
+  | Interface
+  | UnknownType;
+
+let stringOfLanguage lang =>
+  switch lang {
+  | ML => "ML"
+  | RE => "RE"
+  | UnknownLang => "Unkown"
+  };
+
+let languageOfString setting =>
+  switch setting {
+  | "RE" => RE
+  | "ML" => ML
+  | _ => UnknownLang
+  };
+
+let stringOfType codeType =>
+  switch codeType {
+  | Implementation => "implementation"
+  | Interface => "interface"
+  | UnknownType => "Unkown"
+  };
+
 module Refmt = {
   exception DeserializationFail;
-  type request = {input: string, inLang: string, inType: string, outLang: string};
-  type payload = {outText: string, inLang: string, outLang: string};
+  type request = {input: string, inLang: language, inType: codeType, outLang: language};
+  type payloadSerialized = {outText: string, inLang: string, outLang: string};
+  type payload = {outText: string, inLang: language, outLang: language};
   type response = result payload string;
   /* Bucklescript's variant tags will be erased when serialized, so we have to manually serialize the response
    */
-  let serialize =
+  let serialize: result payload string => (int, payloadSerialized) =
     fun
     | Error error => (0, {outText: error, inLang: "", outLang: ""})
-    | Ok payload => (1, payload);
-  let deserialize =
+    | Ok payload => (
+        1,
+        {
+          outText: payload.outText,
+          inLang: stringOfLanguage payload.inLang,
+          outLang: stringOfLanguage payload.outLang
+        }
+      );
+  let deserialize: (int, payloadSerialized) => result payload string =
     fun
     | (0, {outText: error}) => Error error
-    | (1, payload) => Ok payload
+    | (1, payload) =>
+      Ok {
+        outText: payload.outText,
+        inLang: languageOfString payload.inLang,
+        outLang: languageOfString payload.outLang
+      }
     | _ => raise DeserializationFail;
-  let send text ::inLang="unknown" ::inType="unknown" ::outLang="unknown" cb =>
+  let send text ::inLang=UnknownLang ::inType=UnknownType ::outLang=UnknownLang cb =>
     Message.query
       "refmt:refmt"
       {input: text |> normalizeText |> untoplevel, inLang, inType, outLang}

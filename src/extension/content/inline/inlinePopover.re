@@ -2,9 +2,9 @@ module InlinePopover = {
   include ReactRe.Component;
   let name = "InlinePopover";
   type props = {
-    inLang: string,
+    inLang: Protocol.language,
     inText: string,
-    outLang: string,
+    outLang: Protocol.language,
     outText: string,
     close: unit => unit,
     open_: string => unit

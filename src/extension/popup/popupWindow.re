@@ -2,36 +2,15 @@ open Rebase;
 
 open Core;
 
-type languageSetting =
-  | Auto
-  | ML
-  | RE
-  | JS;
-
-let stringOfLanguageSetting setting =>
-  switch setting {
-  | RE => "RE"
-  | ML => "ML"
-  | JS => "JS"
-  | Auto => "auto"
-  };
-
-let languageSettingOfString setting =>
-  switch setting {
-  | "RE" => RE
-  | "ML" => ML
-  | "JS" => JS
-  | _ => Auto
-  };
-
 let select name onChange language lang =>
-  <select name onChange value=(stringOfLanguageSetting language)>
+  <select name onChange value=(Protocol.stringOfLanguage language)>
     <option value="auto">
       (
         ReactRe.stringToElement (
           "Auto" ^ (
             switch (lang, language) {
-            | (Some lang, Auto) => " (" ^ lang ^ ")"
+            | (lang, Protocol.UnknownLang) when lang != Protocol.UnknownLang =>
+              " (" ^ Protocol.stringOfLanguage lang ^ ")"
             | _ => ""
             }
           )
@@ -48,24 +27,24 @@ module PopupWindow = {
   type props = {
     inText: string,
     outText: string,
-    inLang: option string,
-    outLang: option string,
+    inLang: Protocol.language,
+    outLang: Protocol.language,
     link: string,
     onOpen: string => unit,
-    onInputChanged: inLang::string? => outLang::string? => string => unit
+    onInputChanged: inLang::Protocol.language? => outLang::Protocol.language? => string => unit
   };
   type state = {
     copyConfirmation: option string,
     mutable inputRef: option ReactRe.reactRef,
-    inLanguage: languageSetting,
-    outLanguage: languageSetting
+    inLanguage: Protocol.language,
+    outLanguage: Protocol.language
   };
   /* Init */
   let getInitialState _ => {
     copyConfirmation: None,
     inputRef: None,
-    inLanguage: Auto,
-    outLanguage: Auto
+    inLanguage: Protocol.UnknownLang,
+    outLanguage: Protocol.UnknownLang
   };
   /* Actions */
   let showCopyConfirmation text {state, updater} () => {
@@ -85,29 +64,19 @@ module PopupWindow = {
   };
   let handleInLangChange {props, state} e => {
     let inLanguage =
-      e |> ReactEventRe.Synthetic.target |> LocalDom.Element.value |> languageSettingOfString;
-    props.onInputChanged
-      inLang::(stringOfLanguageSetting inLanguage)
-      outLang::(stringOfLanguageSetting state.outLanguage)
-      props.inText;
+      e |> ReactEventRe.Synthetic.target |> LocalDom.Element.value |> Protocol.languageOfString;
+    props.onInputChanged inLang::inLanguage outLang::state.outLanguage props.inText;
     Some {...state, inLanguage}
   };
   let handleOutLangChange {props, state} e => {
     let outLanguage =
-      e |> ReactEventRe.Synthetic.target |> LocalDom.Element.value |> languageSettingOfString;
-    props.onInputChanged
-      inLang::(stringOfLanguageSetting state.inLanguage)
-      outLang::(stringOfLanguageSetting outLanguage)
-      props.inText;
+      e |> ReactEventRe.Synthetic.target |> LocalDom.Element.value |> Protocol.languageOfString;
+    props.onInputChanged inLang::state.inLanguage outLang::outLanguage props.inText;
     Some {...state, outLanguage}
   };
   let handleInputChange {props, state} input =>
-    props.onInputChanged
-      inLang::(stringOfLanguageSetting state.inLanguage)
-      outLang::(stringOfLanguageSetting state.outLanguage)
-      input;
-  let render {props, state, updater, handler} => {
-    Js.log props;
+    props.onInputChanged inLang::state.inLanguage outLang::state.outLanguage input;
+  let render {props, state, updater, handler} =>
     <div style=PopupStyles.popup>
       <div style=PopupStyles.popupColumn>
         <h1 style=PopupStyles.popupContext>
@@ -126,7 +95,7 @@ module PopupWindow = {
       <div style=PopupStyles.popupColumn>
         <h1 style=PopupStyles.popupContext>
           <ColumnTitle
-            lang=props.outLang
+            lang=?props.outLang
             select=(select "out" (updater handleOutLangChange) state.outLanguage props.outLang)
           />
           <CopyButton
@@ -149,8 +118,7 @@ module PopupWindow = {
           text=(Option.getOr "" state.copyConfirmation)
         />
       </div>
-    </div>
-  };
+    </div>;
 };
 
 include ReactRe.CreateComponent PopupWindow;
