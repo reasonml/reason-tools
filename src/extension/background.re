@@ -4,7 +4,7 @@ open Core;
 
 module Refmt = {
   type t = (string, string);
-  external refmt : string => Protocol.language => Protocol.codeType => Protocol.language => t =
+  external refmt : string => string => string => string => t =
     "refmt" [@@bs.module ("../../../../_build/refmt/app.js", "Refmt")];
   let parse =
     fun
@@ -23,7 +23,11 @@ module Refmt = {
 
 Protocol.Refmt.listen (
   fun {input, inLang, inType, outLang} respond =>
-    Refmt.refmt input inLang inType outLang |> Refmt.parse |> respond
+    Refmt.refmt
+      input
+      (Protocol.stringOfLanguage inLang)
+      (Protocol.stringOfType inType)
+      (Protocol.stringOfLanguage outLang) |> Refmt.parse |> respond
 );
 
 Protocol.OpenInTab.listen (fun text => Chrome.Tabs.create {"url": "popup.html#" ^ Util.btoa text});
