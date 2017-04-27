@@ -21,7 +21,13 @@ let refmt
     Js.Global.setTimeout
       (
         fun () =>
-          switch (Background.Refmt.refmt input inLang inType outLang) {
+          switch (
+            Background.Refmt.refmt
+              input
+              (Protocol.stringOfLanguage inLang)
+              (Protocol.stringOfType inType)
+              (Protocol.stringOfLanguage outLang)
+          ) {
           | ("Failure", error) => cb error Protocol.UnknownLang Protocol.UnknownLang
           | (conversion, outText) =>
             switch (conversion |> Js.String.split "to") {

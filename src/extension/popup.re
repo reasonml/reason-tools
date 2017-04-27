@@ -34,20 +34,17 @@ let refmt
     ::inType=Protocol.UnknownType
     ::outLang=Protocol.UnknownLang
     cb => {
-  Js.log outLang;
   Protocol.Refmt.send
     input
     ::inLang
     ::inType
     ::outLang
     (
-      fun error => {
+      fun error =>
         switch error {
         | Error error => cb error Protocol.UnknownLang Protocol.UnknownLang
         | Ok {outText, inLang, outLang} => cb outText inLang outLang
-        };
-        Js.log error
-      }
+        }
     );
   Protocol.Storage.setLatestInput input
 };
