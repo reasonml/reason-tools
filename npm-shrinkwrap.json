@@ -199,7 +199,7 @@
     },
     "bs-platform": {
       "version": "1.7.1",
-      "from": "bs-platform@>=1.6.0 <2.0.0",
+      "from": "bs-platform@>=1.7.1 <2.0.0",
       "resolved": "https://registry.npmjs.org/bs-platform/-/bs-platform-1.7.1.tgz",
       "dev": true
     },
@@ -1712,9 +1712,9 @@
       "dev": true
     },
     "process": {
-      "version": "0.11.9",
+      "version": "0.11.10",
       "from": "process@>=0.11.0 <0.12.0",
-      "resolved": "https://registry.npmjs.org/process/-/process-0.11.9.tgz",
+      "resolved": "https://registry.npmjs.org/process/-/process-0.11.10.tgz",
       "dev": true
     },
     "process-nextick-args": {
