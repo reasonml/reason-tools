@@ -18,11 +18,12 @@ const commonModule = {
 };
 
 const Extension = {
+  name: "Extension",
   entry: {
-    Content: './lib/js/src/extension/content.js',
-    ContentLoader: './lib/js/src/extension/contentLoader.js',
-    Popup: './lib/js/src/extension/popup.js',
-    Background: './lib/js/src/extension/background.js',
+    Content: './lib/es6/src/extension/content.js',
+    ContentLoader: './lib/es6/src/extension/contentLoader.js',
+    Popup: './lib/es6/src/extension/popup.js',
+    Background: './lib/es6/src/extension/background.js',
   },
   output: {
     path: path.join(__dirname, '_build/extension/'),
@@ -36,12 +37,12 @@ const Extension = {
       '__OCAML_VERSION__': JSON.stringify(ocamlPackage.version)
     }),
   ],
-  generateZip: true,
 };
 
 const Page = {
+  name: "Page",
   entry: {
-    Popup: './lib/js/src/extension/page.js',
+    Popup: './lib/es6/src/extension/page.js',
   },
   output: {
     path: path.join(__dirname, 'docs/'),

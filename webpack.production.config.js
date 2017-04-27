@@ -9,16 +9,18 @@ const prodConfig = config.map((config) => {
     config.plugins = [];
   }
   config.plugins = config.plugins.concat([
+    new webpack.LoaderOptionsPlugin({
+      minimize: true
+    }),
     new webpack.DefinePlugin({
       'process.env':{
         'NODE_ENV': JSON.stringify('production')
       }
     }),
     new webpack.optimize.UglifyJsPlugin(),
-    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
   ]);
-  if (config.generateZip) {
+  if (config.name === "Extension") {
     config.plugins = config.plugins.concat([
       new ZipPlugin({
         filename: 'reason-tools.zip',

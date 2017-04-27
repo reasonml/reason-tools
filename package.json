@@ -41,11 +41,11 @@
     "rebase": "glennsl/rebase#v0.0.2"
   },
   "devDependencies": {
+    "bs-platform": "^1.7.1",
     "chrome-store-api": "^1.0.5",
     "file-loader": "^0.9.0",
     "generate-json-webpack-plugin": "^0.2.1",
-    "webpack": "^1.13.2",
-    "zip-webpack-plugin": "^0.2.0",
-    "bs-platform": "^1.7.1"
+    "webpack": "^2.4.1",
+    "zip-webpack-plugin": "^0.2.0"
   }
 }
