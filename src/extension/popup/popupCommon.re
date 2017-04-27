@@ -53,19 +53,7 @@ let init
         unit
     )
     () => {
-  let rec inLangChanged input e => {
-    let hash = makeContentHash input;
-    let link = generateShareableLink hash;
-    let inLang = e |> ReactEventRe.Synthetic.target |> LocalDom.Element.value;
-    refmt input ::inLang (fun outText inLang outLang => render input outText inLang outLang link)
-  }
-  and outLangChanged input e => {
-    let hash = makeContentHash input;
-    let link = generateShareableLink hash;
-    let outLang = e |> ReactEventRe.Synthetic.target |> LocalDom.Element.value;
-    refmt input ::outLang (fun outText inLang outLang => render input outText inLang outLang link)
-  }
-  and inputChanged ::inLang="unknown" ::outLang="unknown" input => {
+  let rec inputChanged ::inLang="unknown" ::outLang="unknown" input => {
     let hash = makeContentHash input;
     let link = generateShareableLink hash;
     setHash hash;
@@ -77,18 +65,7 @@ let init
   }
   and render inText outText inLang outLang link =>
     ReactDOMRe.renderToElementWithId
-      <PopupWindow
-        inText
-        inLang
-        outText
-        outLang
-        link
-        onOpen
-        onInputChanged=inputChanged
-        inLangChanged
-        outLangChanged
-      />
-      "app";
+      <PopupWindow inText inLang outText outLang link onOpen onInputChanged=inputChanged /> "app";
   Promise.(
     getInputFromUrl () |> or_else getSelection |> or_else getLatestInput |> or_ (fun _ => "") |>
     then_ inputChanged |> ignore
