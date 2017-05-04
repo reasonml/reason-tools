@@ -13,13 +13,16 @@ let popupColumn =
 
 let popupContext =
   ReactDOMRe.Style.make
-    alignItems::"flex-end"
+    alignItems::"center"
     display::"flex"
+    flex::"1"
     fontFamily::"sans-serif"
     fontSize::"3vh"
-    height::"5vh"
     justifyContent::"space-between"
-    paddingBottom::"1vh"
+    maxHeight::"25px"
+    minHeight::"16px"
+    paddingBottom::"0.5vh"
+    paddingTop::"0.5vh"
     width::"100%"
     ();
 
@@ -44,14 +47,20 @@ let copyConfirmation =
 
 let contextLink =
   ReactDOMRe.Style.make
-    textDecoration::"none" color::"rgb(219, 76, 63)" cursor::"pointer" paddingLeft::"1vw" ();
+    textDecoration::"none"
+    color::"rgb(219, 76, 63)"
+    cursor::"pointer"
+    fontSize::"16px"
+    lineHeight::"16px"
+    paddingLeft::"1vw"
+    ();
 
 let contextIcon =
   ReactDOMRe.Style.make
     paddingLeft::"1vw"
     cursor::"pointer" /*fill::"rgb(219, 76, 63)"*/
-    height::"1em"
-    width::"1em"
+    height::"16px"
+    width::"16px"
     ();
 
 let contextTitle = ReactDOMRe.Style.make flex::"1" ();
