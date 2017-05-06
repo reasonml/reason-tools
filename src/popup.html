@@ -71,11 +71,16 @@
       }
 
       .CodeMirror.CodeMirror {
+        display: flex;
+        flex-direction: column;
         flex: 1;
         font-size: 13px;
         padding: 0 0.5vw;
         padding: 0.6%;
         width: 48vw;
+      }
+      .CodeMirror .CodeMirror-scroll {
+        height: auto;
       }
       /* cm doesn't catch errors very well. we will have to handle ourselves */
       .CodeMirror.CodeMirror .cm-error {
