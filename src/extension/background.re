@@ -11,13 +11,13 @@ module Refmt = {
     | ("Failure", error) => Error error
     | (conversion, outText) =>
       switch (conversion |> Js.String.split "to") {
-      | [|inLang, outLang|] =>
+      | [|inLang, outLang|] when Protocol.languageOfString outLang != Protocol.UnknownLang =>
         Ok Protocol.Refmt.{
              outText,
              inLang: Protocol.languageOfString inLang,
              outLang: Protocol.languageOfString outLang
            }
-      | _ => Error "Encountered some weird unknown conversion"
+      | _ => Error outText
       };
 };
 
@@ -95,10 +95,3 @@ Protocol.Storage.queryDisabled (
     )
   }
 );
-/*
- Chrome.ContextMenus.create {
-   "title": "Report",
-   "contexts": [| "browser_action" |],
-   "onclick": fun () => Js.log "reported!"
- };
- */
