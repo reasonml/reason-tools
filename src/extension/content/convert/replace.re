@@ -2,7 +2,7 @@ open LocalDom;
 
 open Common;
 
-let escapeRe = Js.String.replaceByRe [%bs.re {|/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g|}] {|\\$&|};
+let escapeRe = Js.String.replaceByRe [%bs.re {|/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g|}] "\\$&";
 
 let replace this => Js.String.replaceByRe (Js.Re.fromString ("/\\b" ^ escapeRe this ^ "\\b/g"));
 
