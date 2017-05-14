@@ -1,6 +1,6 @@
 {
   "name": "reason-tools",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "dependencies": {
     "@opam-alpha/conf-m4": {
       "version": "4.1.0",
