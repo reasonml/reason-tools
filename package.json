@@ -20,7 +20,7 @@
   "scripts": {
     "build:refmt": "./shell.sh",
     "build:self": "bsb -make-world",
-    "build:js": "webpack -v",
+    "build:js": "webpack",
     "build": "npm run build:refmt && npm run build:self && npm run build:js",
     "build:prod": "npm run build:refmt && npm run build:self && webpack -p --config ./webpack.production.config.js",
     "watch:js": "webpack -w",

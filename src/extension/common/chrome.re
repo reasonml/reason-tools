@@ -20,6 +20,10 @@ module Storage = {
   external addChangeListener : (Js.Dict.t (Js.t {. newValue: 'a, oldValue: 'a }) => string => unit) => unit = "chrome.storage.onChanged.addListener" [@@bs.val];
 };
 
+module Commands = {
+  external addListener: (string => unit) => unit = "chrome.commands.onCommand.addListener" [@@bs.val];
+};
+
 module Tabs = {
   type tabId;
   /*
@@ -29,6 +33,7 @@ module Tabs = {
   */
 
   external create : Js.t {. url: string } => unit = "chrome.tabs.create" [@@bs.val];
+  external update : int => Js.t {..} => unit = "chrome.tabs.update" [@@bs.val];
 
   /* TODO: Need MaybeArray to work because Chrome will return an array, but FF supposedly does not */
   /*external executeScript : Js.t {. code: string } => (MaybeArray.t (Js.t {..}) => unit) => unit = "chrome.tabs.executeScript" [@@bs.val];*/
@@ -37,6 +42,7 @@ module Tabs = {
   /* TODO: could use bs.ginore here? */
 
   external sendMessage : tabId => 'a => ('b => unit) = "chrome.tabs.sendMessage" [@@bs.val];
+  external query: Js.t {..} => (array (Js.t {. url: string, id:int}) => unit) => unit = "chrome.tabs.query" [@@bs.val];
 };
 
 module ContextMenus = {

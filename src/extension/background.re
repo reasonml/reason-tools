@@ -72,6 +72,32 @@ Chrome.ContextMenus.create {
   "onclick": fun _ tab => toggleConversion tab##id
 };
 
+Chrome.Commands.addListener (
+  fun command => {
+    if(command == "toggle_between_interface_and_implementation") {
+      Chrome.Tabs.query {"active": Js.true_, "currentWindow": Js.true_} {fun activeTabs => {
+      let mapExtension = fun 
+      | "ml"  => "mli"
+      | "mli" => "ml"
+      | "re"  => "rei"
+      | "rei" => "re"
+      | ext => ext;
+      let convertBetweenInterfaceAndImplementation url => 
+        switch (Js.Array.pop @@ Js.String.split "." url) {
+        | None => url
+        | Some ext => Js.String.replace ("." ^ ext) ("." ^ (mapExtension ext)) url
+       };
+      let currentTab = activeTabs.(0);
+      let url = currentTab##url;
+      let newURL = convertBetweenInterfaceAndImplementation url;
+      if (newURL != url) {
+        Chrome.Tabs.update (currentTab##id) {"url": newURL};
+      }
+    }};
+    }
+  }
+);
+
 let enabledIconSet = {"19": "logo19.png", "38": "logo38.png"};
 
 let disabledIconSet = {"19": "logo19_gray.png", "38": "logo38_gray.png"};

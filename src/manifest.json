@@ -27,6 +27,12 @@
     }
   ],
   "commands": {
+    "toggle_between_interface_and_implementation": {
+      "suggested_key": {
+        "default": "Alt+I"
+      },
+      "description": "Toggle between interface and implementation files"
+    },
     "_execute_browser_action": {
       "suggested_key": {
         "default": "Alt+D"
