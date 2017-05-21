@@ -14,7 +14,13 @@ When you trigger the extension, it will copy the text you have highlighted and p
 
 ![before and after of auto conversion](https://cloud.githubusercontent.com/assets/1909539/21284240/f5828a68-c3ca-11e6-9e29-13cf1a4f05fa.png)
 
-Reason Tools also tries to detect OCaml documentation pages and automatically convert between Reason and OCaml syntaxes. It provides an escape hatch for use if there is a false positive detection, or if you prefer the default OCamlDoc styles.
+### OCaml Documentation
+
+Reason Tools tries to detect OCaml documentation pages and automatically convert between Reason and OCaml syntaxes. It provides an escape hatch for use if there is a false positive detection, or if you prefer the default OCamlDoc styles.
+
+### Github Integration
+
+Reason Tools adds a shortcut from interface to implementation files (`.re` <=> `.rei`, `.ml` <=> `.mli`) on Github when it's detected. Triggered by `Alt+I` by default (> v0.0.19).
 
 ## Contribute
 
