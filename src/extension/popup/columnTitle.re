@@ -7,5 +7,9 @@ let showVersion lang =>
   | _ => ""
   };
 
-let createElement ::lang ::select children::_ () =>
-  <span title=(showVersion lang) style=PopupStyles.contextTitle> select </span>;
+let make ::lang ::select _ => {
+  ...(ReasonReact.statelessComponent "ColumnTItle"),
+  
+  render: fun _ _ =>
+    <span title=(showVersion lang) style=PopupStyles.contextTitle> select </span>
+};

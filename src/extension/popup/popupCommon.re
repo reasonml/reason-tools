@@ -67,7 +67,11 @@ let init
     ReactDOMRe.renderToElementWithId
       <PopupWindow inText inLang outText outLang link onOpen onInputChanged=inputChanged /> "app";
   Promise.(
-    getInputFromUrl () |> or_else getSelection |> or_else getLatestInput |> or_ (fun _ => "") |>
-    then_ inputChanged |> ignore
+    getInputFromUrl ()
+    |> or_else getSelection
+    |> or_else getLatestInput
+    |> or_ (fun _ => "")
+    |> then_ inputChanged
+    |> ignore
   )
 };
