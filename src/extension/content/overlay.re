@@ -1,5 +1,4 @@
 open LocalDom;
-
 open Common;
 
 let renderInTheShadows renderer => {
@@ -18,12 +17,14 @@ let renderInTheShadows renderer => {
 };
 
 let showOverlay inLang inText outLang outText =>
-  renderInTheShadows (
-    fun remove =>
+  renderInTheShadows (fun remove =>
       <InlinePopover inLang inText outLang outText close=remove open_=Protocol.OpenInTab.send />
   );
 
-let showError message => renderInTheShadows (fun remove => <InlineError message close=remove />);
+let showError message =>
+  renderInTheShadows (fun remove =>
+    <InlineError message close=remove />
+  );
 
 let try_ text =>
   Protocol.Refmt.send

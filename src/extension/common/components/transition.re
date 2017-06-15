@@ -1,21 +1,20 @@
-module Transition = {
-  include ReactRe.Component.Stateful;
-  let name = "Transition";
-  type props = {
-    before: ReactDOMRe.style,
-    after: ReactDOMRe.style,
-    children: list ReactRe.reactElement
-  };
-  type state = {style: ReactDOMRe.style};
-  let getInitialState props => {style: props.before};
-  let componentDidMount {updater} => {
-    Core.Util.setTimeout (updater (fun {props} _ => Some {style: props.after})) 0;
-    None
-  };
-  let render {props, state} =>
-    <div style=state.style> (ReactRe.arrayToElement (Array.of_list props.children)) </div>;
+
+type state = {
+  style: ReactDOMRe.Style.t
 };
+ 
+let make ::before ::after children => {
+  ...(ReasonReact.statefulComponent "Transition"),
 
-include ReactRe.CreateComponent Transition;
+  initialState: fun () => {
+    style: before
+  },
 
-let createElement ::before ::after ::children => wrapProps {before, after, children} ::children;
+  didMount: fun _ self => {
+    Core.Util.setTimeout (self.update (fun _ _ _ => ReasonReact.Update {style: after})) 0;
+    ReasonReact.NoUpdate
+  },
+
+  render: fun state _ =>
+    <div style=state.style> (ReasonReact.arrayToElement children) </div>
+};

@@ -2,7 +2,7 @@
 {
   "name" : "reason-tools",
   "version": "0.0.0",
-  "reason" : {"react-jsx" : true},
+  "reason" : {"react-jsx" : 2},
   "bs-dependencies": ["reason-react", "rebase"],
   "sources": [{
     "dir": "src/extension",

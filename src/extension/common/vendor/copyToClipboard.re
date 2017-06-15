@@ -1,10 +1,14 @@
 
 external copyToClipboard: ReactRe.reactClass = "react-copy-to-clipboard" [@@bs.module];
 
-let createElement
+let make
   text::(text: string)
-  onCopy::(onCopy: unit => unit) =>
-  ReactRe.wrapPropsShamelessly copyToClipboard {
-    "text": text,
-    "onCopy": onCopy
-  };
+  onCopy::(onCopy: unit => unit)
+  children =>
+  ReasonReact.wrapJsForReason
+    reactClass::copyToClipboard
+    props::{
+      "text": text,
+      "onCopy": onCopy
+    }
+    children;  

@@ -1,25 +1,17 @@
-module InlinePopover = {
-  include ReactRe.Component;
-  let name = "InlinePopover";
-  type props = {
-    message: string,
-    close: unit => unit
-  };
-  let render {props} =>
+
+let make ::message ::close _ => {
+  ...(ReasonReact.statelessComponent "InlineError"),
+
+  render: fun _ _ =>
     <div className="root-container">
       <Transition
         before=(ReactDOMRe.Style.make opacity::"0" ())
         after=(ReactDOMRe.Style.make opacity::"1" transition::"opacity 250ms" ())>
-        <div className="mask-container" onClick=(fun _ => props.close ())>
+        <div className="mask-container" onClick=(fun _ => close ())>
           <div className="error-message-container">
-            (ReactRe.stringToElement props.message)
+            (ReactRe.stringToElement message)
           </div>
         </div>
       </Transition>
-    </div>;
+    </div>
 };
-
-include ReactRe.CreateComponent InlinePopover;
-
-let createElement ::message ::close =>
-  wrapProps {message, close};
