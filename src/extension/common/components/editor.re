@@ -5,7 +5,7 @@ let make ::value ::lang ::defaultValue=? ::readOnly=false ::inputRef=? ::onChang
   render: fun _ _ =>
     <CodeMirror
       value=value
-      inputRef=?inputRef
+      ref=?inputRef
       defaultValue=?defaultValue
       onChange=?onChange
       options={
