@@ -1,6 +1,7 @@
 
+let component = ReasonReact.statelessComponent "Editor";
 let make ::value ::lang ::defaultValue=? ::readOnly=false ::inputRef=? ::onChange=? _ => {
-  ...(ReasonReact.statelessComponent "Editor"),
+  ...component,
 
   render: fun _ _ =>
     <CodeMirror

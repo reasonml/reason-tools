@@ -1,6 +1,7 @@
 
+let component = ReasonReact.statelessComponent "InlinePopover";
 let make ::inLang ::inText ::outLang ::outText ::close ::open_ _ => {
-  ...(ReasonReact.statelessComponent "InlinePopover"),
+  ...component,
 
   render: fun _ _ =>
     <div className="root-container">

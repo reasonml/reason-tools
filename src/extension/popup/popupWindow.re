@@ -34,13 +34,14 @@ let showCopyConfirmation text () state self => {
 
 let updateInputRef nullableRef state _ =>
   switch (Js.Null.to_opt nullableRef) {
-  | Some ref => ReasonReact.Update {...state, inputRef: Some ref};
+  | Some ref => ReasonReact.SilentUpdate {...state, inputRef: Some ref};
   | None => ReasonReact.NoUpdate
 };
 /*
 let updateInputRef ref state _ =>
   ReasonReact.SilentUpdate {...state, inputRef: Some ref};
 */
+let component = ReasonReact.statefulComponent "PopupWindow";
 let make
   ::inText
   ::inLang
@@ -50,7 +51,7 @@ let make
   ::onOpen
   onInputChanged::(onInputChanged: inLang::Protocol.language? => outLang::Protocol.language? => string => unit)
   _ => {
-  ...(ReasonReact.statefulComponent "PopupWindow"),
+  ...component,
 
   initialState: fun () => {
     copyConfirmation: None,

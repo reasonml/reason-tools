@@ -10,8 +10,9 @@ let updatePreRef nullableRef _ _ =>
   | None => ReasonReact.NoUpdate
   };
 
+let component = ReasonReact.statefulComponent "InlineListing";
 let make ::lang ::text ::slideInFrom ::open_ _ => {
-  ...(ReasonReact.statefulComponent "InlineListing"),
+  ...component,
 
   initialState: fun () => {
     preRef: None

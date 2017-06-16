@@ -1,6 +1,7 @@
 
+let component = ReasonReact.statelessComponent "CopyButton";
 let make ::label="copy" ::text ::onCopy ::style=? _ => {
-  ...(ReasonReact.statelessComponent "CopyButton"),
+  ...component,
 
   render: fun _ _ =>
     <CopyToClipboard text onCopy>
