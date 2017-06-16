@@ -13,7 +13,6 @@ let make
   defaultValue::(defaultValue: option string)=?
   onChange::(onChange: option (string => unit))=?
   options::(options: option (Js.t {..}))=?
-  inputRef::(inputRef: option (ReasonReact.reactRef => unit))=?
   children =>
   ReasonReact.wrapJsForReason
     reactClass::codeMirror
@@ -22,7 +21,6 @@ let make
       "value": Js.Null_undefined.from_opt value,
       "defaultValue": Js.Null_undefined.from_opt defaultValue,
       "onChange": Js.Null_undefined.from_opt onChange,
-      "options": Js.Null_undefined.from_opt options,
-      "ref": Js.Null_undefined.from_opt inputRef
+      "options": Js.Null_undefined.from_opt options
     }
     children;  

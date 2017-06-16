@@ -31,16 +31,16 @@ let showCopyConfirmation text () state self => {
   Util.setTimeout (self.ReasonReact.update (fun () _ _ => ReasonReact.Update {...state, copyConfirmation: None})) 2500;
   ReasonReact.Update {...state, copyConfirmation: Some text}
 };
-/*
+
 let updateInputRef nullableRef state _ =>
   switch (Js.Null.to_opt nullableRef) {
   | Some ref => ReasonReact.Update {...state, inputRef: Some ref};
   | None => ReasonReact.NoUpdate
 };
-+*/
+/*
 let updateInputRef ref state _ =>
   ReasonReact.SilentUpdate {...state, inputRef: Some ref};
-
+*/
 let make
   ::inText
   ::inLang
