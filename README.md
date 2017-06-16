@@ -41,7 +41,7 @@ To load in Chrome, go to `chrome://extensions/` and turn on Developer Mode. From
 This project is a bit unconventional in nature (compiling a compiler and a parser/printer to web), so it uses a few build systems currently.
 
 - A custom `shell.sh` is used to compile Reason and the compiler to JavaScript.
-- [Bsb](http://bloomberg.github.io/bucklescript/Manual.html#_build_system_support) is used to build its Reason logic. Nothing special.
+- [Bsb](http://bucklescript.github.io/bucklescript/Manual.html#_build_system_support) is used to build its Reason logic. Nothing special.
 - [Webpack](http://webpack.github.io/) is used to bundle the whole js output into a single pack.
 
 ## Thanks
