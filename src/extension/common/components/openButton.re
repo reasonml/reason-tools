@@ -1,6 +1,7 @@
 
+let component = ReasonReact.statelessComponent "OpenButton";
 let make ::onClick ::style=? _ => {
-  ...(ReasonReact.statelessComponent "OpenButton"),
+  ...component,
 
   render: fun _ _ =>
     <span className="open-button" style=?style onClick>

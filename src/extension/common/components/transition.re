@@ -3,8 +3,9 @@ type state = {
   style: ReactDOMRe.Style.t
 };
  
+let component = ReasonReact.statefulComponent "Transition";
 let make ::before ::after children => {
-  ...(ReasonReact.statefulComponent "Transition"),
+  ...component,
 
   initialState: fun () => {
     style: before

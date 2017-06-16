@@ -1,5 +1,3 @@
-open Rebase;
-
 let showVersion lang =>
   switch lang {
   | Protocol.RE => Globals.reasonVersion
@@ -7,8 +5,9 @@ let showVersion lang =>
   | _ => ""
   };
 
+let component = ReasonReact.statelessComponent "ColumnTItle";
 let make ::lang ::select _ => {
-  ...(ReasonReact.statelessComponent "ColumnTItle"),
+  ...component,
   
   render: fun _ _ =>
     <span title=(showVersion lang) style=PopupStyles.contextTitle> select </span>

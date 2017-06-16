@@ -1,8 +1,9 @@
 let iconStyle = ReactDOMRe.Style.make fontSize::"16vh" ();
 let textStyle = ReactDOMRe.Style.make fontSize::"3vh" whiteSpace::"nowrap" marginTop::"4vh" ();
 
+let component = ReasonReact.statelessComponent "CopyConfirmation";
 let make ::show ::text="Text copied to clipboard" ::style=? _ => {
-  ...(ReasonReact.statelessComponent "CopyConfirmation"),
+  ...component,
 
   render: fun _ _ =>
     show ?

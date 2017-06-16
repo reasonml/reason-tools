@@ -1,6 +1,7 @@
 
+let component = ReasonReact.statelessComponent "InlineError";
 let make ::message ::close _ => {
-  ...(ReasonReact.statelessComponent "InlineError"),
+  ...component,
 
   render: fun _ _ =>
     <div className="root-container">
