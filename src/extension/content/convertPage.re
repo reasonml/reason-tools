@@ -50,7 +50,9 @@ let swapSyntax mode => {
   let listings = Retrieve.getListings ();
   let state = {remaining: List.length listings};
   listings |> List.iter (doListing mode state);
-  Overlay.updateSyntaxSwapButton ()
+  if (mode != `initial) {
+    Overlay.updateSyntaxSwapButton ()
+  }
 };
 
 let toggle () => {

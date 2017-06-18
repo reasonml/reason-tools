@@ -92,11 +92,9 @@ let addStyleSheet () => {
 let updateSyntaxSwapButton () => {
   let element = Document.getElementById "syntax-swap-button";
   let style = Element.style element;
-  let reasonLogoUrl = "url(" ^ Chrome.Extension.getURL reasonLogo ^ ")";
-  let ocamlLogoUrl = "url(" ^ Chrome.Extension.getURL ocamlLogo ^ ")";
-  Style.setBackgroundImage
-    style
-    (Js.String.includes (Style.backgroundImage style) reasonLogo ? ocamlLogoUrl : reasonLogoUrl)
+  let logo = Style.backgroundImage style |> Js.String.includes reasonLogo ? ocamlLogo : reasonLogo;
+  let url = Chrome.Extension.getURL logo;
+  Style.setBackgroundImage style {j|url($url)|j};
 };
 
 let addSyntaxSwapButton swap => {
