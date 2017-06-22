@@ -32,15 +32,11 @@ let showCopyConfirmation text () state self => {
   ReasonReact.Update {...state, copyConfirmation: Some text}
 };
 
-/*
 let updateInputRef nullableRef state _ =>
   switch (Js.Null.to_opt nullableRef) {
   | Some ref => ReasonReact.SilentUpdate {...state, inputRef: Some ref};
   | None => ReasonReact.NoUpdate
 };
-*/
-let updateInputRef ref state _ =>
-  ReasonReact.SilentUpdate {...state, inputRef: Some ref};
 
 let component = ReasonReact.statefulComponent "PopupWindow";
 let make
