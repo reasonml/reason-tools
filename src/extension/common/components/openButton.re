@@ -3,7 +3,7 @@ let component = ReasonReact.statelessComponent "OpenButton";
 let make ::onClick ::style=? _ => {
   ...component,
 
-  render: fun _ _ =>
+  render: fun _ =>
     <span className="open-button" style=?style onClick>
       <svg
         viewBox="0 0 748 1024"

@@ -1,6 +1,6 @@
 {
   "name": "reason-tools",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Adds Reason to the browser",
   "repository": {
     "type": "git",
@@ -37,7 +37,7 @@
     "react-copy-to-clipboard": "^4.2.3",
     "react-dom": "^15.3.2",
     "reason": "1.13.0",
-    "reason-react": "^0.1.5",
+    "reason-react": "^0.2.3",
     "rebase": "glennsl/rebase#v0.0.2"
   },
   "devDependencies": {

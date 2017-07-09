@@ -8,7 +8,7 @@ let showVersion lang =>
 let component = ReasonReact.statelessComponent "ColumnTItle";
 let make ::lang ::select _ => {
   ...component,
-  
-  render: fun _ _ =>
+
+  render: fun _ =>
     <span title=(showVersion lang) style=PopupStyles.contextTitle> select </span>
 };

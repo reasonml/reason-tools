@@ -4,7 +4,7 @@ external refToElement : Dom.element => LocalDom.Element.t = "%identity";
 
 type state = {preRef: option Dom.element};
 
-let updatePreRef nullableRef _ _ =>
+let updatePreRef nullableRef _ =>
   switch (Js.Null.to_opt nullableRef) {
   | Some ref => ReasonReact.SilentUpdate {preRef: Some ref};
   | None => ReasonReact.NoUpdate
@@ -18,7 +18,7 @@ let make ::lang ::text ::slideInFrom ::open_ _ => {
     preRef: None
   },
 
-  didMount: fun state _ => {
+  didMount: fun {state} => {
     switch state.preRef {
     | Some r => Hljs.highlightBlock (refToElement r)
     | None => ()
@@ -26,7 +26,7 @@ let make ::lang ::text ::slideInFrom ::open_ _ => {
     ReasonReact.NoUpdate
   },
 
-  render: fun _ self => {
+  render: fun self => {
     let translateY = slideInFrom == "above" ? "-10vh" : "10vh";
     let className =
       Util.classNames [
@@ -40,10 +40,10 @@ let make ::lang ::text ::slideInFrom ::open_ _ => {
       after=(ReactDOMRe.Style.make transform::"translateY(0)" transition::"transform 250ms" ())>
       <div className onClick=(fun e => ReactEventRe.Mouse.stopPropagation e)>
         <div className="sidebar">
-          (ReactRe.stringToElement (Protocol.stringOfLanguage lang))
+          (ReasonReact.stringToElement (Protocol.stringOfLanguage lang))
         </div>
         <div className="main">
-          <pre ref=(self.update updatePreRef)> (ReactRe.stringToElement text) </pre>
+          <pre ref=(self.update updatePreRef)> (ReasonReact.stringToElement text) </pre>
           <footer>
             <CopyButton
               text=text

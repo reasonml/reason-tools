@@ -3,7 +3,7 @@ let component = ReasonReact.statelessComponent "Editor";
 let make ::value ::lang ::defaultValue=? ::readOnly=false ::inputRef=? ::onChange=? _ => {
   ...component,
 
-  render: fun _ _ =>
+  render: fun _ =>
     <CodeMirror
       value=value
       ref=?inputRef
@@ -15,4 +15,4 @@ let make ::value ::lang ::defaultValue=? ::readOnly=false ::inputRef=? ::onChang
         "readOnly": Js.Boolean.to_js_boolean readOnly
       }
     />
-}; 
+};

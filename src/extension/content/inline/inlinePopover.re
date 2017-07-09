@@ -3,7 +3,7 @@ let component = ReasonReact.statelessComponent "InlinePopover";
 let make ::inLang ::inText ::outLang ::outText ::close ::open_ _ => {
   ...component,
 
-  render: fun _ _ =>
+  render: fun _ =>
     <div className="root-container">
       <Transition
         before=(ReactDOMRe.Style.make opacity::"0" ())

@@ -5,11 +5,11 @@ let component = ReasonReact.statelessComponent "CopyConfirmation";
 let make ::show ::text="Text copied to clipboard" ::style=? _ => {
   ...component,
 
-  render: fun _ _ =>
+  render: fun _ =>
     show ?
       <div style=?style>
-        <div style=iconStyle> (ReactRe.stringToElement (Js.String.fromCodePoint 0x2398)) </div>
-        <div style=textStyle> (ReactRe.stringToElement text) </div>
+        <div style=iconStyle> (ReasonReact.stringToElement (Js.String.fromCodePoint 0x2398)) </div>
+        <div style=textStyle> (ReasonReact.stringToElement text) </div>
       </div> :
-      ReactRe.nullElement
+      ReasonReact.nullElement
 };

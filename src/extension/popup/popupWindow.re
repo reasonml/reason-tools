@@ -1,11 +1,12 @@
 open Rebase;
+
 open Core;
 
 let select name onChange language lang =>
   <select name onChange value=(Protocol.stringOfLanguage language)>
     <option value="auto">
       (
-        ReactRe.stringToElement (
+        ReasonReact.stringToElement (
           "Auto" ^ (
             switch (lang, language) {
             | (lang, Protocol.UnknownLang) when lang != Protocol.UnknownLang =>
@@ -16,48 +17,51 @@ let select name onChange language lang =>
         )
       )
     </option>
-    <option value="RE"> (ReactRe.stringToElement "RE") </option>
-    <option value="ML"> (ReactRe.stringToElement "ML") </option>
+    <option value="RE"> (ReasonReact.stringToElement "RE") </option>
+    <option value="ML"> (ReasonReact.stringToElement "ML") </option>
   </select>;
 
 type state = {
-  copyConfirmation: option string, 
+  copyConfirmation: option string,
   inputRef: option ReasonReact.reactRef,
   inLanguage: Protocol.language,
   outLanguage: Protocol.language
 };
 
-let showCopyConfirmation text () state self => {
-  Util.setTimeout (self.ReasonReact.update (fun () _ _ => ReasonReact.Update {...state, copyConfirmation: None})) 2500;
+let showCopyConfirmation text () {ReasonReact.state, update} => {
+  Util.setTimeout
+    (update (fun () _ => ReasonReact.Update {...state, copyConfirmation: None}))
+    2500;
   ReasonReact.Update {...state, copyConfirmation: Some text}
 };
 
-let updateInputRef nullableRef state _ =>
+let updateInputRef nullableRef {ReasonReact.state} =>
   switch (Js.Null.to_opt nullableRef) {
-  | Some ref => ReasonReact.SilentUpdate {...state, inputRef: Some ref};
+  | Some ref => ReasonReact.SilentUpdate {...state, inputRef: Some ref}
   | None => ReasonReact.NoUpdate
-};
+  };
 
 let component = ReasonReact.statefulComponent "PopupWindow";
-let make
-  ::inText
-  ::inLang
-  ::outText
-  ::outLang
-  ::link
-  ::onOpen
-  onInputChanged::(onInputChanged: inLang::Protocol.language? => outLang::Protocol.language? => string => unit)
-  _ => {
-  ...component,
 
+let make
+    ::inText
+    ::inLang
+    ::outText
+    ::outLang
+    ::link
+    ::onOpen
+    onInputChanged::(
+      onInputChanged: inLang::Protocol.language? => outLang::Protocol.language? => string => unit
+    )
+    _ => {
+  ...component,
   initialState: fun () => {
     copyConfirmation: None,
     inputRef: None,
     inLanguage: Protocol.UnknownLang,
     outLanguage: Protocol.UnknownLang
   },
-
-  didMount: fun state _ => {
+  didMount: fun {state} => {
     switch state.inputRef {
     | None => ()
     | Some ref =>
@@ -66,54 +70,52 @@ let make
     };
     ReasonReact.NoUpdate
   },
-
-  render: fun state self => {
-    let handleInLangChange e state _ => {
+  render: fun {state, update, handle} => {
+    let handleInLangChange e {ReasonReact.state} => {
       let inLanguage =
         e |> ReactEventRe.Synthetic.target |> LocalDom.Element.value |> Protocol.languageOfString;
       onInputChanged inLang::inLanguage outLang::state.outLanguage inText;
       ReasonReact.Update {...state, inLanguage}
     };
-    let handleOutLangChange e state _ => {
+    let handleOutLangChange e {ReasonReact.state} => {
       let outLanguage =
         e |> ReactEventRe.Synthetic.target |> LocalDom.Element.value |> Protocol.languageOfString;
       onInputChanged inLang::state.inLanguage outLang::outLanguage inText;
       ReasonReact.Update {...state, outLanguage}
     };
-    let handleInputChange input state _ =>
+    let handleInputChange input {ReasonReact.state} =>
       onInputChanged inLang::state.inLanguage outLang::state.outLanguage input;
-
     <div style=PopupStyles.popup>
       <div style=PopupStyles.popupColumn>
         <h1 style=PopupStyles.popupContext>
           <ColumnTitle
             lang=inLang
-            select=(select "in" (self.update handleInLangChange) state.inLanguage inLang)
+            select=(select "in" (update handleInLangChange) state.inLanguage inLang)
           />
         </h1>
         <Editor
           value=inText
           lang=inLang
-          inputRef=(self.update updateInputRef)
-          onChange=(self.handle handleInputChange)
+          inputRef=(update updateInputRef)
+          onChange=(handle handleInputChange)
         />
       </div>
       <div style=PopupStyles.popupColumn>
         <h1 style=PopupStyles.popupContext>
           <ColumnTitle
             lang=outLang
-            select=(select "out" (self.update handleOutLangChange) state.outLanguage outLang)
+            select=(select "out" (update handleOutLangChange) state.outLanguage outLang)
           />
           <CopyButton
             style=PopupStyles.contextLink
             label="share"
             text=link
-            onCopy=(self.update (showCopyConfirmation "Link copied to clipboard"))
+            onCopy=(update (showCopyConfirmation "Link copied to clipboard"))
           />
           <CopyButton
             style=PopupStyles.contextLink
             text=outText
-            onCopy=(self.update (showCopyConfirmation "Text copied to clipboard"))
+            onCopy=(update (showCopyConfirmation "Text copied to clipboard"))
           />
           <OpenButton style=PopupStyles.contextIcon onClick=(fun _ => onOpen inText) />
         </h1>

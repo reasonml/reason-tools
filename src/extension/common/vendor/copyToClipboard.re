@@ -1,5 +1,5 @@
 
-external copyToClipboard: ReactRe.reactClass = "react-copy-to-clipboard" [@@bs.module];
+external copyToClipboard: ReasonReact.reactClass = "react-copy-to-clipboard" [@@bs.module];
 
 let make
   text::(text: string)
@@ -11,4 +11,4 @@ let make
       "text": text,
       "onCopy": onCopy
     }
-    children;  
+    children;

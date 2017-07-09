@@ -1,7 +1,7 @@
-external codeMirror: ReactRe.reactClass = "react-codemirror" [@@bs.module];
+external codeMirror: ReasonReact.reactClass = "react-codemirror" [@@bs.module];
 
-external focus : ReactRe.reactRef => unit = "" [@@bs.send];
-let execCommand : ReactRe.reactRef => string => unit = [%bs.raw {|
+external focus : ReasonReact.reactRef => unit = "" [@@bs.send];
+let execCommand : ReasonReact.reactRef => string => unit = [%bs.raw {|
   function (el, command) {
     return el.getCodeMirror().execCommand(command);
   }
@@ -23,4 +23,4 @@ let make
       "onChange": Js.Null_undefined.from_opt onChange,
       "options": Js.Null_undefined.from_opt options
     }
-    children;  
+    children;
