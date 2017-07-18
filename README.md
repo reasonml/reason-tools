@@ -1,6 +1,6 @@
 # Reason Tools
 
-Adds [Reason](http://facebook.github.io/reason/) to the browser.
+Adds [Reason](http://reasonml.github.io/) to the browser.
 
 ## Getting started
 
