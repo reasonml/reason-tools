@@ -5,6 +5,7 @@ open Common;
 type language =
   | ML
   | RE
+  | REO
   | UnknownLang;
 
 type codeType =
@@ -16,6 +17,15 @@ let stringOfLanguage lang =>
   switch lang {
   | ML => "ML"
   | RE => "RE"
+  | REO => "REO"
+  | UnknownLang => "Unkown"
+  };
+
+let stringOfLanguageHuman lang =>
+  switch lang {
+  | ML => "ML"
+  | RE => "RE"
+  | REO => "RE v1"
   | UnknownLang => "Unkown"
   };
 
@@ -23,6 +33,7 @@ let languageOfString setting =>
   switch setting {
   | "RE" => RE
   | "ML" => ML
+  | "REO" => REO
   | _ => UnknownLang
   };
 

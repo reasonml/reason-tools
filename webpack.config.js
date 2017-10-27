@@ -3,8 +3,6 @@ const webpack = require('webpack');
 const GenerateJsonPlugin = require('generate-json-webpack-plugin');
 const manifest = require('./src/manifest.json');
 const package = require('./package.json');
-const ocamlPackage = require('ocaml/package.json');
-const reasonPackage = require('reason/package.json');
 
 manifest.version = package.version;
 
@@ -33,10 +31,18 @@ const Extension = {
   plugins: [
     new GenerateJsonPlugin('manifest.json', manifest),
     new webpack.DefinePlugin({
-      '__REASON_VERSION__': JSON.stringify(reasonPackage.version),
-      '__OCAML_VERSION__': JSON.stringify(ocamlPackage.version)
+      '__REASON_VERSION__': '"wow"',
+      '__OCAML_VERSION__': '"4.02.3"'
     }),
   ],
+  node: {
+    fs: "empty"
+  },
+  resolve: {
+    alias: {
+      react: path.resolve('./node_modules/react'),
+    },
+  },
 };
 
 const Page = {
@@ -50,11 +56,19 @@ const Page = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      '__REASON_VERSION__': JSON.stringify(reasonPackage.version),
-      '__OCAML_VERSION__': JSON.stringify(ocamlPackage.version)
+      '__REASON_VERSION__': '"wow"',
+      '__OCAML_VERSION__': '"4.02.3"'
     }),
   ],
   module: commonModule,
+  node: {
+    fs: "empty"
+  },
+  resolve: {
+    alias: {
+      react: path.resolve('./node_modules/react'),
+    },
+  },
 };
 
 module.exports = [Extension, Page];

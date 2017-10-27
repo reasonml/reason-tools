@@ -18,34 +18,29 @@
     "chrome"
   ],
   "scripts": {
-    "build:refmt": "./shell.sh",
     "build:self": "bsb -make-world",
     "build:js": "webpack",
-    "build": "npm run build:refmt && npm run build:self && npm run build:js",
-    "build:prod": "npm run build:refmt && npm run build:self && webpack -p --config ./webpack.production.config.js",
+    "build": "npm run build:self && npm run build:js",
+    "build:prod": "npm run build:self && webpack -p --config ./webpack.production.config.js",
     "watch:js": "webpack -w",
     "watch:screen": "screen -c .screenrc",
     "test": "exit 0"
   },
   "dependencies": {
-    "@opam-alpha/ocaml": "4.2.3",
-    "@opam-alpha/ocamlfind": "https://registry.npmjs.org/@opam-alpha/ocamlfind/-/ocamlfind-1.6.2.tgz",
     "highlight.js": "^9.8.0",
-    "js_of_ocaml-bin": "https://github.com/reasonml/js_of_ocaml-bin.git",
-    "react": "^15.3.2",
+    "react": "^15.6.0",
     "react-codemirror": "^0.2.6",
-    "react-copy-to-clipboard": "^4.2.3",
-    "react-dom": "^15.3.2",
-    "reason": "1.13.0",
-    "reason-react": "^0.2.3",
+    "react-copy-to-clipboard": "^5.0.1",
+    "react-dom": "^15.6.0",
+    "reason-react": "^0.2.4",
     "rebase": "glennsl/rebase#v0.0.2"
   },
   "devDependencies": {
-    "bs-platform": "^1.7.1",
+    "bs-platform": "^2.0.0",
     "chrome-store-api": "^1.0.5",
-    "file-loader": "^0.9.0",
+    "file-loader": "^1.1.5",
     "generate-json-webpack-plugin": "^0.2.1",
     "webpack": "^2.4.1",
-    "zip-webpack-plugin": "^0.2.0"
+    "zip-webpack-plugin": "^2.0.0"
   }
 }
