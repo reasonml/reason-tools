@@ -19,6 +19,7 @@ let select name onChange language lang =>
     </option>
     <option value="RE"> (ReasonReact.stringToElement "RE") </option>
     <option value="ML"> (ReasonReact.stringToElement "ML") </option>
+    <option value="REO"> (ReasonReact.stringToElement "RE v1") </option>
   </select>;
 
 type state = {
@@ -53,7 +54,7 @@ let make
     onInputChanged::(
       onInputChanged: inLang::Protocol.language? => outLang::Protocol.language? => string => unit
     )
-    _ => {
+    _ => {{
   ...component,
   initialState: fun () => {
     copyConfirmation: None,
@@ -128,4 +129,4 @@ let make
       </div>
     </div>
   }
-};
+}};

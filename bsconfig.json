@@ -16,6 +16,8 @@
         "dir": "popup"
       }
     ]
+  }, {
+    "dir": "src/refmt"
   }],
   "package-specs": ["es6"],
 }

@@ -13,14 +13,15 @@ let make
   defaultValue::(defaultValue: option string)=?
   onChange::(onChange: option (string => unit))=?
   options::(options: option (Js.t {..}))=?
-  children =>
+  children =>{
   ReasonReact.wrapJsForReason
     reactClass::codeMirror
     props::{
-      "style": Js.Null_undefined.from_opt style,
-      "value": Js.Null_undefined.from_opt value,
-      "defaultValue": Js.Null_undefined.from_opt defaultValue,
-      "onChange": Js.Null_undefined.from_opt onChange,
-      "options": Js.Null_undefined.from_opt options
+      "style": Js.Undefined.from_opt style,
+      "value": Js.Undefined.from_opt value,
+      "defaultValue": Js.Undefined.from_opt defaultValue,
+      "onChange": Js.Undefined.from_opt onChange,
+      "options": Js.Undefined.from_opt options
     }
-    children;
+    children
+  };
