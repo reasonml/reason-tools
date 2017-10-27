@@ -31,8 +31,8 @@ let make ::lang ::text ::slideInFrom ::open_ _ => {
     let className =
       Util.classNames [
         ("listing-container", true),
-        ("ml", lang == Protocol.ML),
-        ("re", lang == Protocol.RE)
+        ("ml", lang == Refmt2.ML),
+        ("re", lang == Refmt2.RE)
       ];
 
     <Transition

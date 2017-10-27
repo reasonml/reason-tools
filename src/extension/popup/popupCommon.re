@@ -53,7 +53,7 @@ let init
         unit
     )
     () => {
-  let rec inputChanged ::inLang=Protocol.UnknownLang ::outLang=Protocol.UnknownLang input => {
+  let rec inputChanged ::inLang=Refmt2.UnknownLang ::outLang=Refmt2.UnknownLang input => {
     let hash = makeContentHash input;
     let link = generateShareableLink hash;
     setHash hash;

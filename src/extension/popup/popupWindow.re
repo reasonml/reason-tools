@@ -9,7 +9,7 @@ let select name onChange language lang =>
         ReasonReact.stringToElement (
           "Auto" ^ (
             switch (lang, language) {
-            | (lang, Protocol.UnknownLang) when lang != Protocol.UnknownLang =>
+            | (lang, Refmt2.UnknownLang) when lang != Refmt2.UnknownLang =>
               " (" ^ Protocol.stringOfLanguage lang ^ ")"
             | _ => ""
             }
@@ -59,8 +59,8 @@ let make
   initialState: fun () => {
     copyConfirmation: None,
     inputRef: None,
-    inLanguage: Protocol.UnknownLang,
-    outLanguage: Protocol.UnknownLang
+    inLanguage: Refmt2.UnknownLang,
+    outLanguage: Refmt2.UnknownLang
   },
   didMount: fun {state} => {
     switch state.inputRef {

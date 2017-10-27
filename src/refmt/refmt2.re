@@ -1,3 +1,5 @@
+open Rebase;
+
 type ast;
 
 external parseREEx : string => ast = "parseRE" [@@bs.module "../../../../src/refmt/refmt.js"];
@@ -71,6 +73,13 @@ let typeOfString str =>
   | "implementation" => Implementation
   | "interface" => Interface
   | _ => UnknownType
+  };
+
+let stringOfType codeType =>
+  switch codeType {
+  | Implementation => "implementation"
+  | Interface => "interface"
+  | UnknownType => "Unkown"
   };
 
 let parseRE str =>
@@ -295,6 +304,6 @@ let refmt code inLang inType outLang => {
 
 let refmtJS jsString inLang inType outLang => {
   let (trueIn, trueOut, s) =
-    refmt jsString (languageOfString inLang) (typeOfString inType) (languageOfString outLang);
+    refmt jsString (inLang) (inType) (outLang);
   (stringOfLanguage trueIn ^ "to" ^ stringOfLanguage trueOut, s)
 };

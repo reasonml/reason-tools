@@ -13,9 +13,9 @@ let onOpen: string => unit = [%bs.raw
 
 let refmt
     input
-    ::inLang=Protocol.UnknownLang
-    ::inType=Protocol.UnknownType
-    ::outLang=Protocol.UnknownLang
+    ::inLang=Refmt2.UnknownLang
+    ::inType=Refmt2.UnknownType
+    ::outLang=Refmt2.UnknownLang
     cb =>
   ignore (
     Js.Global.setTimeout
@@ -24,11 +24,11 @@ let refmt
           switch (
             Background.Refmt.refmt
               input
-              (Protocol.stringOfLanguage inLang)
-              (Protocol.stringOfType inType)
-              (Protocol.stringOfLanguage outLang)
+              (inLang)
+              (inType)
+              (outLang)
           ) {
-          | ("Failure", error) => cb error Protocol.UnknownLang Protocol.UnknownLang
+          | ("Failure", error) => cb error Refmt2.UnknownLang Refmt2.UnknownLang
           | (conversion, outText) =>
             switch (conversion |> Js.String.split "to") {
             | [|inLang, outLang|] =>
