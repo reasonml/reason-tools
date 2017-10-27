@@ -3,15 +3,14 @@ open Rebase;
 open Core;
 
 module Refmt = {
-  type t = (string, string);
-  let refmt : string => string => string => string => t = Refmt2.refmtJS;
+  let refmt = Refmt2.refmtJS;
 
   let parse =
     fun
     | ("Failure", error) => Error error
     | (conversion, outText) =>
       switch (conversion |> Js.String.split "to") {
-      | [|inLang, outLang|] when Protocol.languageOfString outLang != Protocol.UnknownLang =>
+      | [|inLang, outLang|] when Protocol.languageOfString outLang != Refmt2.UnknownLang =>
         Ok Protocol.Refmt.{
              outText,
              inLang: Protocol.languageOfString inLang,
@@ -25,9 +24,9 @@ Protocol.Refmt.listen (
   fun {input, inLang, inType, outLang} respond => {
     Refmt.refmt
       input
-      (Protocol.stringOfLanguage inLang)
-      (Protocol.stringOfType inType)
-      (Protocol.stringOfLanguage outLang) |> Refmt.parse |> respond
+      (inLang)
+      (inType)
+      (outLang) |> Refmt.parse |> respond
 });
 
 Protocol.OpenInTab.listen (fun text => Chrome.Tabs.create {"url": "popup.html#" ^ Util.btoa text});

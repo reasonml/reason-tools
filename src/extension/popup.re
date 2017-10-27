@@ -30,9 +30,9 @@ let getLatestInput () =>
 
 let refmt
     input
-    ::inLang=Protocol.UnknownLang
-    ::inType=Protocol.UnknownType
-    ::outLang=Protocol.UnknownLang
+    ::inLang=Refmt2.UnknownLang
+    ::inType=Refmt2.UnknownType
+    ::outLang=Refmt2.UnknownLang
     cb => {
   Protocol.Refmt.send
     input
@@ -42,7 +42,7 @@ let refmt
     (
       fun error =>
         switch error {
-        | Error error => cb error Protocol.UnknownLang Protocol.UnknownLang
+        | Error error => cb error Refmt2.UnknownLang Refmt2.UnknownLang
         | Ok {outText, inLang, outLang} => cb outText inLang outLang
         }
     );

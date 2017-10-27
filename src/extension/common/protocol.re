@@ -2,46 +2,22 @@ open Rebase;
 
 open Common;
 
-type language =
-  | ML
-  | RE
-  | REO
-  | UnknownLang;
+type language = Refmt2.language;
 
-type codeType =
-  | Implementation
-  | Interface
-  | UnknownType;
+type codeType = Refmt2.codeType;
 
-let stringOfLanguage lang =>
-  switch lang {
-  | ML => "ML"
-  | RE => "RE"
-  | REO => "REO"
-  | UnknownLang => "Unkown"
-  };
+let stringOfLanguage = Refmt2.stringOfLanguage;
 
-let stringOfLanguageHuman lang =>
+let languageOfString = Refmt2.languageOfString;
+
+let stringOfType = Refmt2.stringOfType;
+
+let stringOfLanguageHuman (lang: language) =>
   switch lang {
   | ML => "ML"
   | RE => "RE"
   | REO => "RE v1"
   | UnknownLang => "Unkown"
-  };
-
-let languageOfString setting =>
-  switch setting {
-  | "RE" => RE
-  | "ML" => ML
-  | "REO" => REO
-  | _ => UnknownLang
-  };
-
-let stringOfType codeType =>
-  switch codeType {
-  | Implementation => "implementation"
-  | Interface => "interface"
-  | UnknownType => "Unkown"
   };
 
 module Refmt = {
@@ -73,7 +49,7 @@ module Refmt = {
         outLang: languageOfString payload.outLang
       }
     | _ => raise DeserializationFail;
-  let send text ::inLang=UnknownLang ::inType=UnknownType ::outLang=UnknownLang cb =>
+  let send text ::inLang=Refmt2.UnknownLang ::inType=Refmt2.UnknownType ::outLang=Refmt2.UnknownLang cb =>
     Message.query
       "refmt:refmt"
       {input: text |> normalizeText |> untoplevel, inLang, inType, outLang}

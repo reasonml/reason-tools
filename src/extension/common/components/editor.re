@@ -10,7 +10,7 @@ let make ::value ::lang ::defaultValue=? ::readOnly=false ::inputRef=? ::onChang
       defaultValue=?defaultValue
       onChange=?onChange
       options={
-        "mode": lang == Protocol.ML ? "text/x-ocaml" : "javascript",
+        "mode": lang == Refmt2.ML ? "text/x-ocaml" : "javascript",
         "theme": "oceanic-next",
         "readOnly": Js.Boolean.to_js_boolean readOnly
       }
