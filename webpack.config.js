@@ -31,7 +31,7 @@ const Extension = {
   plugins: [
     new GenerateJsonPlugin('manifest.json', manifest),
     new webpack.DefinePlugin({
-      '__REASON_VERSION__': '"wow"',
+      '__REASON_VERSION__': '"3.0.0"',
       '__OCAML_VERSION__': '"4.02.3"'
     }),
   ],
@@ -56,7 +56,7 @@ const Page = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      '__REASON_VERSION__': '"wow"',
+      '__REASON_VERSION__': '"3.0.0"',
       '__OCAML_VERSION__': '"4.02.3"'
     }),
   ],

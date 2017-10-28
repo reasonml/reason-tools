@@ -1,5 +1,7 @@
 open LocalDom;
 
+open Rebase;
+
 let onOpen: string => unit = [%bs.raw
   {|
   function (hash) {
@@ -10,6 +12,24 @@ let onOpen: string => unit = [%bs.raw
   }
 |}
 ];
+
+module Refmt = {
+  let refmt = Refmt2.refmtJS;
+
+  let parse =
+    fun
+    | ("Failure", error) => Error error
+    | (conversion, outText) =>
+      switch (conversion |> Js.String.split "to") {
+      | [|inLang, outLang|] when Protocol.languageOfString outLang != Refmt2.UnknownLang =>
+        Ok Protocol.Refmt.{
+             outText,
+             inLang: Protocol.languageOfString inLang,
+             outLang: Protocol.languageOfString outLang
+           }
+      | _ => Error outText
+      };
+};
 
 let refmt
     input
@@ -22,7 +42,7 @@ let refmt
       (
         fun () =>
           switch (
-            Background.Refmt.refmt
+            Refmt.refmt
               input
               (inLang)
               (inType)
