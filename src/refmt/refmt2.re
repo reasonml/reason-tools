@@ -2,21 +2,21 @@ open Rebase;
 
 type ast;
 
-external parseREEx : string => ast = "parseRE" [@@bs.module "../../../../src/refmt/refmt.js"];
+external parseREEx : string => ast = "parseRE" [@@bs.module "reason"];
 
-external parseREIEx : string => ast = "parseREI" [@@bs.module "../../../../src/refmt/refmt.js"];
+external parseREIEx : string => ast = "parseREI" [@@bs.module "reason"];
 
-external parseMLEx : string => ast = "parseML" [@@bs.module "../../../../src/refmt/refmt.js"];
+external parseMLEx : string => ast = "parseML" [@@bs.module "reason"];
 
-external parseMLIEx : string => ast = "parseMLI" [@@bs.module "../../../../src/refmt/refmt.js"];
+external parseMLIEx : string => ast = "parseMLI" [@@bs.module "reason"];
 
-external printRE : ast => string = "" [@@bs.module "../../../../src/refmt/refmt.js"];
+external printRE : ast => string = "" [@@bs.module "reason"];
 
-external printREI : ast => string = "" [@@bs.module "../../../../src/refmt/refmt.js"];
+external printREI : ast => string = "" [@@bs.module "reason"];
 
-external printML : ast => string = "" [@@bs.module "../../../../src/refmt/refmt.js"];
+external printML : ast => string = "" [@@bs.module "reason"];
 
-external printMLI : ast => string = "" [@@bs.module "../../../../src/refmt/refmt.js"];
+external printMLI : ast => string = "" [@@bs.module "reason"];
 
 external parseREOldEx : string => ast =
   "parseRE" [@@bs.module "../../../../src/refmt/refmtOld.js"];
