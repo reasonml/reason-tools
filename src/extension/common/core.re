@@ -40,7 +40,6 @@ module History = {
 module Util = {
   [@bs.val] external btoa : string => string = "window.btoa";
   [@bs.val] external atob : string => string = "window.atob";
-  [@bs.val] external setTimeout : (unit => unit, int) => unit = "window.setTimeout";
   let classNames = (items) =>
     items
     |> List.map(((name, flag)) => flag ? name : "")

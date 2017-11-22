@@ -1,5 +1,3 @@
-open Core;
-
 type action =
   | LinkCopyConfirmation
   | TextCopyConfirmation
@@ -32,10 +30,19 @@ type state = {
   copyConfirmation: string,
   inputRef: ref(option(ReasonReact.reactRef)),
   inLanguage: Protocol.language,
-  outLanguage: Protocol.language
+  outLanguage: Protocol.language,
+  dialogKillTimer: ref(option(Js.Global.timeoutId))
 };
 
 let updateInputRef = (r, {ReasonReact.state}) => state.inputRef := Js.Nullable.to_opt(r);
+
+let resetTimer = ({ReasonReact.state, reduce}) => {
+  switch state.dialogKillTimer^ {
+  | None => ()
+  | Some(timer) => Js.Global.clearTimeout(timer)
+  };
+  state.dialogKillTimer := Some(Js.Global.setTimeout(reduce(() => RemoveCopyConfirmation), 2500))
+};
 
 let component = ReasonReact.reducerComponent("PopupWindow");
 
@@ -57,12 +64,12 @@ let make =
     | LinkCopyConfirmation =>
       ReasonReact.UpdateWithSideEffects(
         {...state, copyConfirmation: "Link copied to clipboard"},
-        ((self) => Util.setTimeout(self.reduce(() => RemoveCopyConfirmation), 2500))
+        resetTimer
       )
     | TextCopyConfirmation =>
       ReasonReact.UpdateWithSideEffects(
         {...state, copyConfirmation: "Text copied to clipboard"},
-        ((self) => Util.setTimeout(self.reduce(() => RemoveCopyConfirmation), 2500))
+        resetTimer
       )
     | RemoveCopyConfirmation => ReasonReact.Update({...state, copyConfirmation: ""})
     | InLanguageChange(lang) =>
@@ -80,7 +87,8 @@ let make =
     copyConfirmation: "",
     inputRef: ref(None),
     inLanguage: Refmt2.UnknownLang,
-    outLanguage: Refmt2.UnknownLang
+    outLanguage: Refmt2.UnknownLang,
+    dialogKillTimer: ref(None)
   },
   didMount: ({state}) => {
     switch state.inputRef^ {
