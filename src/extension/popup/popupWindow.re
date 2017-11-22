@@ -1,6 +1,11 @@
-open Rebase;
-
 open Core;
+
+type action =
+  | LinkCopyConfirmation
+  | TextCopyConfirmation
+  | RemoveCopyConfirmation
+  | InLanguageChange(Refmt2.language)
+  | OutLanguageChange(Refmt2.language);
 
 let select = (name, onChange, language, lang) =>
   <select name onChange value=(Protocol.stringOfLanguage(language))>
@@ -24,24 +29,15 @@ let select = (name, onChange, language, lang) =>
   </select>;
 
 type state = {
-  copyConfirmation: option(string),
-  inputRef: option(ReasonReact.reactRef),
+  copyConfirmation: string,
+  inputRef: ref(option(ReasonReact.reactRef)),
   inLanguage: Protocol.language,
   outLanguage: Protocol.language
 };
 
-let showCopyConfirmation = (text, (), {ReasonReact.state, update}) => {
-  Util.setTimeout(update(((), _) => ReasonReact.Update({...state, copyConfirmation: None})), 2500);
-  ReasonReact.Update({...state, copyConfirmation: Some(text)})
-};
+let updateInputRef = (r, {ReasonReact.state}) => state.inputRef := Js.Nullable.to_opt(r);
 
-let updateInputRef = (nullableRef, {ReasonReact.state}) =>
-  switch (Js.Null.to_opt(nullableRef)) {
-  | Some(ref) => ReasonReact.SilentUpdate({...state, inputRef: Some(ref)})
-  | None => ReasonReact.NoUpdate
-  };
-
-let component = ReasonReact.statefulComponent("PopupWindow");
+let component = ReasonReact.reducerComponent("PopupWindow");
 
 let make =
     (
@@ -56,14 +52,38 @@ let make =
       _
     ) => {
   ...component,
+  reducer: (action, state) =>
+    switch action {
+    | LinkCopyConfirmation =>
+      ReasonReact.UpdateWithSideEffects(
+        {...state, copyConfirmation: "Link copied to clipboard"},
+        ((self) => Util.setTimeout(self.reduce(() => RemoveCopyConfirmation), 2500))
+      )
+    | TextCopyConfirmation =>
+      ReasonReact.UpdateWithSideEffects(
+        {...state, copyConfirmation: "Text copied to clipboard"},
+        ((self) => Util.setTimeout(self.reduce(() => RemoveCopyConfirmation), 2500))
+      )
+    | RemoveCopyConfirmation => ReasonReact.Update({...state, copyConfirmation: ""})
+    | InLanguageChange(lang) =>
+      ReasonReact.UpdateWithSideEffects(
+        {...state, inLanguage: lang},
+        ((self) => onInputChanged(~inLang=lang, ~outLang=self.state.outLanguage, inText))
+      )
+    | OutLanguageChange(lang) =>
+      ReasonReact.UpdateWithSideEffects(
+        {...state, outLanguage: lang},
+        ((self) => onInputChanged(~inLang=self.state.inLanguage, ~outLang=lang, inText))
+      )
+    },
   initialState: () => {
-    copyConfirmation: None,
-    inputRef: None,
+    copyConfirmation: "",
+    inputRef: ref(None),
     inLanguage: Refmt2.UnknownLang,
     outLanguage: Refmt2.UnknownLang
   },
   didMount: ({state}) => {
-    switch state.inputRef {
+    switch state.inputRef^ {
     | None => ()
     | Some(ref) =>
       CodeMirror.focus(ref);
@@ -71,18 +91,22 @@ let make =
     };
     ReasonReact.NoUpdate
   },
-  render: ({state, update, handle}) => {
-    let handleInLangChange = (e, {ReasonReact.state}) => {
-      let inLanguage =
-        e |> ReactEventRe.Synthetic.target |> LocalDom.Element.value |> Protocol.languageOfString;
-      onInputChanged(~inLang=inLanguage, ~outLang=state.outLanguage, inText);
-      ReasonReact.Update({...state, inLanguage})
+  render: ({state, reduce, handle}) => {
+    let inLanguageChange = (event) => {
+      let lang =
+        event
+        |> ReactEventRe.Synthetic.target
+        |> LocalDom.Element.value
+        |> Protocol.languageOfString;
+      InLanguageChange(lang)
     };
-    let handleOutLangChange = (e, {ReasonReact.state}) => {
-      let outLanguage =
-        e |> ReactEventRe.Synthetic.target |> LocalDom.Element.value |> Protocol.languageOfString;
-      onInputChanged(~inLang=state.inLanguage, ~outLang=outLanguage, inText);
-      ReasonReact.Update({...state, outLanguage})
+    let outLanguageChange = (event) => {
+      let lang =
+        event
+        |> ReactEventRe.Synthetic.target
+        |> LocalDom.Element.value
+        |> Protocol.languageOfString;
+      OutLanguageChange(lang)
     };
     let handleInputChange = (input, {ReasonReact.state}) =>
       onInputChanged(~inLang=state.inLanguage, ~outLang=state.outLanguage, input);
@@ -91,13 +115,13 @@ let make =
         <h1 style=PopupStyles.popupContext>
           <ColumnTitle
             lang=inLang
-            select=(select("in", update(handleInLangChange), state.inLanguage, inLang))
+            select=(select("in", reduce(inLanguageChange), state.inLanguage, inLang))
           />
         </h1>
         <Editor
           value=inText
           lang=inLang
-          inputRef=(update(updateInputRef))
+          inputRef=(handle(updateInputRef))
           onChange=(handle(handleInputChange))
         />
       </div>
@@ -105,26 +129,26 @@ let make =
         <h1 style=PopupStyles.popupContext>
           <ColumnTitle
             lang=outLang
-            select=(select("out", update(handleOutLangChange), state.outLanguage, outLang))
+            select=(select("out", reduce(outLanguageChange), state.outLanguage, outLang))
           />
           <CopyButton
             style=PopupStyles.contextLink
             label="share"
             text=link
-            onCopy=(update(showCopyConfirmation("Link copied to clipboard")))
+            onCopy=(reduce((_) => LinkCopyConfirmation))
           />
           <CopyButton
             style=PopupStyles.contextLink
             text=outText
-            onCopy=(update(showCopyConfirmation("Text copied to clipboard")))
+            onCopy=(reduce((_) => TextCopyConfirmation))
           />
           <OpenButton style=PopupStyles.contextIcon onClick=((_) => onOpen(inText)) />
         </h1>
         <Editor value=outText lang=outLang readOnly=true />
         <CopyConfirmation
           style=PopupStyles.copyConfirmation
-          show=(Option.isSome(state.copyConfirmation))
-          text=(Option.getOr("", state.copyConfirmation))
+          show=(state.copyConfirmation !== "")
+          text=state.copyConfirmation
         />
       </div>
     </div>

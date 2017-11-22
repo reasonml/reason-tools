@@ -2,26 +2,23 @@ open Core;
 
 external refToElement : Dom.element => LocalDom.Element.t = "%identity";
 
-type state = {preRef: option(Dom.element)};
+type state = {preRef: ref(option(Dom.element))};
 
-let updatePreRef = (nullableRef, _) =>
-  switch (Js.Null.to_opt(nullableRef)) {
-  | Some(ref) => ReasonReact.SilentUpdate({preRef: Some(ref)})
-  | None => ReasonReact.NoUpdate
-  };
+let updatePreRef = (r, {ReasonReact.state}) => state.preRef := Js.Nullable.to_opt(r);
 
-let component = ReasonReact.statefulComponent("InlineListing");
+let component = ReasonReact.reducerComponent("InlineListing");
 
 let make = (~lang, ~text, ~slideInFrom, ~open_, _) => {
   ...component,
-  initialState: () => {preRef: None},
+  initialState: () => {preRef: ref(None)},
   didMount: ({state}) => {
-    switch state.preRef {
+    switch state.preRef^ {
     | Some(r) => Hljs.highlightBlock(refToElement(r))
     | None => ()
     };
     ReasonReact.NoUpdate
   },
+  reducer: ((), _state) => ReasonReact.NoUpdate,
   render: (self) => {
     let translateY = slideInFrom == "above" ? "-10vh" : "10vh";
     let className =
@@ -38,7 +35,7 @@ let make = (~lang, ~text, ~slideInFrom, ~open_, _) => {
           (ReasonReact.stringToElement(Protocol.stringOfLanguage(lang)))
         </div>
         <div className="main">
-          <pre ref=(self.update(updatePreRef))> (ReasonReact.stringToElement(text)) </pre>
+          <pre ref=(self.handle(updatePreRef))> (ReasonReact.stringToElement(text)) </pre>
           <footer>
             <CopyButton text style=(ReactDOMRe.Style.make(~cursor="pointer", ())) onCopy=ignore />
             <OpenButton

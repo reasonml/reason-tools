@@ -32,7 +32,7 @@ cd reason-tools
 npm install # this will take a few minutes
 ```
 
-`npm run build` to build the project. You also have the granular steps `build:refmt` `build:self` and `build:js` for faster iteration.
+`npm run build` to build the project. You also have the granular steps `build:self` and `build:js` for faster iteration.
 
 To load in Chrome, go to `chrome://extensions/` and turn on Developer Mode. From there you should be able to select "Load unpacked extension..." and choose `reason-tools/_build/extension`.
 

@@ -6,3 +6,4 @@ node_modules
 .merlin
 
 .DS_Store
+.bsb.lock
