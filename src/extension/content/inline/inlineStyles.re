@@ -1,4 +1,3 @@
-
 let stylesheet = {|
   .root-container {
     position: fixed;

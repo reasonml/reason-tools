@@ -4,20 +4,13 @@
   "version": "0.0.0",
   "reason" : {"react-jsx" : 2},
   "bs-dependencies": ["reason-react", "rebase"],
-  "sources": [{
-    "dir": "src/extension",
-    "subdirs": [{
-        "dir": "content",
-        "subdirs": ["convert", "inline"]
-      }, {
-        "dir": "common",
-        "subdirs": ["components", "vendor"]
-      }, {
-        "dir": "popup"
-      }
+  "sources": {
+    "dir": "src",
+    "subdirs": [
+      {"dir": "extension", "subdirs": true},
+      {"dir": "refmt"}
     ]
-  }, {
-    "dir": "src/refmt"
-  }],
+  },
   "package-specs": ["es6"],
+  "refmt": 3
 }

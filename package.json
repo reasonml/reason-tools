@@ -19,6 +19,7 @@
   ],
   "scripts": {
     "build:self": "bsb -make-world",
+    "clean": "bsb -clean-world",
     "build:js": "webpack",
     "build": "npm run build:self && npm run build:js",
     "build:prod": "npm run build:self && webpack -p --config ./webpack.production.config.js",
@@ -36,7 +37,7 @@
     "rebase": "glennsl/rebase#v0.0.2"
   },
   "devDependencies": {
-    "bs-platform": "^2.0.0",
+    "bs-platform": "^2.1.0",
     "chrome-store-api": "^1.0.5",
     "file-loader": "^1.1.5",
     "generate-json-webpack-plugin": "^0.2.1",

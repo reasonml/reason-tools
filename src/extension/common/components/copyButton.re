@@ -1,10 +1,9 @@
+let component = ReasonReact.statelessComponent("CopyButton");
 
-let component = ReasonReact.statelessComponent "CopyButton";
-let make ::label="copy" ::text ::onCopy ::style=? _ => {
+let make = (~label="copy", ~text, ~onCopy, ~style=?, _) => {
   ...component,
-
-  render: fun _ =>
+  render: (_) =>
     <CopyToClipboard text onCopy>
-      <span className="copy-button" style=?style> (ReasonReact.stringToElement label) </span>
+      <span className="copy-button" ?style> (ReasonReact.stringToElement(label)) </span>
     </CopyToClipboard>
 };

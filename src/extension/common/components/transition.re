@@ -1,21 +1,13 @@
+type state = {style: ReactDOMRe.Style.t};
 
-type state = {
-  style: ReactDOMRe.Style.t
-};
+let component = ReasonReact.statefulComponent("Transition");
 
-let component = ReasonReact.statefulComponent "Transition";
-let make ::before ::after children => {
+let make = (~before, ~after, children) => {
   ...component,
-
-  initialState: fun () => {
-    style: before
-  },
-
-  didMount: fun self => {
-    Core.Util.setTimeout (self.update (fun _ _ => ReasonReact.Update {style: after})) 0;
+  initialState: () => {style: before},
+  didMount: (self) => {
+    Core.Util.setTimeout(self.update((_, _) => ReasonReact.Update({style: after})), 0);
     ReasonReact.NoUpdate
   },
-
-  render: fun {state} =>
-    <div style=state.style> (ReasonReact.arrayToElement children) </div>
+  render: ({state}) => <div style=state.style> (ReasonReact.arrayToElement(children)) </div>
 };

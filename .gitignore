@@ -1,22 +1,7 @@
 _build/**
-lib/**
-
-*~
-*.cmi
-*.exe
-*.cmo
-*.cmx
-*.cma
-*.cmxa
-*.cmxs
-*.a
-*.o
-*.annot
-*.run
-*.opt
+lib
 
 node_modules
-.jenga
 *.log
 .merlin
 

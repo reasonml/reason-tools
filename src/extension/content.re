@@ -1,21 +1,23 @@
 open LocalDom;
 
-Hljs.registerLanguage "ocaml" [%bs.raw "require('highlight.js/lib/languages/ocaml')"];
-Hljs.configure {"classPrefix": "", "languages": [|"ocaml"|]};
+Hljs.registerLanguage("ocaml", [%bs.raw "require('highlight.js/lib/languages/ocaml')"]);
 
-Protocol.Storage.queryDisabled (fun disabled => {
-  if (not disabled && Detect.shouldConvert ()) {
-    ConvertPage.toggle ()
-  };
-});
+Hljs.configure({"classPrefix": "", "languages": [|"ocaml"|]});
 
-Protocol.ToggleConversion.listen ConvertPage.toggle;
+Protocol.Storage.queryDisabled(
+  (disabled) =>
+    if (! disabled && Detect.shouldConvert()) {
+      ConvertPage.toggle()
+    }
+);
 
-Protocol.RefmtSelection.listen (
-  fun () => {
-    let selection = Window.getSelection ();
+Protocol.ToggleConversion.listen(ConvertPage.toggle);
+
+Protocol.RefmtSelection.listen(
+  () => {
+    let selection = Window.getSelection();
     let text = selection |> Selection.toString;
-    Selection.removeAllRanges selection;
-    Overlay.try_ text
+    Selection.removeAllRanges(selection);
+    Overlay.try_(text)
   }
 );

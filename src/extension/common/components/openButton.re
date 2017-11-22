@@ -1,13 +1,13 @@
+let component = ReasonReact.statelessComponent("OpenButton");
 
-let component = ReasonReact.statelessComponent "OpenButton";
-let make ::onClick ::style=? _ => {
+let make = (~onClick, ~style=?, _) => {
   ...component,
-
-  render: fun _ =>
-    <span className="open-button" style=?style onClick>
+  render: (_) =>
+    <span className="open-button" ?style onClick>
       <svg
         viewBox="0 0 748 1024"
-        style=(ReactDOMRe.Style.make width::"100%" height::"100%" ()) /*xmlns="http://www.w3.org/2000/svg"*/>
+        style=
+          (ReactDOMRe.Style.make(~width="100%", ~height="100%", ())) /*xmlns="http://www.w3.org/2000/svg"*/>
         /* Unsupported attribute */
 
           <path

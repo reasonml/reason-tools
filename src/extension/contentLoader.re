@@ -1,10 +1,12 @@
-let loaded = ref false;
+let loaded = ref(false);
 
-Protocol.Storage.queryDisabled (fun disabled => {
-  if (not disabled && Detect.shouldConvert ()) {
-    Protocol.LoadScripts.send ();
-  };
-});
+Protocol.Storage.queryDisabled(
+  (disabled) =>
+    if (! disabled && Detect.shouldConvert()) {
+      Protocol.LoadScripts.send()
+    }
+);
 
-Protocol.NotifyLoaded.listen (fun () => loaded := true);
-Protocol.QueryLoaded.listen (fun () => !loaded);
+Protocol.NotifyLoaded.listen(() => loaded := true);
+
+Protocol.QueryLoaded.listen(() => loaded^);
