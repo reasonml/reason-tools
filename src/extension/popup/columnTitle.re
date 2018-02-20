@@ -1,7 +1,7 @@
 let showVersion = (lang) =>
   switch lang {
-  | Refmt2.RE => Globals.reasonVersion
-  | Refmt2.ML => Globals.ocamlVersion
+  | RefmtShared.RE => Globals.reasonVersion
+  | RefmtShared.ML => Globals.ocamlVersion
   | _ => ""
   };
 

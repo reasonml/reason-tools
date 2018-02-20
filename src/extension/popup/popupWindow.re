@@ -2,8 +2,8 @@ type action =
   | LinkCopyConfirmation
   | TextCopyConfirmation
   | RemoveCopyConfirmation
-  | InLanguageChange(Refmt2.language)
-  | OutLanguageChange(Refmt2.language);
+  | InLanguageChange(RefmtShared.language)
+  | OutLanguageChange(RefmtShared.language);
 
 let select = (name, onChange, language, lang) =>
   <select name onChange value=(Protocol.stringOfLanguage(language))>
@@ -13,7 +13,7 @@ let select = (name, onChange, language, lang) =>
           "Auto"
           ++ (
             switch (lang, language) {
-            | (lang, Refmt2.UnknownLang) when lang != Refmt2.UnknownLang =>
+            | (lang, RefmtShared.UnknownLang) when lang != RefmtShared.UnknownLang =>
               " (" ++ Protocol.stringOfLanguage(lang) ++ ")"
             | _ => ""
             }
@@ -86,8 +86,8 @@ let make =
   initialState: () => {
     copyConfirmation: "",
     inputRef: ref(None),
-    inLanguage: Refmt2.UnknownLang,
-    outLanguage: Refmt2.UnknownLang,
+    inLanguage: RefmtShared.UnknownLang,
+    outLanguage: RefmtShared.UnknownLang,
     dialogKillTimer: ref(None)
   },
   didMount: ({state}) => {

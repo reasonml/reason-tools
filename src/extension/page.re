@@ -13,47 +13,26 @@ let onOpen: string => unit = [%bs.raw
 |}
 ];
 
-module Refmt = {
-  let refmt = Refmt2.refmtJS;
-  let parse =
-    fun
-    | ("Failure", error) => Error(error)
-    | (conversion, outText) =>
-      switch (conversion |> Js.String.split("to")) {
-      | [|inLang, outLang|] when Protocol.languageOfString(outLang) != Refmt2.UnknownLang =>
-        Ok(
-          Protocol.Refmt.{
-            outText,
-            inLang: Protocol.languageOfString(inLang),
-            outLang: Protocol.languageOfString(outLang)
-          }
-        )
-      | _ => Error(outText)
-      };
-};
-
 let refmt =
     (
       input,
-      ~inLang=Refmt2.UnknownLang,
-      ~inType=Refmt2.UnknownType,
-      ~outLang=Refmt2.UnknownLang,
+      ~inLang=RefmtShared.UnknownLang,
+      ~inType=RefmtShared.UnknownType,
+      ~outLang=RefmtShared.UnknownLang,
       cb
-    ) =>
-  ignore(
-    Js.Global.setTimeout(
-      () =>
-        switch (Refmt.refmt(input, inLang, inType, outLang)) {
-        | ("Failure", error) => cb(error, Refmt2.UnknownLang, Refmt2.UnknownLang)
-        | (conversion, outText) =>
-          switch (conversion |> Js.String.split("to")) {
-          | [|inLang, outLang|] =>
-            cb(outText, Protocol.languageOfString(inLang), Protocol.languageOfString(outLang))
-          | _ => ()
-          }
-        },
-      0
-    )
+    ) => {
+  Protocol.Refmt.send(
+    input,
+    ~inLang,
+    ~inType,
+    ~outLang,
+    (error) =>
+      switch error {
+      | Error(error) => cb(error, RefmtShared.UnknownLang, RefmtShared.UnknownLang)
+      | Ok({outText, inLang, outLang}) => cb(outText, inLang, outLang)
+      }
   );
+  Protocol.Storage.setLatestInput(input)
+};
 
 Document.addEventListener("DOMContentLoaded", () => PopupCommon.init(~onOpen, ~refmt, ()));

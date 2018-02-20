@@ -9,7 +9,7 @@ let make = (~value, ~lang, ~defaultValue=?, ~readOnly=false, ~inputRef=?, ~onCha
       ?defaultValue
       ?onChange
       options={
-        "mode": lang == Refmt2.ML ? "text/x-ocaml" : "javascript",
+        "mode": lang == RefmtShared.ML ? "text/x-ocaml" : "javascript",
         "theme": "oceanic-next",
         "readOnly": Js.Boolean.to_js_boolean(readOnly)
       }

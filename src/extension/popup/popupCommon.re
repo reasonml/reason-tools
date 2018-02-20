@@ -55,7 +55,7 @@ let init =
          unit,
       ()
     ) => {
-  let rec inputChanged = (~inLang=Refmt2.UnknownLang, ~outLang=Refmt2.UnknownLang, input) => {
+  let rec inputChanged = (~inLang=RefmtShared.UnknownLang, ~outLang=RefmtShared.UnknownLang, input) => {
     let hash = makeContentHash(input);
     let link = generateShareableLink(hash);
     setHash(hash);

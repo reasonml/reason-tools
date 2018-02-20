@@ -29,9 +29,9 @@ let getLatestInput = () =>
 let refmt =
     (
       input,
-      ~inLang=Refmt2.UnknownLang,
-      ~inType=Refmt2.UnknownType,
-      ~outLang=Refmt2.UnknownLang,
+      ~inLang=RefmtShared.UnknownLang,
+      ~inType=RefmtShared.UnknownType,
+      ~outLang=RefmtShared.UnknownLang,
       cb
     ) => {
   Protocol.Refmt.send(
@@ -41,7 +41,7 @@ let refmt =
     ~outLang,
     (error) =>
       switch error {
-      | Error(error) => cb(error, Refmt2.UnknownLang, Refmt2.UnknownLang)
+      | Error(error) => cb(error, RefmtShared.UnknownLang, RefmtShared.UnknownLang)
       | Ok({outText, inLang, outLang}) => cb(outText, inLang, outLang)
       }
   );

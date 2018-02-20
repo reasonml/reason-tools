@@ -24,8 +24,8 @@ let make = (~lang, ~text, ~slideInFrom, ~open_, _) => {
     let className =
       Util.classNames([
         ("listing-container", true),
-        ("ml", lang == Refmt2.ML),
-        ("re", lang == Refmt2.RE)
+        ("ml", lang == RefmtShared.ML),
+        ("re", lang == RefmtShared.RE)
       ]);
     <Transition
       before=(ReactDOMRe.Style.make(~transform={j|translateY($translateY)|j}, ()))

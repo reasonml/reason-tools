@@ -2,15 +2,15 @@ open Rebase;
 
 open Common;
 
-type language = Refmt2.language;
+type language = RefmtShared.language;
 
-type codeType = Refmt2.codeType;
+type codeType = RefmtShared.codeType;
 
-let stringOfLanguage = Refmt2.stringOfLanguage;
+let stringOfLanguage = RefmtShared.stringOfLanguage;
 
-let languageOfString = Refmt2.languageOfString;
+let languageOfString = RefmtShared.languageOfString;
 
-let stringOfType = Refmt2.stringOfType;
+let stringOfType = RefmtShared.stringOfType;
 
 let stringOfLanguageHuman = (lang: language) =>
   switch lang {
@@ -65,9 +65,9 @@ module Refmt = {
   let send =
       (
         text,
-        ~inLang=Refmt2.UnknownLang,
-        ~inType=Refmt2.UnknownType,
-        ~outLang=Refmt2.UnknownLang,
+        ~inLang=RefmtShared.UnknownLang,
+        ~inType=RefmtShared.UnknownType,
+        ~outLang=RefmtShared.UnknownLang,
         cb
       ) =>
     Message.query(

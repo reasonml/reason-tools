@@ -9,7 +9,7 @@ module Refmt = {
     | ("Failure", error) => Error(error)
     | (conversion, outText) =>
       switch (conversion |> Js.String.split("to")) {
-      | [|inLang, outLang|] when Protocol.languageOfString(outLang) != Refmt2.UnknownLang =>
+      | [|inLang, outLang|] when Protocol.languageOfString(outLang) != RefmtShared.UnknownLang =>
         Ok(
           Protocol.Refmt.{
             outText,
