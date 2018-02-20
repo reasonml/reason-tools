@@ -1,11 +1,12 @@
 let component = ReasonReact.statelessComponent("Editor");
 
-let make = (~value, ~lang, ~defaultValue=?, ~readOnly=false, ~inputRef=?, ~onChange=?, _) => {
+let make = (~value, ~autoFocus=?, ~editorDidMount=?, ~lang, ~defaultValue=?, ~readOnly=false, ~onChange=?, _) => {
   ...component,
   render: (_) =>
     <CodeMirror
       value
-      ref=?inputRef
+      ?editorDidMount
+      ?autoFocus
       ?defaultValue
       ?onChange
       options={

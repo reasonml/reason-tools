@@ -28,13 +28,10 @@ let select = (name, onChange, language, lang) =>
 
 type state = {
   copyConfirmation: string,
-  inputRef: ref(option(ReasonReact.reactRef)),
   inLanguage: Protocol.language,
   outLanguage: Protocol.language,
   dialogKillTimer: ref(option(Js.Global.timeoutId))
 };
-
-let updateInputRef = (r, {ReasonReact.state}) => state.inputRef := Js.Nullable.to_opt(r);
 
 let resetTimer = ({ReasonReact.state, reduce}) => {
   switch state.dialogKillTimer^ {
@@ -85,19 +82,9 @@ let make =
     },
   initialState: () => {
     copyConfirmation: "",
-    inputRef: ref(None),
     inLanguage: RefmtShared.UnknownLang,
     outLanguage: RefmtShared.UnknownLang,
     dialogKillTimer: ref(None)
-  },
-  didMount: ({state}) => {
-    switch state.inputRef^ {
-    | None => ()
-    | Some(ref) =>
-      CodeMirror.focus(ref);
-      CodeMirror.execCommand(ref, "selectAll")
-    };
-    ReasonReact.NoUpdate
   },
   render: ({state, reduce, handle}) => {
     let inLanguageChange = (event) => {
@@ -129,7 +116,8 @@ let make =
         <Editor
           value=inText
           lang=inLang
-          inputRef=(handle(updateInputRef))
+          autoFocus=true
+          editorDidMount={editor => CodeMirror.execCommand(editor, "selectAll")}
           onChange=(handle(handleInputChange))
         />
       </div>

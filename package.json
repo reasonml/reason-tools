@@ -28,11 +28,12 @@
     "test": "exit 0"
   },
   "dependencies": {
+    "codemirror": "^5.34.0",
     "highlight.js": "^9.8.0",
-    "react": "^15.6.0",
-    "react-codemirror": "^0.2.6",
+    "react": "^16.0.0",
+    "react-codemirror2": "^4.0.0",
     "react-copy-to-clipboard": "^5.0.1",
-    "react-dom": "^15.6.0",
+    "react-dom": "^16.0.0",
     "reason-react": "^0.3.0",
     "rebase": "glennsl/rebase#v0.0.2"
   },
