@@ -252,7 +252,7 @@ browserify-zlib@^0.2.0:
   dependencies:
     pako "~1.0.5"
 
-bs-platform@^2.1.0:
+bs-platform@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-2.2.1.tgz#e22b82143a43a10630d7b2040aab87648b12190c"
 
@@ -1574,10 +1574,6 @@ reason-react@^0.3.0:
   dependencies:
     react ">=15.0.0 || >=16.0.0"
     react-dom ">=15.0.0 || >=16.0.0"
-
-rebase@glennsl/rebase#v0.0.2:
-  version "0.0.1"
-  resolved "https://codeload.github.com/glennsl/rebase/tar.gz/a532b99a2978f8cbc4336344dcbc818d567b2149"
 
 regex-cache@^0.4.2:
   version "0.4.4"

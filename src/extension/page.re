@@ -1,7 +1,5 @@
 open LocalDom;
 
-open Rebase;
-
 let onOpen: string => unit = [%bs.raw
   {|
   function (hash) {
@@ -28,8 +26,8 @@ let refmt =
     ~outLang,
     (error) =>
       switch error {
-      | Error(error) => cb(error, RefmtShared.UnknownLang, RefmtShared.UnknownLang)
-      | Ok({outText, inLang, outLang}) => cb(outText, inLang, outLang)
+      | Protocol.Error(error) => cb(error, RefmtShared.UnknownLang, RefmtShared.UnknownLang)
+      | Protocol.Ok({outText, inLang, outLang}) => cb(outText, inLang, outLang)
       }
   );
   Protocol.Storage.setLatestInput(input)

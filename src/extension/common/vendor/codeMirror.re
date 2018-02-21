@@ -20,14 +20,14 @@ let make =
       | Some(true) => Js.true_
       | Some(false) | None => Js.false_
       },
-      "style": Js.Undefined.from_opt(style),
-      "value": Js.Undefined.from_opt(value),
+      "style": Js.Undefined.fromOption(style),
+      "value": Js.Undefined.fromOption(value),
       "onBeforeChange": (_editor, _data, value) => switch (onChange) {
       | Some(onChange) => onChange(value)
       | None => ()
       },
-      "editorDidMount": Js.Undefined.from_opt(editorDidMount),
-      "options": Js.Undefined.from_opt(options)
+      "editorDidMount": Js.Undefined.fromOption(editorDidMount),
+      "options": Js.Undefined.fromOption(options)
     },
     children
   );

@@ -1,5 +1,3 @@
-open Rebase;
-
 open Core;
 
 [%bs.raw {|require('../../../../../src/popup.html')|}];
@@ -32,7 +30,7 @@ let generateShareableLink = (text) => "https://reasonml.github.io/reason-tools/p
 
 let getInputFromUrl = () => {
   let text = LocalDom.Location.hash |> Js.String.sliceToEnd(~from=1) |> Util.atob;
-  if (Str.isEmpty(text)) {
+  if (text == "") {
     Promise.reject()
   } else {
     Promise.resolve(text)

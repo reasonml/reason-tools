@@ -1,4 +1,3 @@
-open Rebase;
 open RefmtShared;
 
 [@bs.module "../../../../src/refmt/refmt.js"] external parseREEx : string => ast = "parseRE";

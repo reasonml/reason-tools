@@ -1,20 +1,25 @@
-open Rebase;
-
 open Core;
 
 open LocalDom;
+
+let mapOrElse = (resolve, reject, item) =>
+  switch (item) {
+  | Some(res) => resolve(res)
+  | None => reject()
+  };
 
 let getSelection = () =>
   Promise.make(
     (resolve, reject) =>
       Chrome.Tabs.executeScript(
         {"code": "window.getSelection().toString()"},
-        (maybeMaybeArray) =>
+        (maybeMaybeArray) => {
           maybeMaybeArray
           |> Js.Null_undefined.to_opt
-          |> Option.andThen((maybeArray) => Js.Array.findi((_, index) => index === 0, maybeArray))
-          |> Option.andThen((s) => Str.isEmpty(s) ? None : Some(s))
-          |> Option.mapOrElse(resolve, reject)
+          |> Js.Option.andThen([@bs](maybeArray) => Js.Array.findi((_, index) => index === 0, maybeArray))
+          |> Js.Option.andThen([@bs](s) => s == "" ? None : Some(s))
+          |> mapOrElse(resolve, reject);
+        }
       )
   );
 
@@ -22,7 +27,7 @@ let getLatestInput = () =>
   Promise.make(
     (resolve, reject) =>
       Protocol.Storage.queryLatestInput(
-        (maybeInput) => maybeInput |> Option.mapOrElse(resolve, reject)
+        (maybeInput) => maybeInput |> mapOrElse(resolve, reject)
       )
   );
 

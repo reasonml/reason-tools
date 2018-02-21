@@ -1,5 +1,3 @@
-open Rebase;
-
 open LocalDom;
 
 open Common;
@@ -18,7 +16,7 @@ let swapStyleSheets = (_) => {
 };
 
 let readjustViewport = () =>
-  if (! Str.isEmpty(Location.hash)) {
+  if (! (Location.hash == "")) {
     [%bs.raw {| window.location.href = window.location.href |}]
   };
 
@@ -31,8 +29,8 @@ let doListing = (mode, state, listing) => {
     text,
     (response) => {
       switch response {
-      | Error(_) => () /* TODO */
-      | Ok({outText}) => Replace.replaceListing(els, outText, replace)
+      | Protocol.Error(_) => () /* TODO */
+      | Protocol.Ok({outText}) => Replace.replaceListing(els, outText, replace)
       };
       /* we're in an async callback, so keep track of when we're finished by keeping count */
       state.remaining = state.remaining - 1;

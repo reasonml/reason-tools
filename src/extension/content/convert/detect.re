@@ -63,7 +63,7 @@ let isWhitelisted = () => getWhitelist() |> List.mem(getSignificantUrl());
 let isBlacklisted = () => getBlacklist() |> List.mem(getSignificantUrl());
 
 let shouldConvert = () => {
-  let cached: option(bool) = [%raw "window._rtShouldConvert"] |> Js.Undefined.to_opt;
+  let cached: option(bool) = [%raw "window._rtShouldConvert"] |> Js.Undefined.toOption;
   switch cached {
   | Some(shouldConvert) => shouldConvert
   | None =>

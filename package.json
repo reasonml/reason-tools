@@ -34,11 +34,10 @@
     "react-codemirror2": "^4.0.0",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.0.0",
-    "reason-react": "^0.3.0",
-    "rebase": "glennsl/rebase#v0.0.2"
+    "reason-react": "^0.3.0"
   },
   "devDependencies": {
-    "bs-platform": "^2.1.0",
+    "bs-platform": "^2.2.1",
     "chrome-store-api": "^1.0.5",
     "file-loader": "^1.1.5",
     "generate-json-webpack-plugin": "^0.2.1",

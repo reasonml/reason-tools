@@ -1,6 +1,8 @@
-open Rebase;
-
 open Common;
+
+type result('a, 'e) =
+  | Ok('a)
+  | Error('e);
 
 type language = RefmtShared.language;
 
@@ -122,7 +124,7 @@ module Storage = {
   let queryDisabled = (callback: bool => unit) =>
     Chrome.Storage.Local.get(
       "disabled",
-      (response) => response##disabled |> Js.Undefined.to_opt |> Option.getOr(false) |> callback
+      (response) => response##disabled |> Js.Undefined.toOption |> Js.Option.getWithDefault(false) |> callback
     );
   let setDisabled = (value: bool) => Chrome.Storage.Local.set({"disabled": value});
   let onDisabledChanged = (callback: bool => unit) =>

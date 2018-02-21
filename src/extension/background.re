@@ -1,23 +1,21 @@
-open Rebase;
-
 open Core;
 
 module Refmt = {
   let refmt = Refmt2.refmtJS;
   let parse =
     fun
-    | ("Failure", error) => Error(error)
+    | ("Failure", error) => Protocol.Error(error)
     | (conversion, outText) =>
       switch (conversion |> Js.String.split("to")) {
       | [|inLang, outLang|] when Protocol.languageOfString(outLang) != RefmtShared.UnknownLang =>
-        Ok(
+        Protocol.Ok(
           Protocol.Refmt.{
             outText,
             inLang: Protocol.languageOfString(inLang),
             outLang: Protocol.languageOfString(outLang)
           }
         )
-      | _ => Error(outText)
+      | _ => Protocol.Error(outText)
       };
 };
 
