@@ -1,13 +1,12 @@
 let component = ReasonReact.statelessComponent("Editor");
 
-let make = (~value, ~autoFocus=?, ~editorDidMount=?, ~lang, ~defaultValue=?, ~readOnly=false, ~onChange=?, _) => {
+let make = (~value, ~autoFocus=?, ~editorDidMount=?, ~lang, ~readOnly=false, ~onChange=?, _) => {
   ...component,
   render: (_) =>
     <CodeMirror
       value
       ?editorDidMount
       ?autoFocus
-      ?defaultValue
       ?onChange
       options={
         "mode": lang == RefmtShared.ML ? "text/x-ocaml" : "javascript",

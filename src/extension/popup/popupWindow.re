@@ -87,6 +87,7 @@ let make =
     dialogKillTimer: ref(None)
   },
   render: ({state, reduce, handle}) => {
+    Js.log(inText);
     let inLanguageChange = (event) => {
       let lang =
         event
