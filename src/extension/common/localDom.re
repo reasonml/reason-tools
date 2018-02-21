@@ -26,6 +26,7 @@ module Element = {
   [@bs.get] external id : t => string = "id";
   [@bs.set] external setId : (t, string) => unit = "id";
   [@bs.set] external setInnerHTML : (t, string) => unit = "innerHTML";
+  [@bs.get] external outerHTML : t => string = "outerHTML";
   [@bs.get] external innerText : t => string = "innerText";
   [@bs.set] external setInnerText : (t, string) => unit = "innerText";
   [@bs.set] external setTitle : (t, string) => unit = "title";

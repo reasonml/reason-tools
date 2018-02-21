@@ -41,12 +41,36 @@ let getTypeTable = (pre) =>
     }
   };
 
+let getModuleSignature = (pre) =>
+  switch (Js.String.endsWith("sig .. end", Element.innerText(pre))) {
+  | false => None
+  | true =>
+    let anchor = LocalDom.Arrayish.toArray(
+      Element.getElementsByTagName(pre, "a")
+    )[0];
+    let anchor = Element.outerHTML(anchor);
+    let re = [%re "/sig .. end/g"];
+    let replaced = Js.String.unsafeReplaceBy0(
+      re,
+      (_, _, _) => "{ " ++ anchor ++ " }",
+      Element.innerText(pre)
+    );
+    Some({
+      els: [pre],
+      text: "",
+      replace: (_html) => {
+        Element.setInnerHTML(pre, replaced);
+        pre
+      }
+    })
+  };
+
 let getPreListings = () =>
   getElementsByTagName(None, "pre")
   |> List.map(
        (el) =>
-         switch (getTypeTable(el)) {
-         | Some(typeTable) => {
+         switch (getTypeTable(el), getModuleSignature(el)) {
+         | (Some(typeTable), _) => {
              els: [el, typeTable.el],
              text: Element.innerText(el) ++ typeTable.text,
              replace: (html) => {
@@ -55,7 +79,8 @@ let getPreListings = () =>
                el
              }
            }
-         | None => {
+        | (_, Some(preListing)) => preListing
+         | (None, None) => {
              els: [el],
              text: Element.innerText(el),
              replace: (html) => {
