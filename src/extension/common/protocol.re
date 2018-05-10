@@ -1,8 +1,5 @@
 open Common;
-
-type result('a, 'e) =
-  | Ok('a)
-  | Error('e);
+open Result;
 
 type language = RefmtShared.language;
 
@@ -30,58 +27,50 @@ module Refmt = {
     inType: codeType,
     outLang: language
   };
-  type payloadSerialized = {
-    outText: string,
-    inLang: string,
-    outLang: string
-  };
+  [@bs.deriving jsConverter]
   type payload = {
     outText: string,
     inLang: language,
     outLang: language
   };
-  type response = result(payload, string);
+  type response = Result.t(payload, string);
+  let responseToJs = x => {
+    Js.log2("hdon sez responseToJs got:", x);
+    switch (x) {
+    | Result.Ok(x) => Obj.magic(("Ok", payloadToJs(x)))
+    | Result.Error(x) => Obj.magic(("Error", x))
+    };
+  };
+  let responseFromJs:Js.Json.t=>response = x => {
+    Js.log2("hdon sez responseFromJs got:", x);
+    switch(Obj.magic(x)) {
+    | ("Ok", x) =>    Result.Ok(payloadFromJs(Obj.magic(x)))
+    | ("Error", x) => Result.Error(Obj.magic(x))
+    };
+  };
   /* Bucklescript's variant tags will be erased when serialized, so we have to manually serialize the response
    */
-  let serialize: result(payload, string) => (int, payloadSerialized) =
-    fun
-    | Error(error) => (0, {outText: error, inLang: "", outLang: ""})
-    | Ok(payload) => (
-        1,
-        {
-          outText: payload.outText,
-          inLang: stringOfLanguage(payload.inLang),
-          outLang: stringOfLanguage(payload.outLang)
-        }
-      );
-  let deserialize: ((int, payloadSerialized)) => result(payload, string) =
-    fun
-    | (0, {outText: error}) => Error(error)
-    | (1, payload) =>
-      Ok({
-        outText: payload.outText,
-        inLang: languageOfString(payload.inLang),
-        outLang: languageOfString(payload.outLang)
-      })
-    | _ => raise(DeserializationFail);
   let send =
       (
         text,
         ~inLang=RefmtShared.UnknownLang,
         ~inType=RefmtShared.UnknownType,
         ~outLang=RefmtShared.UnknownLang,
-        cb
+        cb:(response)=>unit
       ) =>
     Message.query(
       "refmt:refmt",
       {input: text |> normalizeText |> untoplevel, inLang, inType, outLang},
-      (response) => cb(deserialize(response))
+      (response) => cb(responseFromJs(response))
     );
   let listen: ((request, response => unit) => unit) => unit =
     (cb) =>
       Message.receive(
         "refmt:refmt",
-        (request, _, respond) => cb(request, (r) => r |> serialize |> respond)
+        (request, _, respond) => cb(request, (r) => {
+          Js.log2("hdon sez listener responding with:", r);
+          r |> responseToJs |> respond;
+        })
       );
 };
 

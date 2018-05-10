@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "bs-platform": "^2.2.1",
+    "bs-result": "^1.1.0",
     "chrome-store-api": "^1.0.5",
     "file-loader": "^1.1.5",
     "generate-json-webpack-plugin": "^0.2.1",

@@ -54,7 +54,9 @@ let getBlacklist = () => [
   "mwhittaker.github.io/distributed-systems-ocaml/code_MorePipes.html" /* #49 */
 ];
 
-let getWhitelist = () => [];
+let getWhitelist = () => [
+  "codebad.com/~hdon/reason-tools-test.html"
+];
 
 let getSignificantUrl = () => Location.hostname ++ Location.pathname;
 

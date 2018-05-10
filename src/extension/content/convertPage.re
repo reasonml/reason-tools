@@ -29,8 +29,8 @@ let doListing = (mode, state, listing) => {
     text,
     (response) => {
       switch response {
-      | Protocol.Error(_) => () /* TODO */
-      | Protocol.Ok({outText}) => Replace.replaceListing(els, outText, replace)
+      | Result.Error(_) => () /* TODO */
+      | Result.Ok({outText}) => Replace.replaceListing(els, outText, replace)
       };
       /* we're in an async callback, so keep track of when we're finished by keeping count */
       state.remaining = state.remaining - 1;
