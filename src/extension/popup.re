@@ -46,8 +46,8 @@ let refmt =
     ~outLang,
     (error) =>
       switch error {
-      | Error(error) => cb(error, RefmtShared.UnknownLang, RefmtShared.UnknownLang)
-      | Ok({outText, inLang, outLang}) => cb(outText, inLang, outLang)
+      | Result.Error(error) => cb(error, RefmtShared.UnknownLang, RefmtShared.UnknownLang)
+      | Result.Ok({outText, inLang, outLang}) => cb(outText, inLang, outLang)
       }
   );
   Protocol.Storage.setLatestInput(input)

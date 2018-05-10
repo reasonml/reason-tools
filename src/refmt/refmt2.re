@@ -171,6 +171,8 @@ let attempts = (inLang, inType) =>
   | (UnknownLang, UnknownType) => [parseRE, parseREI, parseREOld, parseREIOld, parseML, parseMLI]
   };
 
+let optionalString = fun | Some(s:string) => s | None => "";
+
 let refmt = (code, inLang, inType, outLang) => {
   let parsersToTry = attempts(inLang, inType);
   let results = List.map((parser) => parser(code), parsersToTry);
@@ -220,12 +222,12 @@ let refmt = (code, inLang, inType, outLang) => {
       | (UnknownLang, Ast(REI(ast))) => (ML, printMLI(ast))
       | (_, Error(error)) =>
         switch error {
-        | REI(thing) => (RE, Js.Exn.message(thing) |? "")
-        | RE(thing) => (RE, Js.Exn.message(thing) |? "")
-        | ML(thing) => (ML, Js.Exn.message(thing) |? "")
-        | MLI(thing) => (ML, Js.Exn.message(thing) |? "")
-        | REO(thing) => (REO, Js.Exn.message(thing) |? "")
-        | REOI(thing) => (REO, Js.Exn.message(thing) |? "")
+        | REI(thing)  => raise(Failure(Js.Exn.message(thing)|>optionalString))
+        | RE(thing)   => raise(Failure(Js.Exn.message(thing)|>optionalString))
+        | ML(thing)   => raise(Failure(Js.Exn.message(thing)|>optionalString))
+        | MLI(thing)  => raise(Failure(Js.Exn.message(thing)|>optionalString))
+        | REO(thing)  => raise(Failure(Js.Exn.message(thing)|>optionalString))
+        | REOI(thing) => raise(Failure(Js.Exn.message(thing)|>optionalString))
         }
       };
     let trueIn =
@@ -238,13 +240,12 @@ let refmt = (code, inLang, inType, outLang) => {
       | Ast(REOI(_)) => REO
       | Error(_) => UnknownLang
       };
-    (trueIn, trueOut, printedResult)
+    Js.log2("hdon sez: refmt2 is okay", printedResult);
+    Result.Ok((trueIn, trueOut, printedResult))
   } {
-  | a => (UnknownLang, UnknownLang, Obj.magic(a))
+  | a => {
+    Js.log("hdon sez: refmt2 is error");
+    Result.Error(a |> Printexc.to_string)
+    }
   }
-};
-
-let refmtJS = (jsString, inLang, inType, outLang) => {
-  let (trueIn, trueOut, s) = refmt(jsString, inLang, inType, outLang);
-  (stringOfLanguage(trueIn) ++ "to" ++ stringOfLanguage(trueOut), s)
 };

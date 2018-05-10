@@ -30,8 +30,8 @@ let try_ = (text) =>
     text,
     (response) =>
       switch response {
-      | Error(message) => showError(message)
-      | Ok({outText, inLang, outLang}) => showOverlay(inLang, text, outLang, outText)
+      | Result.Error(message) => showError(message)
+      | Result.Ok({outText, inLang, outLang}) => showOverlay(inLang, text, outLang, outText)
       }
   );
 

@@ -1,22 +1,19 @@
 open Core;
 
 module Refmt = {
-  let refmt = Refmt2.refmtJS;
+  let refmt = Refmt2.refmt;
   let parse =
     fun
-    | ("Failure", error) => Protocol.Error(error)
-    | (conversion, outText) =>
-      switch (conversion |> Js.String.split("to")) {
-      | [|inLang, outLang|] when Protocol.languageOfString(outLang) != RefmtShared.UnknownLang =>
-        Protocol.Ok(
+    | Result.Error(error) => Result.Error(error)
+    | Result.Ok((inLang, outLang, outText)) =>
+        Result.Ok(
           Protocol.Refmt.{
             outText,
-            inLang: Protocol.languageOfString(inLang),
-            outLang: Protocol.languageOfString(outLang)
+            inLang,
+            outLang
           }
         )
-      | _ => Protocol.Error(outText)
-      };
+        ;
 };
 
 Protocol.Refmt.listen(
