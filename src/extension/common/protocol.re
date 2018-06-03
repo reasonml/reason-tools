@@ -33,19 +33,17 @@ module Refmt = {
     inLang: language,
     outLang: language
   };
-  type response = Result.t(payload, string);
+  type response = result(string, payload);
   let responseToJs = x => {
-    Js.log2("hdon sez responseToJs got:", x);
     switch (x) {
     | Result.Ok(x) => Obj.magic(("Ok", payloadToJs(x)))
     | Result.Error(x) => Obj.magic(("Error", x))
     };
   };
   let responseFromJs:Js.Json.t=>response = x => {
-    Js.log2("hdon sez responseFromJs got:", x);
     switch(Obj.magic(x)) {
     | ("Ok", x) =>    Result.Ok(payloadFromJs(Obj.magic(x)))
-    | ("Error", x) => Result.Error(Obj.magic(x))
+    | (_, x) => Result.Error(Obj.magic(x))
     };
   };
   /* Bucklescript's variant tags will be erased when serialized, so we have to manually serialize the response
@@ -68,7 +66,6 @@ module Refmt = {
       Message.receive(
         "refmt:refmt",
         (request, _, respond) => cb(request, (r) => {
-          Js.log2("hdon sez listener responding with:", r);
           r |> responseToJs |> respond;
         })
       );

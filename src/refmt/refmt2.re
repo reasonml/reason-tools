@@ -240,11 +240,9 @@ let refmt = (code, inLang, inType, outLang) => {
       | Ast(REOI(_)) => REO
       | Error(_) => UnknownLang
       };
-    Js.log2("hdon sez: refmt2 is okay", printedResult);
     Result.Ok((trueIn, trueOut, printedResult))
   } {
   | a => {
-    Js.log("hdon sez: refmt2 is error");
     Result.Error(a |> Printexc.to_string)
     }
   }

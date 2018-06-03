@@ -253,8 +253,12 @@ browserify-zlib@^0.2.0:
     pako "~1.0.5"
 
 bs-platform@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-2.2.1.tgz#e22b82143a43a10630d7b2040aab87648b12190c"
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-2.2.3.tgz#d905ae10a5f3621e6a739041dfa0b58483a2174f"
+
+bs-result@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/bs-result/-/bs-result-1.1.0.tgz#dcc1e3ca4692ec5fa31df83bf288b5ca2d123e6f"
 
 buffer-crc32@~0.2.3:
   version "0.2.13"
